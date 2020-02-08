@@ -9,9 +9,50 @@
 
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
+    <meta name="viewport" content="initial-scale=1.0" />
+    <meta charset="utf-8" />
   </head>
 
   <body>
-    <h1>Hello World!</h1>
+    <nav>
+      <span><img class="nav-logo" src="/images/mapper_logo.png"/></span>
+      <span>
+        <div>Login</div>
+      </span>
+    </nav>
+
+    <header>
+      <button type="submit">Search</button>
+      <button type="submit">Create New Map</button>
+    </header>
+
+    <h3>My Google Maps Demo</h3>
+    <!--The div element for the map -->
+    <article id="map">
+      <script>
+        // Initialize and add the map
+        function initMap() {
+          // The location of Uluru
+          const victoria = { lat: 48.4261, lng: -123.3642 };
+          // The map, centered at Uluru
+          const map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 12,
+            center: victoria
+          });
+          // The marker, positioned at Uluru
+          let marker = new google.maps.Marker({ position: victoria, map: map });
+        }
+      </script>
+    </article>
+    <!--Load the API from the specified URL
+    * The async attribute allows the browser to render the page while the API loads
+    * The key parameter will contain your own API key (which is not needed for this tutorial)
+    * The callback parameter executes the initMap() function
+    -->
+    <script
+      async
+      defer
+      src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap"
+    ></script>
   </body>
 </html>
