@@ -21,5 +21,21 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
+
+  //developement route to switch user id
+  router.get("/login/:id", (req, res) => {
+    const user_id = req.params.id;
+    req.session.user_id = user_id;
+    db.query(`SELECT * FROM users where id=$1;`, [user_id])
+      .then(data => {
+        const users = data.rows;
+        res.json({ users });
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
   return router;
 };
