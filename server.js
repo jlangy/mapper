@@ -1,4 +1,4 @@
-// load .env data into process.env
+  // load .env data into process.env
 require('dotenv').config();
 
 // Web server config
@@ -29,6 +29,7 @@ app.use("/styles", sass({
   debug: true,
   outputStyle: 'expanded'
 }));
+
 app.use(express.static("public"));
 
 // Separated Routes for each Resource
