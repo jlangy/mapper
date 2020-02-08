@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS pins CASCADE;
 
 CREATE TABLE pins (
   id serial PRIMARY KEY NOT NULL,
-  owner_id integer NOT NULL,
+  owner_id integer REFERENCES users (id),
   map_id integer REFERENCES maps (id),
   title varchar(255) NOT NULL,
   description text,
