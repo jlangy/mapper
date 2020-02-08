@@ -3,15 +3,15 @@ DROP TABLE IF EXISTS pins CASCADE;
 CREATE TABLE pins (
   id serial PRIMARY KEY NOT NULL,
   owner_id integer NOT NULL,
-  map_id integer NOT NULL,
+  map_id integer REFERENCES maps (id),
   title varchar(255) NOT NULL,
-  description text NOT NULL,
+  description text,
   lat decimal NOT NULL,
   long decimal NOT NULL,
   image_url varchar(255),
-  created_at date,
-  edited_at date,
-  deleted_at date,
+  created_at timestamp NOT NULL,
+  edited_at timestamp NOT NULL,
+  deleted_at timestamp NOT NULL,
   active boolean NOT NULL DEFAULT TRUE
 );
 
