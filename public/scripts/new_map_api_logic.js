@@ -6,6 +6,8 @@ $(document).ready(() => {
   });
 });
 
+let listener = null;
+
 const pinFormHTML =
 ` <form id='infowindow-form'>
     <div class="form-group">

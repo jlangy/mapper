@@ -6,17 +6,25 @@ const makePin = () => {
       this.description = '',
       this.imageUrl = '',
       this.savePinInfoBound = this.savePinInfo.bind(this);
-      this.addFormListenerBound = this.addFormListener.bind(this);
-      this.handlePinClickBound = this.handlePinClick.bind(this);
+      this.makeFormBound = this.makeForm.bind(this);
     }
 
     handlePinClick(){
       const infowindow = this.map.infowindow;
       infowindow.open(this.map, this);
-      infowindow.addListener('domready', this.addFormListenerBound);
+      if(this.map.infoWindowReady) this.map.infoWindowReady.remove();
+      this.map.infoWindowReady = infowindow.addListener('domready', this.makeFormBound);
     }
 
-    addFormListener(){
+    setInfowindowFields(){
+      $('#infowindow-title').val(this.title);
+      $('#infowindow-description').val(this.description);
+      $('#infowindow-imageUrl').val(this.imageUrl);
+    }
+
+    makeForm(){
+      this.setInfowindowFields();
+      $('#infowindow-form').off();
       $('#infowindow-form').on('keyup', this.savePinInfoBound);
     }
 
