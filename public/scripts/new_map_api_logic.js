@@ -1,17 +1,25 @@
+$(document).ready(() => {
+  $('#info-log').on('click', () => {
+    window.pins.forEach(pin => {
+      console.log(`title: ${pin.title}, description: ${pin.description}, imgUrl: ${null}, `)
+    })
+  });
+});
 
 const pinFormHTML =
-` <form>
+` <form id='infowindow-form'>
     <div class="form-group">
-      <label for="formGroupExampleInput">Example label</label>
-      <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input" required>
+      <label for="infowindow-title">Title</label>
+      <input type="text" class="form-control" id="infowindow-title" data-field='title' placeholder="Example input" required>
     </div>
     <div class="form-group">
-      <label for="formGroupExampleInput2">Another label</label>
-      <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input" required>
+      <label for="infowindow-description">Another label</label>
+      <input type="text" class="form-control" id="infowindow-description" data-field='description' placeholder="Another input" required>
     </div>
     <button id='add-pin-button' class='btn btn-primary'>save</button>
   </form>
 `;
+
 
 
 function initMap(){
@@ -20,11 +28,14 @@ function initMap(){
   window.Pin = makePin();
   const PinMap = makePinMap();
 
+  //For logging out info during developement, put pins on window
+  window.pins = [];
+
   const map = new PinMap(document.getElementById('map'), {
     center: {lat: -34.397, lng: 150.644},
     zoom: 8
   }, pinFormHTML);
 
   map.addListener('click', map.handleMapClick)
-
 }
+
