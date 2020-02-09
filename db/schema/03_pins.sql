@@ -10,8 +10,8 @@ CREATE TABLE pins (
   long decimal NOT NULL,
   image_url varchar(255),
   created_at timestamp NOT NULL,
-  edited_at timestamp NOT NULL,
-  deleted_at timestamp NOT NULL,
+  edited_at timestamp,
+  deleted_at timestamp DEFAULT NULL,
   active boolean NOT NULL DEFAULT TRUE
 );
 

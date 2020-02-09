@@ -1,9 +1,24 @@
 // See: https://sass-lang.com/
 
 body {
-  background-color: #EEE;
+  background-color: #eee a;
+}
 
-  h1 {
-    color: #244751;
-  }
+.nav-logo {
+  height: 100px;
+  width: 100px;
+}
+
+#map {
+  display: flex;
+  justify-content: right;
+  height: 60%;
+  width: 60%;
+}
+/* Optional: Makes the sample page fill the window. */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
