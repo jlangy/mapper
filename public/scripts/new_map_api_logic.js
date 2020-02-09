@@ -5,6 +5,12 @@ let map;
 //if map abandoned
 const pins = [];
 
+const savePinfo = function(event){
+  event.preventDefault();
+  //need this for each form input
+  console.log($(this).parent().find('input').val());
+}
+
 
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
@@ -16,6 +22,10 @@ function initMap() {
     content: '<h1>Hello WORLD! </h1>'
   });
 
+  infowindow.addListener('domready', () => {
+    $('#add-pin-button').on('click', savePinfo);
+  });
+
 
   let anchor;
 
@@ -25,6 +35,7 @@ function initMap() {
 
   const handleMapClick = (event) => {
     const clickCoords = event.latLng;
+    console.log(event.latLng);
     const pin = new google.maps.Marker({
       position: clickCoords,
       map: map,
@@ -35,15 +46,20 @@ function initMap() {
       <form>
         <div class="form-group">
           <label for="formGroupExampleInput">Example label</label>
-          <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input">
+          <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input" required>
         </div>
         <div class="form-group">
           <label for="formGroupExampleInput2">Another label</label>
-          <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
+          <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input" required>
         </div>
+        <button id='add-pin-button' class='btn btn-primary'>save</button>
       </form>
     `);
     infowindow.open(map, pin);
+
+    // setTimeout(() => {
+    //   $('#add-pin-button').on('click', () => {console.log('hi')});
+    // }, 0);
     });
     pins.push(pin);
   }
