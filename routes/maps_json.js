@@ -1,0 +1,24 @@
+const express = require("express");
+const router = express.Router();
+
+module.exports = db => {
+  router.get("/", (req, res) => {
+    const map_id = 1;
+    db.query(`SELECT * FROM maps WHERE id = $1`, [map_id])
+      .then(data => {
+        const map_data = data.rows;
+        db.query(`SELECT * FROM pins WHERE map_id = $1`, [map_id]).then(
+          pins => {
+            const pin_data = pins.rows;
+            res.json({ map_data, pin_data });
+          }
+        );
+      })
+      .catch(err => {
+        res.status(500).json({ error: err.message });
+      });
+  });
+  return router;
+};
+
+/// update this to pull data from maps and pins tables for rendering
