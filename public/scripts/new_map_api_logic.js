@@ -8,11 +8,11 @@ $(document).ready(() => {
   $('#new-map-form').on('submit', function(event){
     event.preventDefault();
     let data = $(this).serialize();
-    console.log('data is: ', data);
     for (pin of window.pins){
+      console.log(pin.getPosition().lat(), pin.getPosition().lng());
       //encodeURIComponent sanitizes data, the pins will come through
       //3 arrays, pinTitle, pinDescription, imageUrl in order
-      data += `&pinTitle=${encodeURIComponent(pin.title)}&pinDescription=${encodeURIComponent(pin.description)}&imageUrl=${encodeURIComponent(pin.imageUrl)}`
+      data += `&pinTitle=${encodeURIComponent(pin.title)}&pinDescription=${encodeURIComponent(pin.description)}&imageUrl=${encodeURIComponent(pin.imageUrl)}&lat=${encodeURIComponent(pin.getPosition().lat())}&lng=${encodeURIComponent(pin.getPosition().lng())}`
     }
     saveMap(data);
   });

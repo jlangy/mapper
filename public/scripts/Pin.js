@@ -6,8 +6,7 @@ const makePin = () => {
       super(position, map);
       this.title = '';
       this.description = '',
-      this.imageUrl = '',
-
+      this.imageUrl = ''
       //These functions used in callbacks, need a this binding
       this.savePinInfoBound = this.savePinInfo.bind(this);
       this.makeFormBound = this.makeForm.bind(this);
