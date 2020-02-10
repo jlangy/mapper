@@ -1,7 +1,8 @@
+const express = require("express");
 const router = express.Router();
 
 module.exports = db => {
-  router.get("/", (req, res) => {
+  router.get("/maps", (req, res) => {
     const map_id = 2;
     db.query(`SELECT * FROM maps WHERE id = $1`, [map_id])
       .then(data => {
