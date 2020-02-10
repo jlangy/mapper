@@ -10,6 +10,9 @@ const router  = express.Router();
 
 //Don't need user routes form MVP, but will go here
 module.exports = (db) => {
-
+  router.get('/login/:id', (req,res) => {
+    req.session.userId = req.params.id;
+    res.send(req.params.id);
+  });
   return router;
 };
