@@ -3,7 +3,7 @@ const router = express.Router();
 
 module.exports = db => {
   router.get("/", (req, res) => {
-    const map_id = 1;
+    const map_id = 2;
     db.query(`SELECT * FROM maps WHERE id = $1`, [map_id])
       .then(data => {
         const map_data = data.rows;
@@ -20,5 +20,3 @@ module.exports = db => {
   });
   return router;
 };
-
-/// update this to pull data from maps and pins tables for rendering
