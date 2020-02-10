@@ -22,11 +22,15 @@ const pinFormHTML =
 ` <form id='infowindow-form'>
     <div class="form-group">
       <label for="infowindow-title">Title</label>
-      <input type="text" class="form-control" id="infowindow-title" name='title' placeholder="Example input" required>
+      <input type="text" class="form-control" id="infowindow-title" name='title' placeholder="Title">
     </div>
     <div class="form-group">
-      <label for="infowindow-description">Another label</label>
-      <input type="text" class="form-control" id="infowindow-description" name='description' placeholder="Another input" required>
+      <label for="infowindow-description">Description</label>
+      <textarea type="text" class="form-control" id="infowindow-description" name='description'></textarea>
+    </div>
+    <div class="form-group">
+      <label for="infowindow-imageUrl">Image URL</label>
+      <input type="text" class="form-control" id="infowindow-imageUrl" name='imageUrl' placeholder="https://www">
     </div>
   </form>
 `;
