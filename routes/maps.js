@@ -19,16 +19,16 @@ module.exports = (db) => {
     //collaborators table.
   });
 
+  router.get("/new", (req, res) => {
+    res.render('new_map');
+  });
+
   router.get('/:id/edit', (req,res) => {
     //edit map similar to new
   });
 
   router.get('/:id', (req,res) => {
     //display single map using json api info
-  });
-
-  router.get("/new", (req, res) => {
-    res.render('new_map');
   });
 
   router.post("/", (req, res) => {
