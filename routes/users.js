@@ -24,9 +24,9 @@ module.exports = (db) => {
 
   //developement route to switch user id
   router.get("/login/:id", (req, res) => {
-    const user_id = req.params.id;
-    req.session.user_id = user_id;
-    db.query(`SELECT * FROM users where id=$1;`, [user_id])
+    const userId = req.params.id;
+    req.session.userId = userId;
+    db.query(`SELECT * FROM users where id=$1;`, [userId])
       .then(data => {
         const users = data.rows;
         res.json({ users });

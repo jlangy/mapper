@@ -1,45 +1,54 @@
+$(document).ready(() => {
+  $('#info-log').on('click', () => {
+    window.pins.forEach(pin => {
+      console.log(`title: ${pin.title}, description: ${pin.description}, imgUrl: ${null}, `)
+    })
+  });
 
-let map;
+  $('#new-map-form').on('submit', function(event){
+    event.preventDefault();
+    let data = $(this).serialize();
+    for (pin of window.pins){
+      console.log(pin.getPosition().lat(), pin.getPosition().lng());
+      //encodeURIComponent sanitizes data, the pins will come through
+      //3 arrays, pinTitle, pinDescription, imageUrl in order
+      data += `&pinTitle=${encodeURIComponent(pin.title)}&pinDescription=${encodeURIComponent(pin.description)}&imageUrl=${encodeURIComponent(pin.imageUrl)}&lat=${encodeURIComponent(pin.getPosition().lat())}&lng=${encodeURIComponent(pin.getPosition().lng())}`
+    }
+    saveMap(data);
+  });
+});
 
-function initMap() {
-  map = new google.maps.Map(document.getElementById('map'), {
+const pinFormHTML =
+` <form id='infowindow-form'>
+    <div class="form-group">
+      <label for="infowindow-title">Title</label>
+      <input type="text" class="form-control" id="infowindow-title" name='title' placeholder="Title">
+    </div>
+    <div class="form-group">
+      <label for="infowindow-description">Description</label>
+      <textarea type="text" class="form-control" id="infowindow-description" name='description'></textarea>
+    </div>
+    <div class="form-group">
+      <label for="infowindow-imageUrl">Image URL</label>
+      <input type="text" class="form-control" id="infowindow-imageUrl" name='imageUrl' placeholder="https://www">
+    </div>
+  </form>
+`;
+
+function initMap(){
+  //currently putting class on window. Not sure if bad practice or not
+  //but needs to be accessible to pinmap click listener
+  window.Pin = makePin();
+  const PinMap = makePinMap();
+
+  //For logging out info during developement, put pins on window
+  window.pins = [];
+
+  const map = new PinMap(document.getElementById('map'), {
     center: {lat: -34.397, lng: 150.644},
     zoom: 8
-  });
+  }, pinFormHTML);
 
-  let anchor;
-
-  const marker1 = new google.maps.Marker({
-    position: {lat: -34.397, lng: 150.644},
-    map: map,
-    title: 'Marker 1'
-  });
-
-  const marker2 = new google.maps.Marker({
-    position: {lat: -34.497, lng: 150.844},
-    map: map,
-    title: 'Marker 2'
-  });
-
-  const infowindow1 = new google.maps.InfoWindow({
-    content: '<h1>Hello WORLD! </h1>'
-  });
-  infowindow1.addListener('position_changed', () => {console.log(anchor)});
-  infowindow1.addListener('closeclick', () => {console.log(anchor)});
-
-  marker1.addListener('click', function() {
-    //change content first
-    infowindow1.setContent('<h1>Marker 1 clicked! </h1>')
-    //open to change position before changing marker,
-    //to fire event with closed marker to send off info
-    infowindow1.open(map, marker1);
-    anchor = marker1;
-  });
-
-  marker2.addListener('click', function() {
-    infowindow1.setContent('<h1>marker 2 clicked! </h1>')
-    infowindow1.open(map, marker2);
-    anchor = marker2;
-  });
+  map.addListener('click', map.handleMapClick)
 }
 
