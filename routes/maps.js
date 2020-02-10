@@ -19,7 +19,15 @@ module.exports = db => {
     //collaborators table.
   });
 
+<<<<<<< HEAD
   router.get("/:id/edit", (req, res) => {
+=======
+  router.get("/new", (req, res) => {
+    res.render('new_map');
+  });
+
+  router.get('/:id/edit', (req,res) => {
+>>>>>>> master
     //edit map similar to new
   });
 
@@ -27,10 +35,13 @@ module.exports = db => {
     console.log(req.params);
   });
 
+<<<<<<< HEAD
   router.get("/new", (req, res) => {
     res.render("new_map");
   });
 
+=======
+>>>>>>> master
   router.post("/", (req, res) => {
     const userId = req.session.userId;
     if (!userId) {
