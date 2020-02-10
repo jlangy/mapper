@@ -10,13 +10,8 @@ CREATE TABLE pins (
   long decimal NOT NULL,
   image_url varchar(255),
   created_at timestamp NOT NULL,
-<<<<<<< HEAD
   edited_at timestamp,
   deleted_at timestamp DEFAULT NULL,
-=======
-  edited_at timestamp NOT NULL,
-  deleted_at timestamp,
->>>>>>> new_map
   active boolean NOT NULL DEFAULT TRUE
 );
 

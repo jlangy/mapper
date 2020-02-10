@@ -11,19 +11,20 @@ const insertMap = require('../db/queries/insert_map');
 const insertPins = require('../db/queries/insert_pins');
 
 module.exports = (db) => {
+  // maps browse route
   router.get("/", (req, res) => {
-    let query = `SELECT * FROM widgets`;
-    console.log(query);
-    db.query(query)
-      .then(data => {
-        const widgets = data.rows;
-        res.json({ widgets });
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
-      });
+    //route for browse all, browse created, browse favourites
+    //for favourites and created, use user_id in cookie
+    //to collect map_ids from favourites table, or
+    //collaborators table.
+  });
+
+  router.get('/:id/edit', (req,res) => {
+    //edit map similar to new
+  });
+
+  router.get('/:id', (req,res) => {
+    //display single map using json api info
   });
 
   router.get("/new", (req, res) => {
