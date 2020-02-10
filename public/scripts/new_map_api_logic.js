@@ -4,25 +4,32 @@ $(document).ready(() => {
       console.log(`title: ${pin.title}, description: ${pin.description}, imgUrl: ${null}, `)
     })
   });
-});
 
-let listener = null;
+  $('#new-map-form').on('submit', function(event){
+    event.preventDefault();
+    let data = $(this).serialize();
+    console.log('data is: ', data);
+    for (pin of window.pins){
+      //encodeURIComponent sanitizes data, the pins will come through
+      //3 arrays, pinTitle, pinDescription, imageUrl in order
+      data += `&pinTitle=${encodeURIComponent(pin.title)}&pinDescription=${encodeURIComponent(pin.description)}&imageUrl=${encodeURIComponent(pin.imageUrl)}`
+    }
+    saveMap(data);
+  });
+});
 
 const pinFormHTML =
 ` <form id='infowindow-form'>
     <div class="form-group">
       <label for="infowindow-title">Title</label>
-      <input type="text" class="form-control" id="infowindow-title" data-field='title' placeholder="Example input" required>
+      <input type="text" class="form-control" id="infowindow-title" name='title' placeholder="Example input" required>
     </div>
     <div class="form-group">
       <label for="infowindow-description">Another label</label>
-      <input type="text" class="form-control" id="infowindow-description" data-field='description' placeholder="Another input" required>
+      <input type="text" class="form-control" id="infowindow-description" name='description' placeholder="Another input" required>
     </div>
-    <button id='add-pin-button' class='btn btn-primary'>save</button>
   </form>
 `;
-
-
 
 function initMap(){
   //currently putting class on window. Not sure if bad practice or not
