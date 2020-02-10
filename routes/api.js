@@ -21,4 +21,3 @@ module.exports = db => {
   return router;
 };
 
-/// update this to pull data from maps and pins tables for rendering
