@@ -1,12 +1,3 @@
-// $(() => {
-//   $.ajax({
-//     method: "GET",
-//     url: "/"
-//   }).done(data => {
-//     console.log(data);
-//   });
-// });
-
 // need to make a get request to maps_json where we query the db to get maps/pins data to pass
 // into initMap function to render any mapp with the saved pins
 
