@@ -2,7 +2,7 @@
 //they can be created in the initMap callback
 const makePinMap = () => {
   return class PinMap extends google.maps.Map{
-    constructor(element, options){
+    constructor(element, options, pinFormHTML){
       super(element, options);
       //Using one infowindow, resetting for each pin.
       //Api handles it auto closing when opened somewhere else
@@ -20,7 +20,7 @@ const makePinMap = () => {
       });
       //Temporarily store pins on window for logging/debugging purposes
       window.pins.push(pin);
-      pin.addListener('click', pin.handlePinClick);
+      pin.addListener('click', pin.openForm);
     }
   }
 }

@@ -1,4 +1,5 @@
 $(document).ready(() => {
+  loadMapgi
   window.collaborators = [];
   $('#info-log').on('click', () => {
     window.pins.forEach(pin => {

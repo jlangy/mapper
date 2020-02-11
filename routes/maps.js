@@ -5,18 +5,11 @@
  * See: https://expressjs.com/en/guide/using-middleware.html#middleware.router
  */
 
-<<<<<<< HEAD
 const express = require('express');
 const router  = express.Router();
 const insertMap = require('../db/queries/insert_map');
 const insertPins = require('../db/queries/insert_pins');
 const insertCollaborators = require('../db/queries/insert_collaborators');
-=======
-const express = require("express");
-const router = express.Router();
-const insertMap = require("../db/queries/insert_map");
-const insertPins = require("../db/queries/insert_pins");
->>>>>>> maps/views
 
 module.exports = db => {
   // maps browse route
@@ -28,7 +21,7 @@ module.exports = db => {
   });
 
   router.get("/new", (req, res) => {
-    res.render("new_map");
+    res.render("new_map", {user: req.session.userId});
   });
 
   router.get("/:id/edit", (req, res) => {
@@ -60,33 +53,12 @@ module.exports = db => {
       return;
     }
     //Add the map first (pins refers to map), then add all pins
-<<<<<<< HEAD
     insertMap(db, [userId, req.body.title, req.body.description, req.body.collaborative, req.body.public])
       .then((data) => {
         console.log(req.body);
         const mapId = data.rows[0].id;
         insertPins(db, {userId, mapId, pinTitle: req.body.pinTitle, pinDescription: req.body.pinDescription, lat:req.body.lat, lng: req.body.lng, active:true});
         insertCollaborators(db, mapId, req.body.collaborator);
-=======
-    insertMap(db, [
-      userId,
-      req.body.title,
-      req.body.description,
-      req.body.collaborative,
-      req.body.public
-    ])
-      .then(data => {
-        const mapId = data.rows[0].id;
-        insertPins(db, {
-          userId,
-          mapId,
-          pinTitle: req.body.pinTitle,
-          pinDescription: req.body.pinDescription,
-          lat: req.body.lat,
-          lng: req.body.lng,
-          active: true
-        });
->>>>>>> maps/views
       })
       .catch(err => {
         console.log(err);
