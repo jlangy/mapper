@@ -2,11 +2,7 @@
 //they can be created in the initMap callback
 const makePin = () => {
   return class Pin extends google.maps.Marker {
-<<<<<<< HEAD
     constructor(options, title, description, imageUrl, id){
-=======
-    constructor(options, title, description, imageUrl){
->>>>>>> homepage
       super(options);
       this.title = title;
       this.description = description;
