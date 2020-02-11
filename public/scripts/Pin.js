@@ -39,6 +39,9 @@ const makePin = () => {
       $('#infowindow-title').text(this.title);
       $('#infowindow-description').text(this.description);
       $('#infowindow-imageUrl').text(this.imageUrl);
+      $('#infowindow-title').val(this.title);
+      $('#infowindow-description').val(this.description);
+      $('#infowindow-imageUrl').val(this.imageUrl);
     }
 
     //Fills in pins form data if present and resets form listener

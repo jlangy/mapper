@@ -57,7 +57,7 @@ function initMap(){
   window.pins = [];
 
   const map = new PinMap(document.getElementById('map'), {
-    center: {lat: -34.397, lng: 150.644},
+    center: {lat: 48.4261,  lng: - 123.3642},
     zoom: 8
   }, pinFormHTML);
 

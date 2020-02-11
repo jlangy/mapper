@@ -10,6 +10,8 @@ const insertMap = (db, params) => {
         description,
         created_at,
         edited_at,
+        default_lat,
+        default_long,
         collaborative,
         public,
         active
@@ -20,6 +22,8 @@ const insertMap = (db, params) => {
       $3,
       NOW(),
       NOW(),
+      48.4261,
+      -123.3642,
       $4,
       $5,
       true
