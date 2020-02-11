@@ -16,7 +16,7 @@ const makePin = () => {
     }
 
     //Opens the infowindow on click and makes the form
-    handlePinClick(){
+    openForm(){
       const infowindow = this.map.infowindow;
       infowindow.open(this.map, this);
       //remove old domready listener if present
@@ -25,11 +25,23 @@ const makePin = () => {
 
     }
 
+    //same as open form, but setting the fields instead of building a form
+    //with listeners. Needs to be bound
+    displayInfo(){
+      const infowindow = this.map.infowindow;
+      infowindow.open(this.map, this);
+      //remove old domready listener if present
+      if(this.map.infoWindowReady) this.map.infoWindowReady.remove();
+      this.map.infoWindowReady = infowindow.addListener('domready', this.setInfowindowFieldsBound);
+    }
+
     setInfowindowFields(){
       $('#infowindow-title').text(this.title);
       $('#infowindow-description').text(this.description);
       $('#infowindow-imageUrl').text(this.imageUrl);
-      console.log(this);
+      $('#infowindow-title').val(this.title);
+      $('#infowindow-description').val(this.description);
+      $('#infowindow-imageUrl').val(this.imageUrl);
     }
 
     //Fills in pins form data if present and resets form listener

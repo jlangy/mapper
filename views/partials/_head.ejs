@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script
+  src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+  integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
+  crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="/styles/new_map.css" type="text/css">
+  <link rel="stylesheet" href="/styles/navbar.css" type="text/css">
+  <title>NEW MAP!!!!</title>
+</head>
+<body>
+  <header>
+    <nav class="navbar navbar-expand-md navbar-light bg-info">
+      <a class="navbar-brand" href="#"><img class="nav-logo" src="/images/mapper_logo.png"/></a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div
+        class="collapse navbar-collapse"
+        style="justify-content: space-between"
+        id="navbarNavAltMarkup"
+      >
+        <div class="navbar-nav">
+          <a id='mymaps' class="nav-item nav-link" href="/maps/mymaps">My Maps</a>
+            <a id='myfavs'class="nav-item nav-link" href="/maps/favourites">My Favourites</a>
+            <a id='search'class="nav-item nav-link" href="#">Search</a>
+            <a id='create-new'class="nav-item nav-link" href="/maps/new">Create New Map</a>
+            <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">
+              Logout
+            </button>
+        </div>
+        <% if(user){ %>
+        <form
+          class="form-inline my-2 my-lg-0"
+          action="/logout?_method=PUT"
+          method="POST"
+        >
+          <span class="mr-2">Logged in as: <%= user.email %>!</span>
+          <button class="btn btn-outline-dark" type="submit">Logout</button>
+        </form>
+
+        <% } else { %>
+        <div class="navbar-nav">
+          <a class="nav-item nav-link" href="/login">Login</a>
+          <a class="nav-item nav-link" href="/register">Register</a>
+        </div>
+        <% } %>
+      </div>
+    </nav>
+  </header>

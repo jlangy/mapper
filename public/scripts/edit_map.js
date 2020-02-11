@@ -1,4 +1,5 @@
 $(document).ready(() => {
+  loadMapgi
   window.collaborators = [];
   $('#info-log').on('click', () => {
     window.pins.forEach(pin => {
@@ -57,7 +58,7 @@ function initMap(){
   window.pins = [];
 
   const map = new PinMap(document.getElementById('map'), {
-    center: {lat: 48.4261,  lng: - 123.3642},
+    center: {lat: -34.397, lng: 150.644},
     zoom: 8
   }, pinFormHTML);
 

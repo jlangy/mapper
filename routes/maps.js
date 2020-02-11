@@ -29,11 +29,12 @@ module.exports = db => {
   });
 
   router.get("/new", (req, res) => {
-    res.render("new_map");
+    res.render("new_map", {user: req.session.userId});
   });
 
   router.get("/:id/edit", (req, res) => {
     //edit map similar to new
+    res.render('edit_map', {user: req.session.userId})
   });
 
   router.get("/:id", (req, res) => {
@@ -45,7 +46,7 @@ module.exports = db => {
           pins => {
             const pin_data = pins.rows;
             const dataJSON = JSON.stringify({ map_data, pin_data });
-            res.render('map_id', {dbResults: dataJSON, mapTitle: map_data.title, mapDescription: map_data.description });
+            res.render('map_id', {dbResults: dataJSON, mapTitle: map_data.title, mapDescription: map_data.description, user: req.session.user });
           }
         );
       })

@@ -20,7 +20,7 @@ const makePinMap = () => {
       });
       //Temporarily store pins on window for logging/debugging purposes
       window.pins.push(pin);
-      pin.addListener('click', pin.handlePinClick);
+      pin.addListener('click', pin.openForm);
     }
   }
 }
