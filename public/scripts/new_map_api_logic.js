@@ -1,8 +1,16 @@
 $(document).ready(() => {
+  window.collaborators = [];
   $('#info-log').on('click', () => {
     window.pins.forEach(pin => {
       console.log(`title: ${pin.title}, description: ${pin.description}, imgUrl: ${null}, `)
     })
+  });
+
+  $('#add-collaborator-btn').on('click', (event) => {
+    event.preventDefault();
+    const collaborator = $('#collaborators-input').val();
+    $('#collaborators-list').append($('<input class="list-group-item" disabled></input>').val(collaborator));
+    window.collaborators.push(collaborator);
   });
 
   $('#new-map-form').on('submit', function(event){
@@ -14,6 +22,10 @@ $(document).ready(() => {
       //3 arrays, pinTitle, pinDescription, imageUrl in order
       data += `&pinTitle=${encodeURIComponent(pin.title)}&pinDescription=${encodeURIComponent(pin.description)}&imageUrl=${encodeURIComponent(pin.imageUrl)}&lat=${encodeURIComponent(pin.getPosition().lat())}&lng=${encodeURIComponent(pin.getPosition().lng())}`
     }
+    for (collaborator of window.collaborators){
+      data += `&collaborator=${encodeURIComponent(collaborator)}`
+    }
+    console.log(data);
     saveMap(data);
   });
 });

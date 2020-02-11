@@ -1,4 +1,5 @@
 const insertPins = (db, params) => {
+  console.log('inside insert pins')
   let pinsQuery = `
     INSERT INTO
       pins (
