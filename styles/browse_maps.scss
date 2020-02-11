@@ -1,0 +1,23 @@
+.browse-maps {
+  display: flex;
+  flex-direction: column;
+
+
+}
+
+.map-article {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  border: medium solid black;
+  border-radius: 7px;
+  padding:20px;
+  margin: 10px;
+}
+
+.view {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+
+}

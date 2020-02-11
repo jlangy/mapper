@@ -12,20 +12,32 @@ const insertPins = require('../db/queries/insert_pins');
 const insertCollaborators = require('../db/queries/insert_collaborators');
 
 module.exports = db => {
-  // maps browse route
+  // public maps browse route
   router.get("/", (req, res) => {
-   const userId = req.session.userId;
-   db.query(`SELECT * FROM maps WHERE owner_id = $1`, [userId])
-    .then(data => {
-      console.log(data.rows);
-    })
-    .catch(err => {
-      res.status(500).json({ error: err.message });
-    });
-    //route for browse all, browse created, browse favourites
-    //for favourites and created, use user_id in cookie
-    //to collect map_ids from favourites table, or
-    //collaborators table.
+    const userId = req.session.userId;
+    db.query(`SELECT * FROM maps WHERE public = true`)
+      .then(data => {
+        const map_data = data.rows;
+       const dataJSON = JSON.stringify(map_data);
+       res.render('browse_maps', {dbData: dataJSON, user: userId});
+      })
+      .catch(err => {
+        res.status(500).json({ error: err.message });
+      })
+  });
+
+  //display my maps for logged in user
+  router.get("/mymaps", (req, res) => {
+    const userId = req.session.userId;
+    db.query(`SELECT * FROM maps WHERE owner_id = $1`, [userId])
+      .then(data => {
+        const map_data = data.rows;
+       const dataJSON = JSON.stringify(map_data);
+       res.render('browse_maps', {dbData: dataJSON, user: userId});
+      })
+      .catch(err => {
+        res.status(500).json({ error: err.message });
+      })
   });
 
   router.get("/new", (req, res) => {
