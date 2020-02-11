@@ -2,7 +2,13 @@
 
     <main>
       <br>
-      <h2>Public maps for your area:</h2>
+
+      <% if (user == mapOwner) { %>
+        <h2>Your Maps:</h2>
+      <% } else { %>
+        <h2>Public Maps:</h2>
+      <% } %>
+
       <div class="browse-maps">
         <% for (const map of JSON.parse(dbData)) {%>
           <div class="map-article">
@@ -10,7 +16,13 @@
           <h3><%= map.title %></h3>
           <p><%= map.description %></p>
         </div>
-          <a class="view btn btn-outline-dark my-2 my-sm-0" type="submit" href="/maps/<%=map.id%>"><button>View</button></a>      </div>
+          <div class='map-buttons'>
+            <a class="view btn btn-outline-dark my-2 my-sm-0" type="submit" href="/maps/<%=map.id%>"><button>View</button></a>
+            <% if (user == mapOwner) { %>
+              <a class="view btn btn-outline-dark my-2 my-sm-0" type="submit" href="/maps/<%=map.id%>/edit"><button>Edit</button></a></div>
+            <% } %>
+          </div>
+        </div>
         <% }%>
 
       </div>

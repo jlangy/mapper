@@ -2,8 +2,8 @@
 //they can be created in the initMap callback
 const makePin = () => {
   return class Pin extends google.maps.Marker {
-    constructor(position, map, title, description, imageUrl){
-      super(position, map);
+    constructor(options, title, description, imageUrl){
+      super(options);
       this.title = title;
       this.description = description;
       this.imageUrl = imageUrl;
@@ -42,6 +42,7 @@ const makePin = () => {
       $('#infowindow-title').val(this.title);
       $('#infowindow-description').val(this.description);
       $('#infowindow-imageUrl').val(this.imageUrl);
+      $('#infowindow-imageUrl').attr('src', this.imageUrl);
     }
 
     //Fills in pins form data if present and resets form listener

@@ -19,7 +19,7 @@ module.exports = db => {
       .then(data => {
         const map_data = data.rows;
        const dataJSON = JSON.stringify(map_data);
-       res.render('browse_maps', {dbData: dataJSON, user: userId});
+       res.render('browse_maps', {dbData: dataJSON, user: userId, mapOwner: null});
       })
       .catch(err => {
         res.status(500).json({ error: err.message });
@@ -32,8 +32,8 @@ module.exports = db => {
     db.query(`SELECT * FROM maps WHERE owner_id = $1`, [userId])
       .then(data => {
         const map_data = data.rows;
-       const dataJSON = JSON.stringify(map_data);
-       res.render('browse_maps', {dbData: dataJSON, user: userId});
+        const dataJSON = JSON.stringify(map_data);
+       res.render('browse_maps', {dbData: dataJSON, user: userId, mapOwner: map_data[0].owner_id});
       })
       .catch(err => {
         res.status(500).json({ error: err.message });
@@ -58,7 +58,7 @@ module.exports = db => {
           pins => {
             const pin_data = pins.rows;
             const dataJSON = JSON.stringify({ map_data, pin_data });
-            res.render('map_id', {dbResults: dataJSON, mapTitle: map_data.title, mapDescription: map_data.description, user: req.session.user });
+            res.render('map_id', {dbResults: dataJSON, mapTitle: map_data.title, mapDescription: map_data.description, mapId: map_data.id, user: req.session.userId, mapOwner: map_data.owner_id});
           }
         );
       })

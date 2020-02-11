@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
 
-
 }
 
 .map-article {
@@ -19,5 +18,12 @@
   display: flex;
   align-content: center;
   justify-content: center;
+  margin-left: 10px;
+  height: 50px;
+}
 
+.map-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
