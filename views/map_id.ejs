@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script
+  src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+  integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
+  crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <link rel="stylesheet" href="/styles/new_map.css" type="text/css">
+  <title>Single Map View</title>
+</head>
+<body>
+
+  <main>
+    <h1><%-mapTitle%></h1>
+    <div id="map">
+    </div>
+    <h4><%-mapDescription%></h4>
+
+  </main>
+
+
+ <script>
+  const dbData = <%-dbResults%>;
+  const mapData = dbData['map_data'];
+  const pinData = dbData['pin_data'];
+ </script>
+ <script src='/scripts/map_view.js'></script>
+ <script src="/scripts/PinMap.js"></script>
+  <script src="/scripts/Pin.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap"
+  async defer></script>
+</body>
+</html>

@@ -28,7 +28,21 @@ module.exports = db => {
   });
 
   router.get("/:id", (req, res) => {
-    console.log(req.params);
+    const map_id = req.params.id;
+    db.query(`SELECT * FROM maps WHERE id = $1`, [map_id])
+      .then(data => {
+        const map_data = data.rows[0];
+        db.query(`SELECT * FROM pins WHERE map_id = $1`, [map_id]).then(
+          pins => {
+            const pin_data = pins.rows;
+            const dataJSON = JSON.stringify({ map_data, pin_data });
+            res.render('map_id', {dbResults: dataJSON, mapTitle: map_data.title, mapDescription: map_data.description });
+          }
+        );
+      })
+      .catch(err => {
+        res.status(500).json({ error: err.message });
+      });
   });
 
   router.post("/", (req, res) => {
