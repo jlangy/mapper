@@ -25,6 +25,7 @@ var infowindow;
    <div id="infowindow-description">
    <p></p>
    </div>
+   <img id="infowindow-imageUrl">
    </div>
    `;
 
@@ -38,12 +39,12 @@ var infowindow;
     // The pins
     for (const pin of pins) {
 
-      marker = new Pin({ position: pin.location, map: map}, pin.title, pin.description );
-      console.log(this);
+      marker = new Pin({ position: pin.location, map: map}, pin.title, pin.description, pin.imageUrl);
+      console.log(pin.imageUrl);
       marker.addListener('click', marker.pinOpenInfoWindowBound);
       marker.title = pin.title;
       marker.description = pin.description;
-      console.log('test', pin.description);
+      marker.imageUrl = pin.imageUrl;
 
 
 

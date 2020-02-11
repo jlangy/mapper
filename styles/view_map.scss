@@ -1,0 +1,50 @@
+
+
+.map-display {
+  display: flex;
+  flex-direction: column;
+}
+
+.map-title {
+  font-size: 30px;
+}
+
+#map {
+  border: medium solid #4d4f50;
+}
+
+.map-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.map-description {
+ font-size: 20px;
+}
+
+.pins-display {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  border: thin solid black;
+  border-radius: 7px;
+  padding:20px;
+  margin: 10px;
+}
+
+.pin-image {
+  height: 150px;
+  width: 150px;
+}
+
+img {
+  width: 100%;
+  height: auto;
+}
+#infowindow-imageUrl {
+ width: 150px;
+ height: 150px;
+
+}

@@ -1,3 +1,9 @@
-INSERT INTO pins (owner_id, map_id, title, description, lat, long, created_at, active)
-  VALUES (1, 1, 'Hey Happy Coffee', 'Great coconut latte', 48.4278, - 123.3692, now(), TRUE), (1, 1, 'Habit Coffee', 'Amazing local coffee', 48.4262, - 123.3616, now(), TRUE);
+INSERT INTO pins (owner_id, map_id, title, description, lat, long, image_url, created_at, active)
+  VALUES (1, 1, 'Hey Happy Coffee', 'Great coconut latte', 48.4278, -123.3692, 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80', now(), TRUE),
+  (1, 1, 'Habit Coffee', 'Amazing local coffee', 48.4262, -123.3616,'https://images.unsplash.com/photo-1442512595331-e89e73853f31?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60', now(), TRUE),
+  (1, 2, 'Philips Brewery', 'Delicious hoppy beer and cool tasting room!', 48.4320, -123.3674, 'https://images.unsplash.com/photo-1542634093-e0198d4d1e46?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60',now(), TRUE),
+  (1, 2, 'Hoyne Brewery', 'Two words, DARK MATTER', 48.437306, -123.373548, 'https://images.unsplash.com/photo-1543791959-12b3f543282a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60', now(), TRUE),
+  (1, 3, 'SaaSquatch', 'Small agile team selling loyalty marketing software. Great people :)', 48.4235, -123.3560, 'https://images.unsplash.com/photo-1556761175-4b46a572b786?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60', now(), TRUE),
+  (1, 3, 'Checkfront', 'Quickly growing team making online booking/management software for tours, activities, rentals and accommodations.', 48.4229, -123.3617, 'https://images.unsplash.com/photo-1556761175-b413da4baf72?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60', now(), TRUE),
+  (2, 4, 'Secret Location', 'Can only see if you are user 2', 48.4278, -123.3692, 'https://images.unsplash.com/photo-1459347268516-3ed71100e718?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60', now(), TRUE);
 

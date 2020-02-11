@@ -14,12 +14,14 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link rel="stylesheet" href="/styles/new_map.css" type="text/css">
   <link rel="stylesheet" href="/styles/navbar.css" type="text/css">
-  <title>NEW MAP!!!!</title>
+  <link rel="stylesheet" href="/styles/browse_maps.css" type="text/css">
+  <link rel="stylesheet" href="/styles/view_map.css" type="text/css">
+  <title>Mapper</title>
 </head>
 <body>
   <header>
     <nav class="navbar navbar-expand-md navbar-light bg-info">
-      <a class="navbar-brand" href="#"><img class="nav-logo" src="/images/mapper_white_logo.png"/></a>
+      <a class="navbar-brand" href="/maps"><img class="nav-logo" src="/images/mapper_white_logo.png"/></a>
       <button
         class="navbar-toggler"
         type="button"
@@ -41,9 +43,6 @@
             <a id='myfavs'class="nav-item nav-link" href="/maps/favourites">My Favourites</a>
             <a id='search'class="nav-item nav-link" href="#">Search</a>
             <a id='create-new'class="nav-item nav-link" href="/maps/new">Create New Map</a>
-            <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">
-              Logout
-            </button>
         </div>
         <% if(user){ %>
         <form
