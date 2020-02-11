@@ -20,7 +20,7 @@ const insertPins = (db, params) => {
     //If A single pin insert, else map has no pins and skip
     if(params.pinTitle){
       db.query(pinsQuery + '($1, $2, $3, $4, $5, $6, $7, NOW(), NOW(), true)',
-      [params.userId, params.mapId, params.pinTitle, params.pinDescription, params.lat, params.lng, params.active]);
+      [params.userId, params.mapId, params.pinTitle, params.pinDescription, params.lat, params.lng, params.imageUrl]);
     }
   } else{
     //Multiple pins. Loop through arrays, building query values and parameters

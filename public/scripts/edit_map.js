@@ -1,12 +1,20 @@
-$(document).ready(() => {
-  loadMapgi
-  window.collaborators = [];
-  $('#info-log').on('click', () => {
-    window.pins.forEach(pin => {
-      console.log(`title: ${pin.title}, description: ${pin.description}, imgUrl: ${null}, `)
-    })
-  });
+// need to make a get request to maps_json where we query the db to get maps/pins data to pass
+// into initMap function to render any map with the saved pins
 
+var map;
+var marker;
+var infowindow;
+
+
+const position = { lat: Number(mapData.default_lat), lng: Number(mapData.default_long) };
+const pins = [];
+for (const pin of pinData) {
+  pins.push({location: { lat: Number(pin.lat), lng: Number(pin.long) }, id: pin.id, title: pin.title, description: pin.description, imageUrl: pin.image_url});
+
+}
+
+$(document).ready(() => {
+  window.collaborators = [];
   $('#add-collaborator-btn').on('click', (event) => {
     event.preventDefault();
     const collaborator = $('#collaborators-input').val();
@@ -18,21 +26,23 @@ $(document).ready(() => {
     event.preventDefault();
     let data = $(this).serialize();
     for (pin of window.pins){
-      console.log(pin.getPosition().lat(), pin.getPosition().lng());
       //encodeURIComponent sanitizes data, the pins will come through
       //3 arrays, pinTitle, pinDescription, imageUrl in order
-      data += `&pinTitle=${encodeURIComponent(pin.title)}&pinDescription=${encodeURIComponent(pin.description)}&imageUrl=${encodeURIComponent(pin.imageUrl)}&lat=${encodeURIComponent(pin.getPosition().lat())}&lng=${encodeURIComponent(pin.getPosition().lng())}`
+      data += `&pinId=${encodeURIComponent(pin.id)}&pinTitle=${encodeURIComponent(pin.title)}&pinDescription=${encodeURIComponent(pin.description)}&imageUrl=${encodeURIComponent(pin.imageUrl)}&lat=${encodeURIComponent(pin.getPosition().lat())}&lng=${encodeURIComponent(pin.getPosition().lng())}`
     }
     for (collaborator of window.collaborators){
       data += `&collaborator=${encodeURIComponent(collaborator)}`
     }
-    console.log(data);
-    saveMap(data);
+    updateMap(mapId, data);
   });
 });
 
-const pinFormHTML =
-` <form id='infowindow-form'>
+  function initMap() {
+
+    const Pin = makePin();
+    const PinMap = makePinMap();
+
+    const pinInfoHTML = ` <form id='infowindow-form'>
     <div class="form-group">
       <label for="infowindow-title">Title</label>
       <input type="text" class="form-control" id="infowindow-title" name='title' placeholder="Title">
@@ -48,20 +58,28 @@ const pinFormHTML =
   </form>
 `;
 
-function initMap(){
-  //currently putting class on window. Not sure if bad practice or not
-  //but needs to be accessible to pinmap click listener
-  window.Pin = makePin();
-  const PinMap = makePinMap();
+    // The map
+    const map_location = position;
+    map = new PinMap(document.getElementById("map"), {
+      zoom: 12,
+      center: map_location
+    }, pinInfoHTML);
+    window.pins = [];
+    // The pins
+    for (const pin of pins) {
+      marker = new Pin({ position: pin.location, map: map}, pin.title, pin.description, pin.imageUrl, pin.id );
+      marker.addListener('click', marker.openForm);
+      marker.title = pin.title;
+      marker.description = pin.description;
+      window.pins.push(marker);
+    }
+  }
 
-  //For logging out info during developement, put pins on window
-  window.pins = [];
-
-  const map = new PinMap(document.getElementById('map'), {
-    center: {lat: -34.397, lng: 150.644},
-    zoom: 8
-  }, pinFormHTML);
-
-  map.addListener('click', map.handleMapClick)
-}
-
+  function pinOpenInfoWindow(){
+    let pin = this;
+    const infowindow = this.map.infowindow;
+    infowindow.open(this.map, this);
+    //remove old domready listener if present
+    if(this.map.infoWindowReady) this.map.infoWindowReady.remove();
+    this.map.infoWindowReady = infowindow.addListener('domready', pin.setInfowindowFieldsBound);
+  }

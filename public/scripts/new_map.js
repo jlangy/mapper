@@ -17,7 +17,6 @@ $(document).ready(() => {
     event.preventDefault();
     let data = $(this).serialize();
     for (pin of window.pins){
-      console.log(pin.getPosition().lat(), pin.getPosition().lng());
       //encodeURIComponent sanitizes data, the pins will come through
       //3 arrays, pinTitle, pinDescription, imageUrl in order
       data += `&pinTitle=${encodeURIComponent(pin.title)}&pinDescription=${encodeURIComponent(pin.description)}&imageUrl=${encodeURIComponent(pin.imageUrl)}&lat=${encodeURIComponent(pin.getPosition().lat())}&lng=${encodeURIComponent(pin.getPosition().lng())}`
@@ -25,7 +24,6 @@ $(document).ready(() => {
     for (collaborator of window.collaborators){
       data += `&collaborator=${encodeURIComponent(collaborator)}`
     }
-    console.log(data);
     saveMap(data);
   });
 });

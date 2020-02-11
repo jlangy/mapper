@@ -9,6 +9,8 @@ const express = require('express');
 const router  = express.Router();
 const insertMap = require('../db/queries/insert_map');
 const insertPins = require('../db/queries/insert_pins');
+const updateMap = require('../db/queries/update_maps');
+const updatePins = require('../db/queries/update_pins');
 const insertCollaborators = require('../db/queries/insert_collaborators');
 
 module.exports = db => {
@@ -26,7 +28,41 @@ module.exports = db => {
 
   router.get("/:id/edit", (req, res) => {
     //edit map similar to new
-    res.render('edit_map', {user: req.session.userId})
+    const map_id = req.params.id;
+    db.query(`SELECT * FROM maps WHERE id = $1`, [map_id])
+      .then(data => {
+        const map_data = data.rows[0];
+        db.query(`SELECT * FROM pins WHERE map_id = $1`, [map_id]).then(
+          pins => {
+            const pin_data = pins.rows;
+            const dataJSON = JSON.stringify({ map_data, pin_data });
+            res.render('edit_map', {dbResults: dataJSON, mapId: map_data.id, mapTitle: map_data.title, mapDescription: map_data.description, user: req.session.user });
+          }
+        );
+      })
+      .catch(err => {
+        res.status(500).json({ error: err.message });
+      });
+  });
+
+  router.post("/:id", (req,res) => {
+    const userId = req.session.userId;
+    if (!userId) {
+      return;
+    }
+    //Add the map first (pins refers to map), then add all pins
+    updateMap(db, [req.body.title, req.body.description, req.body.collaborative, req.body.public])
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({ error: err.message });
+      });
+    updatePins(db, {pinTitle: req.body.pinTitle, pinId: req.body.pinId, pinDescription: req.body.pinDescription, imageUrl: req.body.imageUrl, active:true})
+    // updateCollaborators(db, mapId, req.body.collaborator);
+      // .catch(err => {
+      //   console.log(err);
+      //   res.status(500).json({ error: err.message });
+      // });
+  // });
   });
 
   router.get("/:id", (req, res) => {
@@ -57,7 +93,7 @@ module.exports = db => {
       .then((data) => {
         console.log(req.body);
         const mapId = data.rows[0].id;
-        insertPins(db, {userId, mapId, pinTitle: req.body.pinTitle, pinDescription: req.body.pinDescription, lat:req.body.lat, lng: req.body.lng, active:true});
+        insertPins(db, {userId, mapId, imageUrl: req.body.imageUrl, pinTitle: req.body.pinTitle, pinDescription: req.body.pinDescription, lat:req.body.lat, lng: req.body.lng, active:true});
         insertCollaborators(db, mapId, req.body.collaborator);
       })
       .catch(err => {

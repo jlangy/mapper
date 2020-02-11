@@ -5,3 +5,11 @@ function saveMap(data){
     data
   });
 }
+
+function updateMap(id, data){
+  $.ajax({
+    method: 'POST',
+    url: `/maps/${id}`,
+    data
+  })
+}

@@ -2,11 +2,12 @@
 //they can be created in the initMap callback
 const makePin = () => {
   return class Pin extends google.maps.Marker {
-    constructor(position, map, title, description, imageUrl){
-      super(position, map);
+    constructor(options, title, description, imageUrl, id){
+      super(options);
       this.title = title;
       this.description = description;
       this.imageUrl = imageUrl;
+      this.id = id;
       //These functions used in callbacks, need a this binding
       this.savePinInfoBound = this.savePinInfo.bind(this);
       this.makeFormBound = this.makeForm.bind(this);
@@ -22,7 +23,6 @@ const makePin = () => {
       //remove old domready listener if present
       if(this.map.infoWindowReady) this.map.infoWindowReady.remove();
       this.map.infoWindowReady = infowindow.addListener('domready', this.makeFormBound);
-
     }
 
     //same as open form, but setting the fields instead of building a form
