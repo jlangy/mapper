@@ -5,47 +5,63 @@ var map;
 var marker;
 var infowindow;
 
-console.log(pinData);
+
   const position = { lat: Number(mapData.default_lat), lng: Number(mapData.default_long) };
   const pins = [];
   for (const pin of pinData) {
-    pins.push({location: { lat: Number(pin.lat), lng: Number(pin.long) }, title: pin.title});
+    pins.push({location: { lat: Number(pin.lat), lng: Number(pin.long) }, title: pin.title, description: pin.description, imageUrl: pin.image_url});
 
   }
 
 
   function initMap() {
+
+    const Pin = makePin();
+    const PinMap = makePinMap();
+
+    const pinInfoHTML = `
+   <div id="content">
+   <h5 id="infowindow-title" class="pinHeading"></h5>
+   <div id="infowindow-description">
+   <p></p>
+   </div>
+   </div>
+   `;
+
     // The map
     const map_location = position;
-    map = new google.maps.Map(document.getElementById("map"), {
+    map = new PinMap(document.getElementById("map"), {
       zoom: 12,
       center: map_location
-    });
+    }, pinInfoHTML);
 
     // The pins
     for (const pin of pins) {
-      marker = new google.maps.Marker({
-        position: pin.location,
-        map: map,
-        title: pin.title
-      });
 
-      var contentString = `
-     <div id="content">
-     <h3 id="pinHeading" class="pinHeading">${pin.title}</h3>
-     <div id="bodyContent">
-      <p>${pin.description}</p>
-     </div>
-     </div>
-     `;
+      marker = new Pin({ position: pin.location, map: map}, pin.title, pin.description );
+      console.log(this);
+      marker.addListener('click', marker.pinOpenInfoWindowBound);
+      marker.title = pin.title;
+      marker.description = pin.description;
+      console.log('test', pin.description);
 
-    infowindow = new google.maps.InfoWindow({
-      content: contentString
-    });
 
-      marker.addListener('click', function() {
-        infowindow.open(map, marker);
-      });
+
+    // infowindow = new google.maps.InfoWindow({
+    //   content: pinInfoHTML
+    // });
+
+    //   marker.addListener('click', function() {
+    //     infowindow.open(map, marker);
+    //   });
     }
+  }
 
+  function pinOpenInfoWindow(){
+    let pin = this;
+    const infowindow = this.map.infowindow;
+    infowindow.open(this.map, this);
+    //remove old domready listener if present
+    if(this.map.infoWindowReady) this.map.infoWindowReady.remove();
+    this.map.infoWindowReady = infowindow.addListener('domready', pin.setInfowindowFieldsBound);
   }

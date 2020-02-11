@@ -2,14 +2,17 @@
 //they can be created in the initMap callback
 const makePin = () => {
   return class Pin extends google.maps.Marker {
-    constructor(position, map){
+    constructor(position, map, title, description, imageUrl){
       super(position, map);
-      this.title = '';
-      this.description = '',
-      this.imageUrl = ''
+      this.title = title;
+      this.description = description;
+      this.imageUrl = imageUrl;
       //These functions used in callbacks, need a this binding
       this.savePinInfoBound = this.savePinInfo.bind(this);
       this.makeFormBound = this.makeForm.bind(this);
+      this.setInfowindowFieldsBound = this.setInfowindowFields.bind(this);
+      this.pinOpenInfoWindowBound = this.pinOpenInfoWindow.bind(this);
+
     }
 
     //Opens the infowindow on click and makes the form
@@ -19,12 +22,14 @@ const makePin = () => {
       //remove old domready listener if present
       if(this.map.infoWindowReady) this.map.infoWindowReady.remove();
       this.map.infoWindowReady = infowindow.addListener('domready', this.makeFormBound);
+
     }
 
     setInfowindowFields(){
-      $('#infowindow-title').val(this.title);
-      $('#infowindow-description').val(this.description);
-      $('#infowindow-imageUrl').val(this.imageUrl);
+      $('#infowindow-title').text(this.title);
+      $('#infowindow-description').text(this.description);
+      $('#infowindow-imageUrl').text(this.imageUrl);
+      console.log(this);
     }
 
     //Fills in pins form data if present and resets form listener
@@ -37,6 +42,14 @@ const makePin = () => {
     savePinInfo(event){
       const field = $(event.target).attr('name');
       this[field] = $(event.target).val();
+    }
+    pinOpenInfoWindow(){
+      let pin=this;
+      const infowindow = this.map.infowindow;
+      infowindow.open(this.map, this);
+      //remove old domready listener if present
+      if(this.map.infoWindowReady) this.map.infoWindowReady.remove();
+      this.map.infoWindowReady = infowindow.addListener('domready', pin.setInfowindowFieldsBound);
     }
   }
 }
