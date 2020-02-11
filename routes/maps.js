@@ -14,6 +14,14 @@ const insertCollaborators = require('../db/queries/insert_collaborators');
 module.exports = db => {
   // maps browse route
   router.get("/", (req, res) => {
+   const userId = req.session.userId;
+   db.query(`SELECT * FROM maps WHERE owner_id = $1`, [userId])
+    .then(data => {
+      console.log(data.rows);
+    })
+    .catch(err => {
+      res.status(500).json({ error: err.message });
+    });
     //route for browse all, browse created, browse favourites
     //for favourites and created, use user_id in cookie
     //to collect map_ids from favourites table, or
