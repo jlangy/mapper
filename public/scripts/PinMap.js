@@ -2,12 +2,12 @@
 //they can be created in the initMap callback
 const makePinMap = () => {
   return class PinMap extends google.maps.Map{
-    constructor(element, options, pinFormHTML){
+    constructor(element, options, content){
       super(element, options);
       //Using one infowindow, resetting for each pin.
       //Api handles it auto closing when opened somewhere else
       this.infowindow = new google.maps.InfoWindow({
-        content: pinFormHTML
+        content: content
       });
     }
 

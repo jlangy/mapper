@@ -2,16 +2,17 @@
 //they can be created in the initMap callback
 const makePin = () => {
   return class Pin extends google.maps.Marker {
-    constructor(options, title, description, imageUrl){
-      super(options);
+    constructor(position, map, title, description, imageUrl){
+      super(position, map);
       this.title = title;
       this.description = description;
       this.imageUrl = imageUrl;
       //These functions used in callbacks, need a this binding
       this.savePinInfoBound = this.savePinInfo.bind(this);
       this.makeFormBound = this.makeForm.bind(this);
-      this.displayInfoBound = this.displayInfo.bind(this);
       this.setInfowindowFieldsBound = this.setInfowindowFields.bind(this);
+      this.pinOpenInfoWindowBound = this.pinOpenInfoWindow.bind(this);
+
     }
 
     //Opens the infowindow on click and makes the form
@@ -21,6 +22,7 @@ const makePin = () => {
       //remove old domready listener if present
       if(this.map.infoWindowReady) this.map.infoWindowReady.remove();
       this.map.infoWindowReady = infowindow.addListener('domready', this.makeFormBound);
+
     }
 
     //same as open form, but setting the fields instead of building a form
@@ -36,7 +38,7 @@ const makePin = () => {
     setInfowindowFields(){
       $('#infowindow-title').text(this.title);
       $('#infowindow-description').text(this.description);
-      // $('#infowindow-imageUrl').val(this.imageUrl);
+      $('#infowindow-imageUrl').text(this.imageUrl);
     }
 
     //Fills in pins form data if present and resets form listener
@@ -49,6 +51,14 @@ const makePin = () => {
     savePinInfo(event){
       const field = $(event.target).attr('name');
       this[field] = $(event.target).val();
+    }
+    pinOpenInfoWindow(){
+      let pin=this;
+      const infowindow = this.map.infowindow;
+      infowindow.open(this.map, this);
+      //remove old domready listener if present
+      if(this.map.infoWindowReady) this.map.infoWindowReady.remove();
+      this.map.infoWindowReady = infowindow.addListener('domready', pin.setInfowindowFieldsBound);
     }
   }
 }
