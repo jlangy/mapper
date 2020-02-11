@@ -26,6 +26,7 @@ module.exports = (db) => {
 
   router.get('/:id/edit', (req,res) => {
     //edit map similar to new
+    res.render('edit_map')
   });
 
   router.get('/:id', (req,res) => {

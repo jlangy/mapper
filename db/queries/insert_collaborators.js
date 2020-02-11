@@ -25,7 +25,7 @@ const insertCollaborators = (db, mapId, params) => {
     collaboratorQueries.forEach((collaboratorQuery,i) => {
       console.log("important info", collaboratorQuery, collaboratorParams[i]);
       db.query(collaboratorQuery, collaboratorParams[i])
-      // .catch(err => console.error(err));
+      .catch(err => console.error(err));
     });
   }
 }

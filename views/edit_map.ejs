@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script
+  src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+  integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
+  crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <link rel="stylesheet" href="/styles/new_map.css" type="text/css">
+  <title>Edit MAP!!!!</title>
+</head>
+<body>
+
+  <main>
+
+    <div id="map">
+    </div>
+
+    <form id='new-map-form'>
+      <div class="form-group">
+        <label for="formGroupExampleInput">Title</label>
+        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input" name='title'>
+
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlTextarea1">Description</label>
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name='description'></textarea>
+      </div>
+
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="true" name='public'>
+        <label class="form-check-label" for="inlineCheckbox1">Public</label>
+      </div>
+
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="true" name='collaborative'>
+        <label class="form-check-label" for="inlineCheckbox2">Collaborative</label>
+      </div>
+
+      <div class="form-group">
+        <label for="collaborators-input">collaborators</label>
+        <input type='email' class="form-control" id="collaborators-input" rows="3"></input>
+        <div id='add-collaborator-btn' class="btn btn-primary">add</div>
+      </div>
+
+      <button type='submit'>Submit</button>
+
+      <ul id='collaborators-list' class="list-group">
+      </ul>
+
+    </form>
+
+    <button id='info-log'>Log Info</button>
+
+  </main>
+
+  <script src="/scripts/network.js"></script>
+  <script src="/scripts/PinMap.js"></script>
+  <script src="/scripts/Pin.js"></script>
+  <script src="/scripts/edit_map.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap"
+  async defer></script>
+</body>
+</html>
