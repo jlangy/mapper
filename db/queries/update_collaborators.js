@@ -1,27 +1,28 @@
 const insertCollaborators = (db, mapId, email, active) => {
+  console.log(mapId, email, active);
   let collaboratorQuery =`
   INSERT into collaborators (map_id, user_id, active) VALUES(
     $1,
     (SELECT id from users where email=$2),
-    $3
+    true
   )
     ON CONFLICT (map_id, user_id) DO UPDATE
-      SET active = $3;
+      SET active = false;
   `
-  if(!Array.isArray(user_id)){
-    if(user_id){
+  if(!Array.isArray(email)){
+    if(email){
       db.query(collaboratorQuery,
-      [mapId, email, active]);
+      [mapId, email]);
     }
   } else{
     //Multiple pins. Loop through arrays, building query values and parameters
     const collaboratorParams = [];
-    params.forEach((email, i) => {
-      collaboratorParams.push([mapId, email[i], active[i]]);
+    email.forEach((email) => {
+      collaboratorParams.push([mapId, email]);
     });
     //run all queries, no need to do it sequentially
-    collaboratorParams.forEach((collaboratorQuery,i) => {
-      db.query(collaboratorQuery, collaboratorParams[i])
+    collaboratorParams.forEach((collaboratorParam) => {
+      db.query(collaboratorQuery, collaboratorParam)
       .catch(err => console.error(err));
     });
   }

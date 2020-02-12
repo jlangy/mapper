@@ -36,7 +36,7 @@ const addCollaborators = (collaboratorData) => {
 }
 
 $(document).ready(() => {
-  console.log(window.collaborators);
+  console.log(collaboratorData);
   addCollaborators(collaboratorData);
 
   window.collaborators = collaboratorData.map(emailObj => emailObj.email);

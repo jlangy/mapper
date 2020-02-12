@@ -35,14 +35,17 @@ module.exports = db => {
         const map_data = data.rows[0];
         //Dont want to display current visitor in collaborators list
         // Promise.all([db.query('SELECT * from collaborators WHERE map_id = $1 AND NOT user_id = $2', [map_id, req.session.userId]),
-        Promise.all([db.query('SELECT email FROM users WHERE id = (select user_id from collaborators WHERE map_id = $1 AND NOT user_id = $2)', [map_id, req.session.userId]),
+        Promise.all([db.query('SELECT email FROM users WHERE id IN (select user_id from collaborators WHERE map_id = $1 AND NOT user_id = $2)', [map_id, req.session.userId]),
         db.query(`SELECT * FROM pins WHERE map_id = $1`, [map_id])]).then(values => {
             const pin_data = values[1].rows;
             const collaborator_data = values[0].rows;
+            console.log(collaborator_data);
             const dataJSON = JSON.stringify({ map_data, pin_data, collaborator_data });
             res.render('edit_map', {dbResults: dataJSON, mapId: map_data.id, mapTitle: map_data.title, mapDescription: map_data.description, user: req.session.user });
           }
-        );
+        )     .catch(err => {
+          res.status(500).json({ error: err.message });
+        });
       })
       .catch(err => {
         res.status(500).json({ error: err.message });
@@ -51,7 +54,7 @@ module.exports = db => {
 
   router.post("/:id", (req,res) => {
     const userId = req.session.userId;
-    console.log(req.body)
+    console.log("POST ")
     const mapId = req.params.id;
     if (!userId) {
       return;
@@ -64,10 +67,10 @@ module.exports = db => {
       });
     updatePins(db, {pinTitle: req.body.pinTitle, pinId: req.body.pinId, pinDescription: req.body.pinDescription, imageUrl: req.body.imageUrl, active:true})
     updateCollaborators(db, mapId, req.body.collaborator)
-      .catch(err => {
-        console.log(err);
-        res.status(500).json({ error: err.message });
-      });
+      // .catch(err => {
+      //   console.log(err);
+      //   res.status(500).json({ error: err.message });
+      // });
   });
 
   router.get("/:id", (req, res) => {
