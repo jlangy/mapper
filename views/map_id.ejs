@@ -11,19 +11,26 @@
       <% if (user == mapOwner) { %>
         <a class="view btn btn-outline-dark my-2 my-sm-0" type="submit" href="/maps/<%=mapId%>/edit"><button>Edit</button></a>
       <% } %>
+      <% if (favourite) {%>
+      <div class='like'><i class="fas fa-heart"></i></div>
+      <% } else { %>
+      <div class='unlike'><i class="far fa-heart"></i></div>
+      <% } %>
     </div>
   </div>
 
-    <h3>Saved Pins</h3>
+    <br>
     <% for (const pin of JSON.parse(dbResults)['pin_data']) { %>
       <% if (pin.active) { %>
       <div class='pins-display'>
         <div>
-      <h5><%= pin.title %></h5>
-      <p><%= pin.description%></p>
-    </div>
-    <div class='pin-image'><img class='pin-image' src="<%=pin.image_url%>"></div>
-    </div>
+          <h3><%= pin.title %></h3>
+          <p><%= pin.description%></p>
+        </div>
+
+      <div class='pin-image'><img class='pin-image' src="<%=pin.image_url%>"></div>
+
+      </div>
     <% } %>
     <% } %>
 

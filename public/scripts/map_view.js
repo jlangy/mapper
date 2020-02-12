@@ -5,7 +5,8 @@ var map;
 var marker;
 var infowindow;
 
-
+  const mapId = mapData.id;
+  console.log(mapId);
   const position = { lat: Number(mapData.default_lat), lng: Number(mapData.default_long) };
   const pins = [];
   for (const pin of pinData) {
@@ -41,7 +42,6 @@ var infowindow;
     for (const pin of pins) {
 
       marker = new Pin({ position: pin.location, map: map}, pin.title, pin.description, pin.imageUrl);
-      console.log(pin.imageUrl);
       marker.addListener('click', marker.pinOpenInfoWindowBound);
       marker.title = pin.title;
       marker.description = pin.description;
@@ -67,3 +67,14 @@ var infowindow;
     if(this.map.infoWindowReady) this.map.infoWindowReady.remove();
     this.map.infoWindowReady = infowindow.addListener('domready', pin.setInfowindowFieldsBound);
   }
+
+  $(document).ready(() => {
+
+    $('.favourite').click(function(data) {
+      $.ajax({
+        url: '/maps/favourites',
+        type: 'POST',
+        data: {mapId: mapId}
+      })
+    });
+  });
