@@ -16,6 +16,7 @@
 
     <h3>Saved Pins</h3>
     <% for (const pin of JSON.parse(dbResults)['pin_data']) { %>
+      <% if (pin.active) { %>
       <div class='pins-display'>
         <div>
       <h5><%= pin.title %></h5>
@@ -23,6 +24,7 @@
     </div>
     <div class='pin-image'><img class='pin-image' src="<%=pin.image_url%>"></div>
     </div>
+    <% } %>
     <% } %>
 
 

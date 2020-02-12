@@ -136,7 +136,7 @@ module.exports = db => {
       .then((data) => {
         console.log(req.body);
         const mapId = data.rows[0].id;
-        insertPins(db, {userId, mapId, imageUrl: req.body.imageUrl, pinTitle: req.body.pinTitle, pinDescription: req.body.pinDescription, lat:req.body.lat, lng: req.body.lng, active:true});
+        insertPins(db, {userId, mapId, imageUrl: req.body.imageUrl, pinTitle: req.body.pinTitle, pinDescription: req.body.pinDescription, lat:req.body.lat, lng: req.body.lng, active:req.body.pinActive});
         insertCollaborators(db, mapId, req.body.collaborator);
       })
       .catch(err => {

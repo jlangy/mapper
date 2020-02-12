@@ -38,7 +38,7 @@ $(document).ready(() => {
     for (pin of window.pins){
       //encodeURIComponent sanitizes data, the pins will come through
       //3 arrays, pinTitle, pinDescription, imageUrl in order
-      data += `&pinTitle=${encodeURIComponent(pin.title)}&pinDescription=${encodeURIComponent(pin.description)}&imageUrl=${encodeURIComponent(pin.imageUrl)}&lat=${encodeURIComponent(pin.getPosition().lat())}&lng=${encodeURIComponent(pin.getPosition().lng())}`
+      data += `&pinActive=${encodeURIComponent(pin.active)}&pinTitle=${encodeURIComponent(pin.title)}&pinDescription=${encodeURIComponent(pin.description)}&imageUrl=${encodeURIComponent(pin.imageUrl)}&lat=${encodeURIComponent(pin.getPosition().lat())}&lng=${encodeURIComponent(pin.getPosition().lng())}`
     }
     for (collaborator of window.collaborators){
       if(collaborator[1]){
@@ -101,6 +101,7 @@ const pinFormHTML =
       <label for="infowindow-imageUrl">Image URL</label>
       <input type="text" class="form-control" id="infowindow-imageUrl" name='imageUrl' placeholder="https://www">
     </div>
+    <button id='delete-pin' class='btn btn-danger'>Delete</button>
   </form>
 `;
 
