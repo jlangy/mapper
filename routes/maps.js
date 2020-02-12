@@ -15,12 +15,32 @@ const updateCollaborators = require('../db/queries/update_collaborators');
 const insertCollaborators = require('../db/queries/insert_collaborators');
 
 module.exports = db => {
-  // maps browse route
+  // public maps browse route
   router.get("/", (req, res) => {
-    //route for browse all, browse created, browse favourites
-    //for favourites and created, use user_id in cookie
-    //to collect map_ids from favourites table, or
-    //collaborators table.
+    const userId = req.session.userId;
+    db.query(`SELECT * FROM maps WHERE public = true`)
+      .then(data => {
+        const map_data = data.rows;
+       const dataJSON = JSON.stringify(map_data);
+       res.render('browse_maps', {dbData: dataJSON, user: userId, mapOwner: null});
+      })
+      .catch(err => {
+        res.status(500).json({ error: err.message });
+      })
+  });
+
+  //display my maps for logged in user
+  router.get("/mymaps", (req, res) => {
+    const userId = req.session.userId;
+    db.query(`SELECT * FROM maps WHERE owner_id = $1`, [userId])
+      .then(data => {
+        const map_data = data.rows;
+        const dataJSON = JSON.stringify(map_data);
+       res.render('browse_maps', {dbData: dataJSON, user: userId, mapOwner: map_data[0].owner_id});
+      })
+      .catch(err => {
+        res.status(500).json({ error: err.message });
+      })
   });
 
   router.get("/new", (req, res) => {
@@ -83,7 +103,7 @@ module.exports = db => {
           pins => {
             const pin_data = pins.rows;
             const dataJSON = JSON.stringify({ map_data, pin_data });
-            res.render('map_id', {dbResults: dataJSON, mapTitle: map_data.title, mapDescription: map_data.description, user: req.session.user });
+            res.render('map_id', {dbResults: dataJSON, mapTitle: map_data.title, mapDescription: map_data.description, mapId: map_data.id, user: req.session.userId, mapOwner: map_data.owner_id});
           }
         );
       })

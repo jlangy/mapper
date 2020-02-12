@@ -42,6 +42,7 @@ const makePin = () => {
       $('#infowindow-title').val(this.title);
       $('#infowindow-description').val(this.description);
       $('#infowindow-imageUrl').val(this.imageUrl);
+      $('#infowindow-imageUrl').attr('src', this.imageUrl);
     }
 
     //Fills in pins form data if present and resets form listener
