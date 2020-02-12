@@ -79,20 +79,14 @@ module.exports = db => {
     if (!userId) {
       return;
     }
+    const lat = req.body.mapLat ? req.body.mapLat : null;
+    const lng = req.body.mapLng ? req.body.mapLng : null;
     //Add the map first (pins refers to map), then add all pins
-    updateMap(db, [req.body.title, req.body.description, req.body.collaborative, req.body.public])
+    updateMap(db, [req.body.title, req.body.description, req.body.collaborative, req.body.public, lat, lng])
       .catch(err => {
         console.log(err);
         res.status(500).json({ error: err.message });
       });
-      console.log(req.body.pinTitle,
-        req.body.lat,
-        req.body.lng,
-        req.body.pinId,
-        req.body.pinDescription,
-        req.body.imageUrl,
-        req.body.pinActive
-            )
     updatePins(db, {pinTitle: req.body.pinTitle,
                     mapId,
                     owner_id: userId,

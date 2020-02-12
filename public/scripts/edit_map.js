@@ -13,83 +13,24 @@ for (const pin of pinData) {
   }
 }
 
-//build out collaborator list items to append to form. Add delete buttons with click listeners on each
-const addCollaborators = (collaboratorData) => {
-  collaboratorData.forEach(emailObj => {
-    $('#collaborators-list')
-      .append($('<div class=collaborator-list-item-container>')
-        .append(
-          $('<input class="list-group-item" disabled></input>')
-            .val(emailObj.email)
-        )
-        .append($('<button>')
-          .addClass('btn btn-danger')
-          .on('click', function(){
-            const deletedEmail = $(this).siblings('input').val();
-            window.collaborators = window.collaborators.map(collaborator => {
-              if(collaborator[0] === deletedEmail){
-                return [collaborator[0], false];
-              }
-              return collaborator;
-            });
-            // window.collaborators = window.collaborators.filter(email => email != deletedEmail);
-            $(this).siblings('input').remove();
-            $(this).remove();
-          })
-          .text('delete')
-      )
-    )
-  });
-}
-
-const addCollaboratorsSlider = () => {
-
-  $('#collaborative-check').on('click', function(){
-    $('#collaborators-form').slideToggle();
-    if($(this).prop('checked') === false){
-      $('#collaborators-list').empty();
-      window.collaborators = window.collaborators.map(collaborator => [collaborator[0], false]);
-    }
-  });
-}
-
 $(document).ready(() => {
+  //setup collaborator form slider
   if(collaboratorData.length === 0){
     $('#collaborators-form').hide();
   } else {
     $('#collaborative-check').prop('checked', true);
   }
   addCollaboratorsSlider();
-
   addCollaborators(collaboratorData);
 
   window.collaborators = collaboratorData.map(emailObj => [emailObj.email, true]);
-  $('#add-collaborator-btn').on('click', (event) => {
-    event.preventDefault();
-    const collaborator = $('#collaborators-input').val();
-    let exit = false;
-    let windowPush = true;
-    window.collaborators.forEach((collaboratorArr,i) => {
-      if(collaboratorArr[0] === collaborator){
-        if(collaboratorArr[1] === true){
-          exit = true;
-        } else {
-          window.collaborators[i][1] = true;
-          windowPush = false;
-        }
-      }
-    });
-    if(exit) return;
-    //function expects objects in an array
-    addCollaborators([{email:collaborator}]);
-    // $('#collaborators-list').append($('<input class="list-group-item" disabled></input>').val(collaborator));
-    if(windowPush) window.collaborators.push([collaborator, true]);
-  });
+  $('#add-collaborator-btn').on('click', addCollaboratorHandler);
 
   $('#new-map-form').on('submit', function(event){
     //send form data with pin and collaborator data appended (dynamic entries)
     event.preventDefault();
     let data = $(this).serialize();
+    data += getMapCenterEncoded();
     for (pin of window.pins){
       //encodeURIComponent sanitizes data, the pins will come through
       //3 arrays, pinTitle, pinDescription, imageUrl in order
@@ -102,73 +43,24 @@ $(document).ready(() => {
   });
 });
 
-  function initMap() {
+function initMap() {
 
-    window.Pin = makePin();
-    const PinMap = makePinMap();
+  window.Pin = makePin();
+  const PinMap = makePinMap();
 
-    const pinInfoHTML = ` <form id='infowindow-form'>
-    <div class="form-group">
-      <label for="infowindow-title">Title</label>
-      <input type="text" class="form-control" id="infowindow-title" name='title' placeholder="Title">
-    </div>
-    <div class="form-group">
-      <label for="infowindow-description">Description</label>
-      <textarea type="text" class="form-control" id="infowindow-description" name='description'></textarea>
-    </div>
-    <div class="form-group">
-      <label for="infowindow-imageUrl">Image URL</label>
-      <input type="text" class="form-control" id="infowindow-imageUrl" name='imageUrl' placeholder="https://www">
-    </div>
-    <button id='delete-pin' class='btn btn-danger'>Delete</button>
-  </form>
-`;
+  // The map
+  const map_location = position;
 
-    // The map
-    const map_location = position;
-    map = new PinMap(document.getElementById("map"), {
-      zoom: 12,
-      center: map_location
-    }, pinInfoHTML);
+  window.map = addMap(PinMap, position, pinFormHTML(), mapData.default_lat);
 
-    if (navigator.geolocation && !mapData.default_lat) {
-      navigator.geolocation.getCurrentPosition(function(position) {
-        var pos = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-        map.setCenter(pos);
-      }, function() {
-        handleLocationError(true, map.getCenter());
-      });
-    } else {
-      // Browser doesn't support Geolocation
-      handleLocationError(false, map.getCenter());
-    }
-
-    window.map = map;
-
-    function handleLocationError(browserHasGeolocation, pos) {
-      console.log('not fond');
-    }
-
-    window.pins = [];
-    // The pins
-    for (const pin of pins) {
-      marker = new Pin({ position: pin.location, map: map}, pin.title, pin.description, pin.imageUrl, pin.id);
-      marker.addListener('click', marker.openForm);
-      marker.title = pin.title;
-      marker.description = pin.description;
-      window.pins.push(marker);
-    }
-    map.addListener('click', map.handleMapClick)
+  // The pins
+  window.pins = [];
+  for (const pin of pins) {
+    marker = new Pin({ position: pin.location, map: map}, pin.title, pin.description, pin.imageUrl, pin.id);
+    marker.addListener('click', marker.openForm);
+    marker.title = pin.title;
+    marker.description = pin.description;
+    window.pins.push(marker);
   }
-
-  function pinOpenInfoWindow(){
-    let pin = this;
-    const infowindow = this.map.infowindow;
-    infowindow.open(this.map, this);
-    //remove old domready listener if present
-    if(this.map.infoWindowReady) this.map.infoWindowReady.remove();
-    this.map.infoWindowReady = infowindow.addListener('domready', pin.setInfowindowFieldsBound);
-  }
+  map.addListener('click', map.handleMapClick)
+}

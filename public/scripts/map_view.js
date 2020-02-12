@@ -5,86 +5,30 @@ var map;
 var marker;
 var infowindow;
 
-
-  const position = { lat: Number(mapData.default_lat), lng: Number(mapData.default_long) };
-  const pins = [];
-  for (const pin of pinData) {
-    if(pin.active){
-      pins.push({location: { lat: Number(pin.lat), lng: Number(pin.long) }, title: pin.title, description: pin.description, imageUrl: pin.image_url});
-    }
+const position = { lat: Number(mapData.default_lat), lng: Number(mapData.default_long) };
+const pins = [];
+for (const pin of pinData) {
+  if(pin.active){
+    pins.push({location: { lat: Number(pin.lat), lng: Number(pin.long) }, title: pin.title, description: pin.description, imageUrl: pin.image_url});
   }
+}
 
+function initMap() {
 
-  function initMap() {
+  const Pin = makePin();
+  const PinMap = makePinMap();
 
-    const Pin = makePin();
-    const PinMap = makePinMap();
+  // The map
+  addMap(PinMap, position, pinDisplayHTML(), mapData.default_lat);
+  window.map = map;
 
-    const pinInfoHTML = `
-   <div id="content">
-   <h5 id="infowindow-title" class="pinHeading"></h5>
-   <div id="infowindow-description">
-   <p></p>
-   </div>
-   <img id="infowindow-imageUrl">
-   </div>
-   `;
-
-    // The map
-    const map_location = position;
-    map = new PinMap(document.getElementById("map"), {
-      zoom: 12,
-      center: map_location
-    }, pinInfoHTML);
-
-    if (navigator.geolocation && !mapData.default_lat) {
-      navigator.geolocation.getCurrentPosition(function(position) {
-        var pos = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-        map.setCenter(pos);
-      }, function() {
-        handleLocationError(true, map.getCenter());
-      });
-    } else {
-      // Browser doesn't support Geolocation
-      handleLocationError(false, map.getCenter());
-    }
-
-    window.map = map;
-
-    function handleLocationError(browserHasGeolocation, pos) {
-      console.log('not fond');
-    }
-
-    // The pins
-    for (const pin of pins) {
-
-      marker = new Pin({ position: pin.location, map: map}, pin.title, pin.description, pin.imageUrl);
-      console.log(pin.imageUrl);
-      marker.addListener('click', marker.pinOpenInfoWindowBound);
-      marker.title = pin.title;
-      marker.description = pin.description;
-      marker.imageUrl = pin.imageUrl;
-
-
-
-    // infowindow = new google.maps.InfoWindow({
-    //   content: pinInfoHTML
-    // });
-
-    //   marker.addListener('click', function() {
-    //     infowindow.open(map, marker);
-    //   });
-    }
+  // The pins
+  for (const pin of pins) {
+    marker = new Pin({ position: pin.location, map: map}, pin.title, pin.description, pin.imageUrl);
+    marker.addListener('click', marker.pinOpenInfoWindowBound);
+    marker.title = pin.title;
+    marker.description = pin.description;
+    marker.imageUrl = pin.imageUrl;
   }
+}
 
-  function pinOpenInfoWindow(){
-    let pin = this;
-    const infowindow = this.map.infowindow;
-    infowindow.open(this.map, this);
-    //remove old domready listener if present
-    if(this.map.infoWindowReady) this.map.infoWindowReady.remove();
-    this.map.infoWindowReady = infowindow.addListener('domready', pin.setInfowindowFieldsBound);
-  }
