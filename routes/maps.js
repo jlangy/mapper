@@ -85,8 +85,22 @@ module.exports = db => {
         console.log(err);
         res.status(500).json({ error: err.message });
       });
-    updatePins(db, {pinTitle: req.body.pinTitle, pinId: req.body.pinId, pinDescription: req.body.pinDescription, imageUrl: req.body.imageUrl, active:true})
-    console.log(req.body);
+      console.log(req.body.pinTitle,
+        req.body.lat,
+        req.body.lng,
+        req.body.pinId,
+        req.body.pinDescription,
+        req.body.imageUrl,
+        req.body.pinActive
+            )
+    updatePins(db, {pinTitle: req.body.pinTitle,
+                    mapId,
+                    owner_id: userId,
+                    lat: req.body.lat,
+                    long: req.body.lng,
+                    pinDescription: req.body.pinDescription,
+                    imageUrl: req.body.imageUrl,
+                    active:req.body.pinActive})
     updateCollaborators(db, mapId, req.body.email, req.body.active)
       // .catch(err => {
       //   console.log(err);

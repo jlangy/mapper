@@ -9,8 +9,9 @@ var infowindow;
   const position = { lat: Number(mapData.default_lat), lng: Number(mapData.default_long) };
   const pins = [];
   for (const pin of pinData) {
-    pins.push({location: { lat: Number(pin.lat), lng: Number(pin.long) }, title: pin.title, description: pin.description, imageUrl: pin.image_url});
-
+    if(pin.active){
+      pins.push({location: { lat: Number(pin.lat), lng: Number(pin.long) }, title: pin.title, description: pin.description, imageUrl: pin.image_url});
+    }
   }
 
 

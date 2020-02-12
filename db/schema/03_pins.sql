@@ -12,6 +12,7 @@ CREATE TABLE pins (
   created_at timestamp NOT NULL,
   edited_at timestamp,
   deleted_at timestamp DEFAULT NULL,
-  active boolean NOT NULL DEFAULT TRUE
+  active boolean NOT NULL DEFAULT TRUE,
+  unique(map_id, lat, long)
 );
 

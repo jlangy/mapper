@@ -8,7 +8,9 @@ var infowindow;
 const position = { lat: Number(mapData.default_lat), lng: Number(mapData.default_long) };
 const pins = [];
 for (const pin of pinData) {
-  pins.push({location: { lat: Number(pin.lat), lng: Number(pin.long) }, id: pin.id, title: pin.title, description: pin.description, imageUrl: pin.image_url});
+  if(pin.active){
+    pins.push({location: { lat: Number(pin.lat), lng: Number(pin.long) }, id: pin.id, title: pin.title, description: pin.description, imageUrl: pin.image_url});
+  }
 }
 
 //build out collaborator list items to append to form. Add delete buttons with click listeners on each
@@ -91,7 +93,7 @@ $(document).ready(() => {
     for (pin of window.pins){
       //encodeURIComponent sanitizes data, the pins will come through
       //3 arrays, pinTitle, pinDescription, imageUrl in order
-      data += `&pinId=${encodeURIComponent(pin.id)}&pinTitle=${encodeURIComponent(pin.title)}&pinDescription=${encodeURIComponent(pin.description)}&imageUrl=${encodeURIComponent(pin.imageUrl)}&lat=${encodeURIComponent(pin.getPosition().lat())}&lng=${encodeURIComponent(pin.getPosition().lng())}`
+      data += `&pinActive=${encodeURIComponent(pin.active)}&pinId=${encodeURIComponent(pin.id)}&pinTitle=${encodeURIComponent(pin.title)}&pinDescription=${encodeURIComponent(pin.description)}&imageUrl=${encodeURIComponent(pin.imageUrl)}&lat=${encodeURIComponent(pin.getPosition().lat())}&lng=${encodeURIComponent(pin.getPosition().lng())}`
     }
     for (collaborator of window.collaborators){
       data += `&email=${encodeURIComponent(collaborator[0])}&active=${collaborator[1]}`
@@ -102,7 +104,7 @@ $(document).ready(() => {
 
   function initMap() {
 
-    const Pin = makePin();
+    window.Pin = makePin();
     const PinMap = makePinMap();
 
     const pinInfoHTML = ` <form id='infowindow-form'>
@@ -118,6 +120,7 @@ $(document).ready(() => {
       <label for="infowindow-imageUrl">Image URL</label>
       <input type="text" class="form-control" id="infowindow-imageUrl" name='imageUrl' placeholder="https://www">
     </div>
+    <button id='delete-pin' class='btn btn-danger'>Delete</button>
   </form>
 `;
 
@@ -130,12 +133,13 @@ $(document).ready(() => {
     window.pins = [];
     // The pins
     for (const pin of pins) {
-      marker = new Pin({ position: pin.location, map: map}, pin.title, pin.description, pin.imageUrl, pin.id );
+      marker = new Pin({ position: pin.location, map: map}, pin.title, pin.description, pin.imageUrl, pin.id);
       marker.addListener('click', marker.openForm);
       marker.title = pin.title;
       marker.description = pin.description;
       window.pins.push(marker);
     }
+    map.addListener('click', map.handleMapClick)
   }
 
   function pinOpenInfoWindow(){

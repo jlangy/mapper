@@ -8,11 +8,13 @@ const makePin = () => {
       this.description = description;
       this.imageUrl = imageUrl;
       this.id = id;
+      this.active = true;
       //These functions used in callbacks, need a this binding
       this.savePinInfoBound = this.savePinInfo.bind(this);
       this.makeFormBound = this.makeForm.bind(this);
       this.setInfowindowFieldsBound = this.setInfowindowFields.bind(this);
       this.pinOpenInfoWindowBound = this.pinOpenInfoWindow.bind(this);
+      this.deletePinBound = this.deletePin.bind(this);
 
     }
 
@@ -50,6 +52,13 @@ const makePin = () => {
       this.setInfowindowFields();
       $('#infowindow-form').off();
       $('#infowindow-form').on('keyup', this.savePinInfoBound);
+      $('#delete-pin').on('click', this.deletePinBound);
+    }
+
+    deletePin(event){
+      event.preventDefault();
+      this.active=false;
+      this.setMap(null);
     }
 
     savePinInfo(event){
