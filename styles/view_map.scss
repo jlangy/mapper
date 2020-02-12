@@ -22,6 +22,7 @@
 
 .map-description {
  font-size: 20px;
+ padding-left: 1em;
 }
 
 .pins-display {
@@ -48,3 +49,25 @@ img {
  height: 150px;
 
 }
+
+.like {
+  font-size: 35px;
+  padding-right: 1em;
+  padding-left: 1em;
+  color: red;
+
+}
+
+.unlike {
+  font-size: 35px;
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+
+.unlike:hover {
+  color: red;
+}
+
+
+

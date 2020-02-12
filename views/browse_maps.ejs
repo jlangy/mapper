@@ -3,8 +3,10 @@
     <main>
       <br>
 
-      <% if (user == mapOwner) { %>
+      <% if (mapType === 'myMaps') { %>
         <h2>Your Maps:</h2>
+      <% } else if (mapType === 'favourites') { %>
+        <h2>Your Favourite Maps:</h2>
       <% } else { %>
         <h2>Public Maps:</h2>
       <% } %>
@@ -18,7 +20,7 @@
         </div>
           <div class='map-buttons'>
             <a class="view btn btn-outline-dark my-2 my-sm-0" type="submit" href="/maps/<%=map.id%>"><button>View</button></a>
-            <% if (user == mapOwner) { %>
+            <% if (mapType === 'myMaps') { %>
               <a class="view btn btn-outline-dark my-2 my-sm-0" type="submit" href="/maps/<%=map.id%>/edit"><button>Edit</button></a></div>
             <% } %>
           </div>
