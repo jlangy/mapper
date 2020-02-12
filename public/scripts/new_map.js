@@ -12,7 +12,6 @@ $(document).ready(() => {
   $('#add-collaborator-btn').on('click', (event) => {
     event.preventDefault();
     const collaborator = $('#collaborators-input').val();
-    // $('#collaborators-list').append($('<input class="list-group-item" disabled></input>').val(collaborator));
     let exit = false;
     let windowPush = true;
     window.collaborators.forEach((collaboratorArr,i) => {
@@ -35,6 +34,7 @@ $(document).ready(() => {
   $('#new-map-form').on('submit', function(event){
     event.preventDefault();
     let data = $(this).serialize();
+    data += getMapCenter();
     for (pin of window.pins){
       //encodeURIComponent sanitizes data, the pins will come through
       //3 arrays, pinTitle, pinDescription, imageUrl in order
@@ -48,6 +48,16 @@ $(document).ready(() => {
     saveMap(data);
   });
 });
+
+const getMapCenter = function(){
+  if($('#maps-center-option').prop('checked') === true){
+    const pos = window.map.getCenter();
+    console.log(pos)
+    return `&mapLat=${encodeURIComponent(pos.lat())}&mapLng=${encodeURIComponent(pos.lng())}`
+  } else {
+    return `&mapLat=&mapLng=`
+  }
+}
 
 const addCollaboratorsSlider = () => {
   $('#collaborative-check').on('click', function(){
@@ -113,12 +123,33 @@ function initMap(){
 
   //For logging out info during developement, put pins on window
   window.pins = [];
-
   const map = new PinMap(document.getElementById('map'), {
-    center: {lat: 48.4261,  lng: - 123.3642},
+    //Defaults to victoria if navigator not allowed
+    center: {lat: 28.4261,  lng: - 123.3642},
     zoom: 8
   }, pinFormHTML);
 
-  map.addListener('click', map.handleMapClick)
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var pos = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+      map.setCenter(pos);
+    }, function() {
+      handleLocationError(true, map.getCenter());
+    });
+  } else {
+    // Browser doesn't support Geolocation
+    handleLocationError(false, map.getCenter());
+  }
+
+  window.map = map;
+
+  function handleLocationError(browserHasGeolocation, pos) {
+    console.log('not fond');
+  }
+
+  map.addListener('click', map.handleMapClick);
 }
 

@@ -31,12 +31,36 @@ function initMap() {
   </div>
   `;
 
-  // The map
-  const map_location = position;
-  map = new PinMap(document.getElementById("map"), {
-    zoom: 12,
-    center: map_location
-  }, pinInfoHTML);
+    if (navigator.geolocation && !mapData.default_lat) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        map.setCenter(pos);
+      }, function() {
+        handleLocationError(true, map.getCenter());
+      });
+    } else {
+      // Browser doesn't support Geolocation
+      handleLocationError(false, map.getCenter());
+    }
+
+    window.map = map;
+
+    function handleLocationError(browserHasGeolocation, pos) {
+      console.log('not fond');
+    }
+
+    // The pins
+    for (const pin of pins) {
+
+      marker = new Pin({ position: pin.location, map: map}, pin.title, pin.description, pin.imageUrl);
+      console.log(pin.imageUrl);
+      marker.addListener('click', marker.pinOpenInfoWindowBound);
+      marker.title = pin.title;
+      marker.description = pin.description;
+      marker.imageUrl = pin.imageUrl;
 
   // The pins
   for (const pin of pins) {
@@ -47,6 +71,7 @@ function initMap() {
     marker.description = pin.description;
     marker.imageUrl = pin.imageUrl;
   }
+}
 }
 
 function pinOpenInfoWindow(){
@@ -68,5 +93,5 @@ $(document).ready(() => {
       type: 'POST',
       data: {mapId, fav}
     })
-  });
-});
+  })
+})

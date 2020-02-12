@@ -1,7 +1,7 @@
 const insertMap = (db, params) => {
   //For collaborative and public (indices 3 and 4), if empty set to false
-  params[3] = params[3] ? 'true' : 'false'
-  params[4] = params[4] ? 'true' : 'false'
+  params[5] = params[5] ? 'true' : 'false'
+  params[6] = params[6] ? 'true' : 'false'
   const query = `
     INSERT INTO
       maps (
@@ -22,10 +22,10 @@ const insertMap = (db, params) => {
       $3,
       NOW(),
       NOW(),
-      48.4261,
-      -123.3642,
       $4,
       $5,
+      $6,
+      $7,
       true
       )
     RETURNING *;`;

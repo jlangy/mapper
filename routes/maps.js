@@ -177,7 +177,9 @@ module.exports = db => {
       return;
     }
     //Add the map first (pins refers to map), then add all pins
-    insertMap(db, [userId, req.body.title, req.body.description, req.body.collaborative, req.body.public])
+    const lat = req.body.mapLat ? req.body.mapLat : null;
+    const lng = req.body.mapLng ? req.body.mapLng : null;
+    insertMap(db, [userId, req.body.title, req.body.description, lat, lng, req.body.collaborative, req.body.public])
       .then((data) => {
         console.log(req.body);
         const mapId = data.rows[0].id;
