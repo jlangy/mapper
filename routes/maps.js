@@ -35,7 +35,7 @@ module.exports = db => {
         const map_data = data.rows[0];
         //Dont want to display current visitor in collaborators list
         // Promise.all([db.query('SELECT * from collaborators WHERE map_id = $1 AND NOT user_id = $2', [map_id, req.session.userId]),
-        Promise.all([db.query('SELECT email FROM users WHERE id IN (select user_id from collaborators WHERE map_id = $1 AND NOT user_id = $2)', [map_id, req.session.userId]),
+        Promise.all([db.query('SELECT email FROM users WHERE id IN (select user_id from collaborators WHERE map_id = $1 and active=true AND NOT user_id = $2)', [map_id, req.session.userId]),
         db.query(`SELECT * FROM pins WHERE map_id = $1`, [map_id])]).then(values => {
             const pin_data = values[1].rows;
             const collaborator_data = values[0].rows;
@@ -66,7 +66,8 @@ module.exports = db => {
         res.status(500).json({ error: err.message });
       });
     updatePins(db, {pinTitle: req.body.pinTitle, pinId: req.body.pinId, pinDescription: req.body.pinDescription, imageUrl: req.body.imageUrl, active:true})
-    updateCollaborators(db, mapId, req.body.collaborator)
+    console.log(req.body);
+    updateCollaborators(db, mapId, req.body.email, req.body.active)
       // .catch(err => {
       //   console.log(err);
       //   res.status(500).json({ error: err.message });

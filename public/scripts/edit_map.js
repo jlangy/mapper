@@ -77,7 +77,7 @@ $(document).ready(() => {
       data += `&pinId=${encodeURIComponent(pin.id)}&pinTitle=${encodeURIComponent(pin.title)}&pinDescription=${encodeURIComponent(pin.description)}&imageUrl=${encodeURIComponent(pin.imageUrl)}&lat=${encodeURIComponent(pin.getPosition().lat())}&lng=${encodeURIComponent(pin.getPosition().lng())}`
     }
     for (collaborator of window.collaborators){
-      data += `&collaborator=${encodeURIComponent(collaborator)}`
+      data += `&email=${encodeURIComponent(collaborator[0])}&active=${collaborator[1]}`
     }
     updateMap(mapId, data);
   });
