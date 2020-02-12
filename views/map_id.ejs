@@ -8,14 +8,17 @@
     <div id="map"></div>
     <div class='map-info'>
       <div class='map-description'><%-mapDescription%></div>
-      <% if (user == mapOwner) { %>
-        <a class="view btn btn-outline-dark my-2 my-sm-0" type="submit" href="/maps/<%=mapId%>/edit"><button>Edit</button></a>
-      <% } %>
-      <% if (favourite) {%>
-      <div class='like'><i class="fas fa-heart"></i></div>
-      <% } else { %>
-      <div class='unlike'><i class="far fa-heart"></i></div>
-      <% } %>
+      <div class='right-align-center'>
+        <% if (user == mapOwner) { %>
+          <a class="view btn btn-outline-dark my-2 my-sm-0" type="submit" href="/maps/<%=mapId%>/edit"><button>Edit</button></a>
+        <% } %>
+        <% if (favourite) { %>
+          <div class='like favourite'>
+        <% } else { %>
+          <div class='favourite'>
+        <% } %>
+          <i class="fas fa-heart"></i></div>
+      </div>
     </div>
   </div>
 
@@ -33,17 +36,13 @@
       </div>
     <% } %>
     <% } %>
-
-
-
-
   </main>
-
 
  <script>
   const dbData = <%- dbResults %>;
   const mapData = dbData['map_data'];
   const pinData = dbData['pin_data'];
+  let fav = <%=favourite%>;
  </script>
  <script src='/scripts/map_view.js'></script>
  <script src="/scripts/PinMap.js"></script>

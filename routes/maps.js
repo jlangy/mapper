@@ -47,23 +47,22 @@ module.exports = db => {
   // display my favourite maps for logged in user
   router.get("/favourites", (req, res) => {
     const userId = req.session.userId;
-    db.query(`SELECT * FROM maps WHERE id IN (SELECT map_id FROM favourites WHERE user_id = $1)`, [userId])
+    db.query(`SELECT * FROM maps WHERE id IN (SELECT map_id FROM favourites WHERE user_id = $1 AND active = true)`, [userId])
       .then(data => {
         const map_data = data.rows;
-        db.query()
         const dataJSON = JSON.stringify(map_data);
-       res.render('browse_maps', {dbData: dataJSON, user: userId, mapType: 'favourites'});
+        res.render('browse_maps', {dbData: dataJSON, user: userId, mapType: 'favourites'});
       })
       .catch(err => {
         res.status(500).json({ error: err.message });
       })
   });
-
+  // update favourites list for logged in user
   router.post('/favourites', (req, res) => {
     const user_id = req.session.userId;
-    const map_id = req.params.id;
-
-    updateFavourites(db, {user_id, map_id})
+    const map_id = req.body.mapId;
+    const favourite = (req.body.fav === 'true' ? true : false );
+    updateFavourites(db, [user_id, map_id, favourite])
       .catch(err => {
         console.log(err);
         res.status(500).json({ error: err.message });
@@ -88,7 +87,13 @@ module.exports = db => {
             const collaborator_data = values[0].rows;
             console.log(collaborator_data);
             const dataJSON = JSON.stringify({ map_data, pin_data, collaborator_data });
-            res.render('edit_map', {dbResults: dataJSON, mapId: map_data.id, mapTitle: map_data.title, mapDescription: map_data.description, user: req.session.user });
+            res.render('edit_map', {
+              dbResults: dataJSON,
+              mapId: map_data.id,
+              mapTitle: map_data.title,
+              mapDescription: map_data.description,
+              user: req.session.user
+            });
           }
         )     .catch(err => {
           res.status(500).json({ error: err.message });
@@ -101,7 +106,6 @@ module.exports = db => {
 
   router.post("/:id", (req,res) => {
     const userId = req.session.userId;
-    console.log("POST ")
     const mapId = req.params.id;
     if (!userId) {
       return;
@@ -144,13 +148,22 @@ module.exports = db => {
         db.query(`SELECT * FROM pins WHERE map_id = $1`, [map_id])
         .then(pins => {
           const pin_data = pins.rows;
-            db.query(`SELECT id FROM favourites WHERE map_id = $1 AND user_id = $2`, [map_id, user_id])
+            db.query(`SELECT active FROM favourites WHERE map_id = $1 AND user_id = $2`, [map_id, user_id])
             .then(info => {
-              const favourite = info.rows[0];
+              let favourite = false;
+              if (info.rows[0]) {
+                favourite = info.rows[0].active;
+              }
               const dataJSON = JSON.stringify({ map_data, pin_data });
-                res.render('map_id', {dbResults: dataJSON, mapTitle: map_data.title, mapDescription: map_data.description, mapId: map_data.id, user: user_id, mapOwner: map_data.owner_id, favourite: favourite});
-
-            }) ;
+              res.render('map_id', {
+                dbResults: dataJSON,
+                mapTitle: map_data.title,
+                mapDescription: map_data.description,
+                mapId: map_data.id, user: user_id,
+                mapOwner: map_data.owner_id,
+                favourite
+              });
+            });
         });
       })
       .catch(err => {

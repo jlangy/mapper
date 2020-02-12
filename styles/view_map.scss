@@ -50,24 +50,20 @@ img {
 
 }
 
+
+.favourite {
+  font-size: 35px;
+  padding-right: 1em;
+  padding-left: 1em;
+  color: rgb(48, 48, 48)
+}
+
 .like {
-  font-size: 35px;
-  padding-right: 1em;
-  padding-left: 1em;
-  color: red;
-
-}
-
-.unlike {
-  font-size: 35px;
-  padding-right: 1em;
-  padding-left: 1em;
-}
-
-
-.unlike:hover {
   color: red;
 }
 
-
+.right-align-center {
+  display: flex;
+  flex-direction: row;
+}
 
