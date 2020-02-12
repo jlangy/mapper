@@ -5,23 +5,23 @@ var map;
 var marker;
 var infowindow;
 
-
 const position = { lat: Number(mapData.default_lat), lng: Number(mapData.default_long) };
 const pins = [];
 for (const pin of pinData) {
   pins.push({location: { lat: Number(pin.lat), lng: Number(pin.long) }, id: pin.id, title: pin.title, description: pin.description, imageUrl: pin.image_url});
-
 }
 
+//build out collaborator list items to append to form. Add delete buttons with click listeners on each
 const addCollaborators = (collaboratorData) => {
   collaboratorData.forEach(emailObj => {
     $('#collaborators-list')
-      .append($('<div>')
+      .append($('<div class=collaborator-list-item-container>')
         .append(
           $('<input class="list-group-item" disabled></input>')
             .val(emailObj.email)
         )
         .append($('<button>')
+          .addClass('btn btn-danger')
           .on('click', function(){
             const deletedEmail = $(this).siblings('input').val();
             window.collaborators = window.collaborators.map(collaborator => {
@@ -33,7 +33,6 @@ const addCollaborators = (collaboratorData) => {
             // window.collaborators = window.collaborators.filter(email => email != deletedEmail);
             $(this).siblings('input').remove();
             $(this).remove();
-            console.log(window.collaborators);
           })
           .text('delete')
       )
@@ -41,8 +40,25 @@ const addCollaborators = (collaboratorData) => {
   });
 }
 
+const addCollaboratorsSlider = () => {
+
+  $('#collaborative-check').on('click', function(){
+    $('#collaborators-form').slideToggle();
+    if($(this).prop('checked') === false){
+      $('#collaborators-list').empty();
+      window.collaborators = window.collaborators.map(collaborator => [collaborator[0], false]);
+    }
+  });
+}
+
 $(document).ready(() => {
-  console.log(collaboratorData);
+  if(collaboratorData.length === 0){
+    $('#collaborators-form').hide();
+  } else {
+    $('#collaborative-check').prop('checked', true);
+  }
+  addCollaboratorsSlider();
+
   addCollaborators(collaboratorData);
 
   window.collaborators = collaboratorData.map(emailObj => [emailObj.email, true]);
@@ -69,6 +85,7 @@ $(document).ready(() => {
   });
 
   $('#new-map-form').on('submit', function(event){
+    //send form data with pin and collaborator data appended (dynamic entries)
     event.preventDefault();
     let data = $(this).serialize();
     for (pin of window.pins){

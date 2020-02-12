@@ -1,5 +1,5 @@
 const insertCollaborators = (db, mapId, email, active) => {
-  console.log(mapId, email, active);
+  //Insert is not alreadt there, update otherwise
   let collaboratorQuery =`
   INSERT into collaborators (map_id, user_id, active) VALUES(
     $1,
@@ -9,6 +9,7 @@ const insertCollaborators = (db, mapId, email, active) => {
     ON CONFLICT (map_id, user_id) DO UPDATE
       SET active = $3;
   `
+  //single entry logic. Paramaters won't be an array
   if(!Array.isArray(email)){
     if(email){
       db.query(collaboratorQuery,

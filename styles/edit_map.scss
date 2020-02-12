@@ -1,0 +1,22 @@
+.collaborator-list-item-container, .add-collaborator{
+  display: flex;
+  input {
+    flex-grow: 1;
+    border-radius: 5px 0 0 5px;
+  }
+  .btn{
+    border-radius: 0 5px 5px 0;
+  }
+}
+
+#submit-map-btn{
+  display: block;
+}
+
+.add-collaborator{
+  margin-bottom: 10px;
+}
+
+.collaborator-list-item-container input{
+  padding: 0 10px;
+}
