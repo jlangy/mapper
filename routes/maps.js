@@ -11,6 +11,7 @@ const insertMap = require('../db/queries/insert_map');
 const insertPins = require('../db/queries/insert_pins');
 const updateMap = require('../db/queries/update_maps');
 const updatePins = require('../db/queries/update_pins');
+const updateCollaborators = require('../db/queries/update_collaborators');
 const insertCollaborators = require('../db/queries/insert_collaborators');
 
 module.exports = db => {
@@ -32,10 +33,13 @@ module.exports = db => {
     db.query(`SELECT * FROM maps WHERE id = $1`, [map_id])
       .then(data => {
         const map_data = data.rows[0];
-        db.query(`SELECT * FROM pins WHERE map_id = $1`, [map_id]).then(
-          pins => {
-            const pin_data = pins.rows;
-            const dataJSON = JSON.stringify({ map_data, pin_data });
+        //Dont want to display current visitor in collaborators list
+        // Promise.all([db.query('SELECT * from collaborators WHERE map_id = $1 AND NOT user_id = $2', [map_id, req.session.userId]),
+        Promise.all([db.query('SELECT email FROM users WHERE id = (select user_id from collaborators WHERE map_id = $1 AND NOT user_id = $2)', [map_id, req.session.userId]),
+        db.query(`SELECT * FROM pins WHERE map_id = $1`, [map_id])]).then(values => {
+            const pin_data = values[1].rows;
+            const collaborator_data = values[0].rows;
+            const dataJSON = JSON.stringify({ map_data, pin_data, collaborator_data });
             res.render('edit_map', {dbResults: dataJSON, mapId: map_data.id, mapTitle: map_data.title, mapDescription: map_data.description, user: req.session.user });
           }
         );
@@ -47,6 +51,8 @@ module.exports = db => {
 
   router.post("/:id", (req,res) => {
     const userId = req.session.userId;
+    console.log(req.body)
+    const mapId = req.params.id;
     if (!userId) {
       return;
     }
@@ -57,12 +63,11 @@ module.exports = db => {
         res.status(500).json({ error: err.message });
       });
     updatePins(db, {pinTitle: req.body.pinTitle, pinId: req.body.pinId, pinDescription: req.body.pinDescription, imageUrl: req.body.imageUrl, active:true})
-    // updateCollaborators(db, mapId, req.body.collaborator);
-      // .catch(err => {
-      //   console.log(err);
-      //   res.status(500).json({ error: err.message });
-      // });
-  // });
+    updateCollaborators(db, mapId, req.body.collaborator)
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({ error: err.message });
+      });
   });
 
   router.get("/:id", (req, res) => {

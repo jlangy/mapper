@@ -13,12 +13,39 @@ for (const pin of pinData) {
 
 }
 
+const addCollaborators = (collaboratorData) => {
+  collaboratorData.forEach(emailObj => {
+    $('#collaborators-list')
+      .append($('<div>')
+        .append(
+          $('<input class="list-group-item" disabled></input>')
+            .val(emailObj.email)
+        )
+        .append($('<button>')
+          .on('click', function(){
+            const deletedEmail = $(this).siblings('input').val();
+            window.collaborators = window.collaborators.filter(email => email != deletedEmail);
+            $(this).siblings('input').remove();
+            $(this).remove();
+            console.log(window.collaborators);
+          })
+          .text('delete')
+      )
+    )
+  });
+}
+
 $(document).ready(() => {
-  window.collaborators = [];
+  console.log(window.collaborators);
+  addCollaborators(collaboratorData);
+
+  window.collaborators = collaboratorData.map(emailObj => emailObj.email);
   $('#add-collaborator-btn').on('click', (event) => {
     event.preventDefault();
     const collaborator = $('#collaborators-input').val();
-    $('#collaborators-list').append($('<input class="list-group-item" disabled></input>').val(collaborator));
+    //function expects objects in an array
+    addCollaborators([{email:collaborator}]);
+    // $('#collaborators-list').append($('<input class="list-group-item" disabled></input>').val(collaborator));
     window.collaborators.push(collaborator);
   });
 
