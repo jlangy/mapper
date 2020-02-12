@@ -13,6 +13,14 @@ for (const pin of pinData) {
   }
 }
 
+const fillMapForm= () => {
+  $('#map-form-title').val(mapData.title);
+  $('#map-form-description').val(mapData.description);
+  if(mapData.public){
+    $('#public-check').prop('checked', true);
+  }
+}
+
 $(document).ready(() => {
   //setup collaborator form slider
   if(collaboratorData.length === 0){
@@ -22,6 +30,8 @@ $(document).ready(() => {
   }
   addCollaboratorsSlider();
   addCollaborators(collaboratorData);
+
+  fillMapForm();
 
   window.collaborators = collaboratorData.map(emailObj => [emailObj.email, true]);
   $('#add-collaborator-btn').on('click', addCollaboratorHandler);

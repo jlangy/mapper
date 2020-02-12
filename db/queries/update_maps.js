@@ -12,6 +12,8 @@ const updateMap = (db, params) => {
         public = $4,
         default_lat = $5,
         default_long = $6
+      WHERE
+        id = $7
     ;`;
   return db.query(query, params);
 }

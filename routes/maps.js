@@ -59,7 +59,6 @@ module.exports = db => {
         db.query(`SELECT * FROM pins WHERE map_id = $1`, [map_id])]).then(values => {
             const pin_data = values[1].rows;
             const collaborator_data = values[0].rows;
-            console.log(collaborator_data);
             const dataJSON = JSON.stringify({ map_data, pin_data, collaborator_data });
             res.render('edit_map', {dbResults: dataJSON, mapId: map_data.id, mapTitle: map_data.title, mapDescription: map_data.description, user: req.session.user });
           }
@@ -74,7 +73,6 @@ module.exports = db => {
 
   router.post("/:id", (req,res) => {
     const userId = req.session.userId;
-    console.log("POST ")
     const mapId = req.params.id;
     if (!userId) {
       return;
@@ -82,7 +80,7 @@ module.exports = db => {
     const lat = req.body.mapLat ? req.body.mapLat : null;
     const lng = req.body.mapLng ? req.body.mapLng : null;
     //Add the map first (pins refers to map), then add all pins
-    updateMap(db, [req.body.title, req.body.description, req.body.collaborative, req.body.public, lat, lng])
+    updateMap(db, [req.body.title, req.body.description, req.body.collaborative, req.body.public, lat, lng, mapId])
       .catch(err => {
         console.log(err);
         res.status(500).json({ error: err.message });
@@ -130,7 +128,7 @@ module.exports = db => {
     const lng = req.body.mapLng ? req.body.mapLng : null;
     insertMap(db, [userId, req.body.title, req.body.description, lat, lng, req.body.collaborative, req.body.public])
       .then((data) => {
-        console.log(req.body);
+        console.log('FOUNDI T');
         const mapId = data.rows[0].id;
         insertPins(db, {userId, mapId, imageUrl: req.body.imageUrl, pinTitle: req.body.pinTitle, pinDescription: req.body.pinDescription, lat:req.body.lat, lng: req.body.lng, active:req.body.pinActive});
         insertCollaborators(db, mapId, req.body.collaborator);
