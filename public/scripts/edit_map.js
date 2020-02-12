@@ -130,6 +130,28 @@ $(document).ready(() => {
       zoom: 12,
       center: map_location
     }, pinInfoHTML);
+
+    if (navigator.geolocation && !mapData.default_lat) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        map.setCenter(pos);
+      }, function() {
+        handleLocationError(true, map.getCenter());
+      });
+    } else {
+      // Browser doesn't support Geolocation
+      handleLocationError(false, map.getCenter());
+    }
+
+    window.map = map;
+
+    function handleLocationError(browserHasGeolocation, pos) {
+      console.log('not fond');
+    }
+
     window.pins = [];
     // The pins
     for (const pin of pins) {
