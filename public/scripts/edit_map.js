@@ -24,7 +24,13 @@ const addCollaborators = (collaboratorData) => {
         .append($('<button>')
           .on('click', function(){
             const deletedEmail = $(this).siblings('input').val();
-            window.collaborators = window.collaborators.filter(email => email != deletedEmail);
+            window.collaborators = window.collaborators.map(collaborator => {
+              if(collaborator[0] === deletedEmail){
+                return [collaborator[0], false];
+              }
+              return collaborator;
+            });
+            // window.collaborators = window.collaborators.filter(email => email != deletedEmail);
             $(this).siblings('input').remove();
             $(this).remove();
             console.log(window.collaborators);
@@ -39,14 +45,27 @@ $(document).ready(() => {
   console.log(collaboratorData);
   addCollaborators(collaboratorData);
 
-  window.collaborators = collaboratorData.map(emailObj => emailObj.email);
+  window.collaborators = collaboratorData.map(emailObj => [emailObj.email, true]);
   $('#add-collaborator-btn').on('click', (event) => {
     event.preventDefault();
     const collaborator = $('#collaborators-input').val();
+    let exit = false;
+    let windowPush = true;
+    window.collaborators.forEach((collaboratorArr,i) => {
+      if(collaboratorArr[0] === collaborator){
+        if(collaboratorArr[1] === true){
+          exit = true;
+        } else {
+          window.collaborators[i][1] = true;
+          windowPush = false;
+        }
+      }
+    });
+    if(exit) return;
     //function expects objects in an array
     addCollaborators([{email:collaborator}]);
     // $('#collaborators-list').append($('<input class="list-group-item" disabled></input>').val(collaborator));
-    window.collaborators.push(collaborator);
+    if(windowPush) window.collaborators.push([collaborator, true]);
   });
 
   $('#new-map-form').on('submit', function(event){
