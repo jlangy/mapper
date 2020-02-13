@@ -1,3 +1,6 @@
+#map {
+  border: medium solid #4d4f50;
+}
 
 
 .map-display {
@@ -6,23 +9,38 @@
 }
 
 .map-title {
-  font-size: 30px;
+  font-size: 26px;
 }
 
-#map {
-  border: medium solid #4d4f50;
-}
 
-.map-info {
+.map-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: 20px;
+  margin-bottom: 20px;
+  padding-left: 0.5em;
+}
+
+.map-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  padding-bottom: 9em;
 }
 
 .map-description {
  font-size: 20px;
- padding-left: 1em;
+}
+
+.pins {
+  position: relative;
+  padding-top: 10px;
+  bottom: 180px;
 }
 
 .pins-display {
@@ -53,8 +71,7 @@ img {
 
 .favourite {
   font-size: 35px;
-  padding-right: 1em;
-  padding-left: 1em;
+  padding-right: 0.5em;
   color: rgb(48, 48, 48)
 }
 

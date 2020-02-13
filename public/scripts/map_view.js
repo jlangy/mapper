@@ -37,13 +37,13 @@ function initMap() {
           lat: position.coords.latitude,
           lng: position.coords.longitude
         };
-        map.setCenter(pos);
+        window.map.setCenter(pos);
       }, function() {
-        handleLocationError(true, map.getCenter());
+        handleLocationError(true, window.map.getCenter());
       });
     } else {
       // Browser doesn't support Geolocation
-      handleLocationError(false, map.getCenter());
+      handleLocationError(false, window.map.getCenter());
     }
 
     window.map = map;

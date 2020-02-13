@@ -3,40 +3,46 @@
   <main >
 
   <div class='map-display'>
-
-    <div class='map-title'><%-mapTitle%></div>
-    <div id="map"></div>
-    <div class='map-info'>
+    <div class='map-header'>
+      <div class='map-title'><%-mapTitle%></div>
+      <% if (favourite) { %>
+        <div class='like favourite'>
+      <% } else { %>
+        <div class='favourite'>
+      <% } %>
+        <i class="fas fa-heart"></i></div>
+    </div>
+    <div id='map'></div>
+    <div class='map-footer'>
       <div class='map-description'><%-mapDescription%></div>
       <div class='right-align-center'>
         <% if (user == mapOwner) { %>
           <a class="view btn btn-outline-dark my-2 my-sm-0" type="submit" href="/maps/<%=mapId%>/edit"><button>Edit</button></a>
         <% } %>
-        <% if (favourite) { %>
-          <div class='like favourite'>
-        <% } else { %>
-          <div class='favourite'>
-        <% } %>
-          <i class="fas fa-heart"></i></div>
       </div>
     </div>
   </div>
+</div>
 
     <br>
-    <% for (const pin of JSON.parse(dbResults)['pin_data']) { %>
-      <% if (pin.active) { %>
-      <div class='pins-display'>
-        <div>
-          <h3><%= pin.title %></h3>
-          <p><%= pin.description%></p>
+    <div class='pins'>
+      <% for (const pin of JSON.parse(dbResults)['pin_data']) { %>
+        <% if (pin.active) { %>
+        <div class='pins-display'>
+          <div>
+            <h3><%= pin.title %></h3>
+            <p><%= pin.description%></p>
+          </div>
+
+        <div class='pin-image'><img class='pin-image' src="<%=pin.image_url%>"></div>
+
         </div>
-
-      <div class='pin-image'><img class='pin-image' src="<%=pin.image_url%>"></div>
-
-      </div>
-    <% } %>
-    <% } %>
+      <% } %>
+      <% } %>
+    </div>
   </main>
+
+  <%- include partials/_foot.ejs %>
 
  <script>
   const dbData = <%- dbResults %>;
