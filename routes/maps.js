@@ -14,6 +14,7 @@ const updatePins = require('../db/queries/update_pins');
 const updateCollaborators = require('../db/queries/update_collaborators');
 const insertCollaborators = require('../db/queries/insert_collaborators');
 const updateFavourites = require('../db/queries/update_favourites');
+const api = process.env.API;
 
 module.exports = db => {
   // public maps browse route
@@ -119,15 +120,16 @@ module.exports = db => {
         console.log(err);
         res.status(500).json({ error: err.message });
       });
-    updatePins(db, {pinTitle: req.body.pinTitle,
+    updatePins(db, {pinTitle: req.body.pinTitle ? req.body.pinTitle : '',
                     mapId,
                     owner_id: userId,
                     lat: req.body.lat,
                     long: req.body.lng,
-                    pinDescription: req.body.pinDescription,
-                    imageUrl: req.body.imageUrl,
+                    pinDescription: req.body.pinDescription ? req.body.pinDescription : '',
+                    imageUrl: req.body.imageUrl ? req.body.imageUrl : '',
                     active:req.body.pinActive})
     updateCollaborators(db, mapId, req.body.email, req.body.active)
+    res.send(String(mapId));
       // .catch(err => {
       //   console.log(err);
       //   res.status(500).json({ error: err.message });
@@ -156,7 +158,8 @@ module.exports = db => {
                 mapDescription: map_data.description,
                 mapId: map_data.id, user: user_id,
                 mapOwner: map_data.owner_id,
-                favourite
+                favourite,
+                api_key: api
               });
             });
         });
@@ -176,10 +179,10 @@ module.exports = db => {
     const lng = req.body.mapLng ? req.body.mapLng : null;
     insertMap(db, [userId, req.body.title, req.body.description, lat, lng, req.body.collaborative, req.body.public])
       .then((data) => {
-        console.log('FOUNDI T');
         const mapId = data.rows[0].id;
         insertPins(db, {userId, mapId, imageUrl: req.body.imageUrl, pinTitle: req.body.pinTitle, pinDescription: req.body.pinDescription, lat:req.body.lat, lng: req.body.lng, active:req.body.pinActive});
         insertCollaborators(db, mapId, req.body.collaborator);
+        res.send(String(mapId));
       })
       .catch(err => {
         console.log(err);
