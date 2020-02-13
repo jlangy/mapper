@@ -1,15 +1,26 @@
+.browse-header {
+  display: flex;
+  background-image: url('/images/stock_map.png');
+  height: 150px;
+  width: 100vw;
+  text-align: center;
+  color: rgb(73, 73, 73);
+  justify-content: center;
+  align-items: center;
+  font-size: 40px;
+}
+
 .browse-maps {
   display: flex;
   flex-direction: column;
-
 }
 
 .map-article {
   display: flex;
   justify-content: space-between;
   align-content: center;
-  border: medium solid black;
-  border-radius: 7px;
+  border: thin solid black;
+  border-radius: 3px;
   padding:20px;
   margin: 10px;
 }

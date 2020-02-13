@@ -1,8 +1,11 @@
 /* Always set the map height explicitly to define the size of the div
   * element that contains the map. */
 #map {
-height: 100vw;
-width: 95vw;
+  display: inline-block;
+  height: 100vw;
+  width: 95vw;
+  text-align: center;
+  margin: auto;
 }
 /* Optional: Makes the sample page fill the window. */
 html, body {
@@ -15,6 +18,5 @@ main{
   display: flex;
   flex-direction: column;
   align-content: center;
-  width: 95vw;
   margin: auto;
 }
