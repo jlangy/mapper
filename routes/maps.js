@@ -33,7 +33,7 @@ module.exports = db => {
   //display my maps for logged in user
   router.get("/mymaps", (req, res) => {
     const userId = req.session.userId;
-    db.query(`SELECT * FROM maps WHERE owner_id = $1`, [userId])
+    db.query(`SELECT * FROM maps WHERE owner_id = $1 OR id IN (SELECT map_id FROM collaborators WHERE user_id = $1 AND active = true)`, [userId])
       .then(data => {
         const map_data = data.rows;
         const dataJSON = JSON.stringify(map_data);

@@ -71,3 +71,13 @@ $buttons-height: 10vh;
     justify-content: space-around;
   }
 }
+
+// layout for mobile
+@media only screen and (max-width: 480px){
+
+  .map-buttons {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+}

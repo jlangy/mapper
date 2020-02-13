@@ -14,5 +14,30 @@ module.exports = (db) => {
     req.session.userId = req.params.id;
     res.send(req.params.id);
   });
+
+  //profile page that shows my maps and favourite maps
+  router.get("/:id/profile", (req, res) => {
+    const userId = req.session.userId;
+    db.query(`SELECT name, avatar FROM users WHERE id = $1`, [userId])
+      .then(user => {
+        const username = user.rows[0].name;
+        const avatar = user.rows[0].avatar;
+        db.query(`SELECT * FROM maps WHERE owner_id = $1 OR id IN (SELECT map_id FROM collaborators WHERE user_id = $1 AND active = true)`, [userId])
+          .then(data => {
+            const myMaps = JSON.stringify(data.rows);
+            db.query(`SELECT * FROM maps WHERE id IN (SELECT map_id FROM favourites WHERE user_id = $1 AND active = true)`, [userId])
+              .then(data => {
+                const favouriteMaps = JSON.stringify(data.rows);
+
+                res.render('profile', { username, avatar, myMaps, favouriteMaps, user: userId});
+              })
+          })
+      })
+      .catch(err => {
+        res.status(500).json({ error: err.message });
+      });
+  });
+
+
   return router;
 };

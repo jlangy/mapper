@@ -1,0 +1,52 @@
+<%- include partials/_head.ejs%>
+
+<link rel="stylesheet" href="/styles/browse_maps.css" type="text/css">
+<link rel="stylesheet" href="/styles/queries.css" type="text/css">
+
+<%- include partials/_nav.ejs %>
+
+    <main>
+      <div class='browse-header'>
+      <h3><%= username%></h3>
+      <img src='<%= avatar %>'>
+      </div>
+
+      <br>
+      <h3>My Maps</h3>
+      <br>
+      <div class="browse-maps">
+        <% for (const map of JSON.parse(myMaps)) {%>
+        <div class="map-article">
+          <div>
+            <h3><%= map.title %></h3>
+            <p><%= map.description %></p>
+          </div>
+          <div class='map-buttons'>
+            <a class="view btn btn-outline-dark my-2 my-sm-0" type="submit" href="/maps/<%=map.id%>"><button>View</button></a>
+            <a class="view btn btn-outline-dark my-2 my-sm-0" type="submit" href="/maps/<%=map.id%>/edit"><button>Edit</button></a>
+          </div>
+        </div>
+      </div>
+        <% }%>
+      </div>
+      <br>
+      <h3>Favourite Maps</h3>
+      <br>
+      <div class="browse-maps">
+        <% for (const map of JSON.parse(favouriteMaps)) {%>
+        <div class="map-article">
+          <div>
+            <h3><%= map.title %></h3>
+            <p><%= map.description %></p>
+          </div>
+          <div class='map-buttons'>
+            <a class="view btn btn-outline-dark my-2 my-sm-0" type="submit" href="/maps/<%=map.id%>"><button>View</button></a>
+        </div>
+      </div>
+        <% }%>
+      </div>
+
+    </main>
+  <%- include partials/_foot.ejs %>
+  </body>
+</html>
