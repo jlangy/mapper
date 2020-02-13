@@ -1,17 +1,45 @@
 .page-footer {
- color: white;
- margin-top: 20px;
+  position: relative;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #27b2c7;
+  color: white;
+}
+
+.container {
+  height: 100px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer-logo {
+  width: auto;
+  height: 30px;
+  margin: 10px;
 }
 
 .social-icons {
   display: flex;
-  justify-content: center;
+  justify-content: right;
   align-items: center;
   color: white;
+}
+.fab {
+  font-size: 22px;
+  padding: 8px;
 }
 
 .foot-container {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.footer-copyright {
+  font-size: 10px;
+  padding-bottom: 10px;
 }

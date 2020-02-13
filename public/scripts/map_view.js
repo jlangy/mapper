@@ -15,42 +15,6 @@ function initMap() {
 
   const Pin = makePin();
   const PinMap = makePinMap();
-<<<<<<< HEAD
-  const pinInfoHTML = `
-  <div id="content">
-  <h5 id="infowindow-title" class="pinHeading"></h5>
-  <div id="infowindow-description">
-  <p></p>
-  </div>
-  <img id="infowindow-imageUrl">
-  </div>
-  `;
-
-    if (navigator.geolocation && !mapData.default_lat) {
-      navigator.geolocation.getCurrentPosition(function(position) {
-        var pos = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-        window.map.setCenter(pos);
-      }, function() {
-        handleLocationError(true, window.map.getCenter());
-      });
-    } else {
-      // Browser doesn't support Geolocation
-      handleLocationError(false, window.map.getCenter());
-    }
-
-    window.map = map;
-
-    function handleLocationError(browserHasGeolocation, pos) {
-      console.log('not fond');
-    }
-
-    // The pins
-    for (const pin of pins) {
-=======
->>>>>>> origin/master
 
   // The map
   addMap(PinMap, position, pinDisplayHTML(), mapData.default_lat);

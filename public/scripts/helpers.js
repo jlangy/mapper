@@ -1,10 +1,10 @@
 const pinDisplayHTML = () => {
   return `<div id="content">
+  <img id="infowindow-imageUrl">
   <h5 id="infowindow-title" class="pinHeading"></h5>
   <div id="infowindow-description">
   <p></p>
   </div>
-  <img id="infowindow-imageUrl">
   </div>
   `
 }
