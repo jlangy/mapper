@@ -1,19 +1,16 @@
 // See: https://sass-lang.com/
 
 body {
-  background-color: #eee a;
-}
-
-.nav-logo {
-  height: 50px;
-  width: 50px;
+  background-color: white;
 }
 
 #map {
   display: flex;
   justify-content: right;
-  height: 60%;
-  width: 60%;
+  height: 95vw;
+  width: 95vw;
+  margin:auto;
+  border: medium solid #4d4f50;
 }
 /* Optional: Makes the sample page fill the window. */
 html,
