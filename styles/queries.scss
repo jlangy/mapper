@@ -8,6 +8,15 @@ $buttons-height: 10vh;
     width: 50vw;
     background-color: white;
   }
+
+  #new-map-form{
+    top:100px;
+    position: fixed;
+    height: 300px;
+    width: 50vw;
+    background-color: white;
+  }
+
   .map-header{
     width: 100vw;
     height: 30px;
@@ -53,5 +62,12 @@ $buttons-height: 10vh;
     display: flex;
     flex-direction: column;
     margin-top: 40vh;
+  }
+  #new-map-form{
+    width: 50vw;
+    display: flex;
+    flex-direction: column;
+    margin-top: 150px;
+    justify-content: space-around;
   }
 }

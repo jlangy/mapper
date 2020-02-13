@@ -1,0 +1,46 @@
+</head>
+<body>
+  <header>
+    <nav class="navbar navbar-expand-md fixed-top navbar-light bg-info">
+      <a class="navbar-brand" href="/maps"><img class="nav-logo" src="/images/mapper_white_logo.png"/></a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div
+        class="collapse navbar-collapse"
+        style="justify-content: space-between"
+        id="navbarNavAltMarkup"
+      >
+        <div class="navbar-nav">
+          <a id='mymaps' class="nav-item nav-link" href="/maps/mymaps">My Maps</a>
+            <a id='myfavs'class="nav-item nav-link" href="/maps/favourites">My Favourites</a>
+            <a id='search'class="nav-item nav-link" href="#">Search</a>
+            <a id='create-new'class="nav-item nav-link" href="/maps/new">Create New Map</a>
+        </div>
+        <% if(user){ %>
+        <form
+          class="form-inline my-2 my-lg-0"
+          action="/logout?_method=PUT"
+          method="POST"
+        >
+          <span class="mr-2">Logged in as: <%= user.email %>!</span>
+          <button class="btn btn-outline-dark" type="submit">Logout</button>
+        </form>
+
+        <% } else { %>
+        <div class="navbar-nav">
+          <a class="nav-item nav-link" href="/login">Login</a>
+          <a class="nav-item nav-link" href="/register">Register</a>
+        </div>
+        <% } %>
+      </div>
+    </nav>
+  </header>

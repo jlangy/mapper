@@ -51,6 +51,7 @@ const makePin = () => {
       this.setInfowindowFields();
       $('#infowindow-form').off();
       $('#infowindow-form').on('keyup', this.savePinInfoBound);
+      $('#delete-pin').off();
       $('#delete-pin').on('click', this.deletePinBound);
     }
 
@@ -62,6 +63,7 @@ const makePin = () => {
 
     savePinInfo(event){
       const field = $(event.target).attr('name');
+      console.log(field);
       this[field] = $(event.target).val();
     }
     pinOpenInfoWindow(){

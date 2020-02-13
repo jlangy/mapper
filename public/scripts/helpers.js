@@ -101,7 +101,7 @@ const pinFormHTML = () => {
       </div>
       <div class="form-group">
         <label for="infowindow-imageUrl">Image URL</label>
-        <input type="text" class="form-control" id="infowindow-imageUrl" name='imageUrl' placeholder="https://www">
+        <input type="text" class="form-control" id="infowindow-imageUrl" style='height: unset; width: 100%' name='imageUrl' placeholder="https://www">
       </div>
       <button id='delete-pin' class='btn btn-danger'>Delete</button>
     </form>
@@ -111,15 +111,17 @@ const pinFormHTML = () => {
 const addCollaborators = (collaboratorData) => {
   collaboratorData.forEach(emailObj => {
     $('#collaborators-list')
-      .append($('<div class=collaborator-list-item-container>')
+      .append($('<div class="collaborator-list-item-container input-group">')
         .append(
           $('<input class="list-group-item" disabled></input>')
             .val(emailObj.email)
         )
-        .append($('<div>')
-          .addClass('btn btn-danger')
-          .on('click', deleteCollaboratorHandler)
-          .text('delete')
+        .append($('<div class="input-group-append">')
+          .append($('<div>')
+            .addClass('btn btn-danger')
+            .on('click', deleteCollaboratorHandler)
+            .text('delete')
+          )
       )
     )
   });

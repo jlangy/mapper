@@ -86,10 +86,12 @@ module.exports = db => {
             const pin_data = values[1].rows;
             const collaborator_data = values[0].rows;
             const dataJSON = JSON.stringify({ map_data, pin_data, collaborator_data });
+            console.log(map_data);
             res.render('edit_map', {
               dbResults: dataJSON,
               mapId: map_data.id,
               mapTitle: map_data.title,
+              mapPublic: map_data.public,
               mapDescription: map_data.description,
               user: req.session.user
             });

@@ -1,8 +1,15 @@
 <%- include partials/_head.ejs%>
 
+<link rel="stylesheet" href="/styles/queries.css" type="text/css">
+<link rel="stylesheet" href="/styles/new_map.css" type="text/css">
+
+<%- include partials/_nav.ejs %>
+
   <main>
 
-    <div id="map">
+    <div class="map-container">
+      <div id="map">
+      </div>
     </div>
 
     <form id='new-map-form'>
@@ -44,6 +51,7 @@
         </div>
       </div>
 
+
       <div class="form-group" id='collaborators-form'>
         <label for="collaborators-input">collaborators</label>
         <div class="add-collaborator input-group">
@@ -52,12 +60,12 @@
             <div id='add-collaborator-btn' class="btn btn-primary">add</div>
           </div>
         </div>
-        <ul id='collaborators-list' class="list-group">
-        </ul>
       </div>
-
+      <ul id='collaborators-list' class="list-group">
+      </ul>
 
       <button class='btn btn-primary' id='submit-map-btn' type='submit'>Submit</button>
+
 
     </form>
 

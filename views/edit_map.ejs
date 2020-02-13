@@ -1,9 +1,15 @@
 <%- include partials/_head.ejs%>
 
+<link rel="stylesheet" href="/styles/queries.css" type="text/css">
+<link rel="stylesheet" href="/styles/edit_map.css" type="text/css">
+
+<%- include partials/_nav.ejs %>
+
 
   <main>
-
-    <div id="map">
+    <div class="map-container">
+      <div id="map">
+      </div>
     </div>
 
     <form id='new-map-form'>
@@ -58,6 +64,21 @@
 
 
     </form>
+
+    <div class="pins">
+
+      <% for (const pin of JSON.parse(dbResults)['pin_data']) { %>
+        <% if (pin.active) { %>
+          <div class='pins-display' data-pin-id='<%= pin.id %>'>
+            <div>
+              <h3><%= pin.title %></h3>
+              <p><%= pin.description%></p>
+            </div>
+            <div class='pin-image'><img class='pin-image' src="<%=pin.image_url%>"></div>
+          </div>
+        <% } %>
+      <% } %>
+    </div>
 
   </main>
 

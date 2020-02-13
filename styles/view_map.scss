@@ -11,6 +11,9 @@
 
 #map {
   border: medium solid #4d4f50;
+  height: 100vw;
+  width: 95vw;
+  margin: auto;
 }
 
 .map-info {
@@ -55,7 +58,7 @@ img {
   font-size: 35px;
   padding-right: 1em;
   padding-left: 1em;
-  color: rgb(48, 48, 48)
+  color: rgb(48, 48, 48);
 }
 
 .like {
