@@ -13,6 +13,7 @@ const updateMap = require('../db/queries/update_maps');
 const updatePins = require('../db/queries/update_pins');
 const updateCollaborators = require('../db/queries/update_collaborators');
 const insertCollaborators = require('../db/queries/insert_collaborators');
+const updateFavourites = require('../db/queries/update_favourites');
 
 module.exports = db => {
   // public maps browse route
@@ -22,7 +23,7 @@ module.exports = db => {
       .then(data => {
         const map_data = data.rows;
        const dataJSON = JSON.stringify(map_data);
-       res.render('browse_maps', {dbData: dataJSON, user: userId, mapOwner: null});
+       res.render('browse_maps', {dbData: dataJSON, user: userId, mapType: 'public'});
       })
       .catch(err => {
         res.status(500).json({ error: err.message });
@@ -36,9 +37,34 @@ module.exports = db => {
       .then(data => {
         const map_data = data.rows;
         const dataJSON = JSON.stringify(map_data);
-       res.render('browse_maps', {dbData: dataJSON, user: userId, mapOwner: map_data[0].owner_id});
+       res.render('browse_maps', {dbData: dataJSON, user: userId, mapType: 'myMaps'});
       })
       .catch(err => {
+        res.status(500).json({ error: err.message });
+      })
+  });
+
+  // display my favourite maps for logged in user
+  router.get("/favourites", (req, res) => {
+    const userId = req.session.userId;
+    db.query(`SELECT * FROM maps WHERE id IN (SELECT map_id FROM favourites WHERE user_id = $1 AND active = true)`, [userId])
+      .then(data => {
+        const map_data = data.rows;
+        const dataJSON = JSON.stringify(map_data);
+        res.render('browse_maps', {dbData: dataJSON, user: userId, mapType: 'favourites'});
+      })
+      .catch(err => {
+        res.status(500).json({ error: err.message });
+      })
+  });
+  // update favourites list for logged in user
+  router.post('/favourites', (req, res) => {
+    const user_id = req.session.userId;
+    const map_id = req.body.mapId;
+    const favourite = (req.body.fav === 'true' ? true : false );
+    updateFavourites(db, [user_id, map_id, favourite])
+      .catch(err => {
+        console.log(err);
         res.status(500).json({ error: err.message });
       })
   });
@@ -60,7 +86,13 @@ module.exports = db => {
             const pin_data = values[1].rows;
             const collaborator_data = values[0].rows;
             const dataJSON = JSON.stringify({ map_data, pin_data, collaborator_data });
-            res.render('edit_map', {dbResults: dataJSON, mapId: map_data.id, mapTitle: map_data.title, mapDescription: map_data.description, user: req.session.user });
+            res.render('edit_map', {
+              dbResults: dataJSON,
+              mapId: map_data.id,
+              mapTitle: map_data.title,
+              mapDescription: map_data.description,
+              user: req.session.user
+            });
           }
         )     .catch(err => {
           res.status(500).json({ error: err.message });
@@ -102,16 +134,30 @@ module.exports = db => {
 
   router.get("/:id", (req, res) => {
     const map_id = req.params.id;
+    const user_id = req.session.userId;
     db.query(`SELECT * FROM maps WHERE id = $1`, [map_id])
       .then(data => {
         const map_data = data.rows[0];
-        db.query(`SELECT * FROM pins WHERE map_id = $1`, [map_id]).then(
-          pins => {
-            const pin_data = pins.rows;
-            const dataJSON = JSON.stringify({ map_data, pin_data });
-            res.render('map_id', {dbResults: dataJSON, mapTitle: map_data.title, mapDescription: map_data.description, mapId: map_data.id, user: req.session.userId, mapOwner: map_data.owner_id});
-          }
-        );
+        db.query(`SELECT * FROM pins WHERE map_id = $1`, [map_id])
+        .then(pins => {
+          const pin_data = pins.rows;
+            db.query(`SELECT active FROM favourites WHERE map_id = $1 AND user_id = $2`, [map_id, user_id])
+            .then(info => {
+              let favourite = false;
+              if (info.rows[0]) {
+                favourite = info.rows[0].active;
+              }
+              const dataJSON = JSON.stringify({ map_data, pin_data });
+              res.render('map_id', {
+                dbResults: dataJSON,
+                mapTitle: map_data.title,
+                mapDescription: map_data.description,
+                mapId: map_data.id, user: user_id,
+                mapOwner: map_data.owner_id,
+                favourite
+              });
+            });
+        });
       })
       .catch(err => {
         res.status(500).json({ error: err.message });

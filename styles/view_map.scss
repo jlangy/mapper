@@ -22,6 +22,7 @@
 
 .map-description {
  font-size: 20px;
+ padding-left: 1em;
 }
 
 .pins-display {
@@ -48,3 +49,21 @@ img {
  height: 150px;
 
 }
+
+
+.favourite {
+  font-size: 35px;
+  padding-right: 1em;
+  padding-left: 1em;
+  color: rgb(48, 48, 48)
+}
+
+.like {
+  color: red;
+}
+
+.right-align-center {
+  display: flex;
+  flex-direction: row;
+}
+
