@@ -16,13 +16,13 @@
       </button>
       <div
         class="collapse navbar-collapse"
-        style="justify-content: space-between"
+        style="justify-content: flex-end"
         id="navbarNavAltMarkup"
       >
         <div class="navbar-nav">
-          <a id='mymaps' class="nav-item nav-link" href="/maps/mymaps">My Maps</a>
-            <a id='myfavs'class="nav-item nav-link" href="/maps/favourites">My Favourites</a>
-            <a id='search'class="nav-item nav-link" href="#">Search</a>
+          <!-- <a id='mymaps' class="nav-item nav-link" href="/maps/mymaps">My Maps</a>
+            <a id='myfavs'class="nav-item nav-link" href="/maps/favourites">My Favourites</a> -->
+            <a id='search'class="nav-item nav-link" href="/users/<%=user%>/profile">Profile</a>
             <a id='create-new'class="nav-item nav-link" href="/maps/new">Create New Map</a>
         </div>
         <% if(user){ %>
@@ -31,8 +31,7 @@
           action="/logout?_method=PUT"
           method="POST"
         >
-          <span class="mr-2">Logged in as: <%= user.email %>!</span>
-          <button class="btn btn-outline-dark" type="submit">Logout</button>
+          <button class="btn btn-outline-light" type="submit">Logout</button>
         </form>
 
         <% } else { %>

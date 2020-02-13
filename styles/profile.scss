@@ -1,0 +1,17 @@
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-image {
+  background-color: white;
+}
+
+.profile-section {
+  display: flex;
+  justify-content: center;
+  padding: 15px;
+  font-size: 35px;
+}

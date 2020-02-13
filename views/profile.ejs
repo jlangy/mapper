@@ -2,18 +2,19 @@
 
 <link rel="stylesheet" href="/styles/browse_maps.css" type="text/css">
 <link rel="stylesheet" href="/styles/queries.css" type="text/css">
+<link rel="stylesheet" href="/styles/profile.css" type="text/css">
 
 <%- include partials/_nav.ejs %>
 
     <main>
-      <div class='browse-header'>
-      <h3><%= username%></h3>
-      <img src='<%= avatar %>'>
+      <div class='browse-header profile-header'>
+        <div><img class='profile-image' src='<%= avatar %>'></div>
+        <div><%= username%></div>
       </div>
 
-      <br>
-      <h3>My Maps</h3>
-      <br>
+
+      <div class='profile-section'>My Maps</div>
+
       <div class="browse-maps">
         <% for (const map of JSON.parse(myMaps)) {%>
         <div class="map-article">
@@ -29,9 +30,9 @@
       </div>
         <% }%>
       </div>
-      <br>
-      <h3>Favourite Maps</h3>
-      <br>
+
+      <div class='profile-section'>Favourite Maps</div>
+
       <div class="browse-maps">
         <% for (const map of JSON.parse(favouriteMaps)) {%>
         <div class="map-article">
