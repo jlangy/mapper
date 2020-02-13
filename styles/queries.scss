@@ -4,7 +4,7 @@ $buttons-height: 10vh;
   .map-display{
     top:100px;
     position: fixed;
-    height: 300px;
+    z-index: 1;
     width: 50vw;
     background-color: white;
   }
@@ -40,7 +40,10 @@ $buttons-height: 10vh;
   }
   nav{
     height: 100px !important;
+    width: 100vw !important;
+    z-index: 1;
     margin: 0;
+    position: fixed !important;
   }
   #map{
     width: 100%;
@@ -62,6 +65,7 @@ $buttons-height: 10vh;
     display: flex;
     flex-direction: column;
     margin-top: 40vh;
+    min-height: 70vh;
   }
   #new-map-form{
     width: 50vw;
@@ -69,5 +73,9 @@ $buttons-height: 10vh;
     flex-direction: column;
     margin-top: 150px;
     justify-content: space-around;
+  }
+  .page-footer{
+    width: 100vw;
+    z-index: 1;
   }
 }
