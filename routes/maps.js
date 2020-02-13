@@ -148,6 +148,7 @@ module.exports = db => {
                 favourite = info.rows[0].active;
               }
               const dataJSON = JSON.stringify({ map_data, pin_data });
+              console.log(map_data)
               res.render('map_id', {
                 dbResults: dataJSON,
                 mapTitle: map_data.title,
