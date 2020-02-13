@@ -44,6 +44,7 @@ $(document).ready(() => {
   });
 
   $('.pins-display').mouseenter(function(event){
+    event.preventDefault();
     const pinId = $(event.target).attr('data-pin-id');
     const hoverPin = window.pinObjs.filter(pin => pin.id == pinId)[0];
     hoverPin.displayInfo();

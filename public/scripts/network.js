@@ -2,7 +2,10 @@ function saveMap(data){
   $.ajax({
     url: '/maps' ,
     method: 'POST',
-    data
+    data,
+    complete: function(res){
+      window.location.href = `/maps/${res.responseText}`;
+    }
   });
 }
 
@@ -10,6 +13,9 @@ function updateMap(id, data){
   $.ajax({
     method: 'POST',
     url: `/maps/${id}`,
-    data
+    data,
+    complete: function(res){
+      window.location.href = `/maps/${res.responseText}`;
+    }
   })
 }
