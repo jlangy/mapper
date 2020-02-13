@@ -9,7 +9,11 @@ const updateMap = (db, params) => {
         description = $2,
         edited_at = NOW(),
         collaborative = $3,
-        public = $4
+        public = $4,
+        default_lat = $5,
+        default_long = $6
+      WHERE
+        id = $7
     ;`;
   return db.query(query, params);
 }

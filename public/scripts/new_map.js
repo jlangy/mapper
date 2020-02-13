@@ -1,43 +1,19 @@
 $(document).ready(() => {
+
+  //Setup form sliding
   $('#collaborators-form').hide();
   addCollaboratorsSlider();
 
   window.collaborators = [];
-  $('#info-log').on('click', () => {
-    window.pins.forEach(pin => {
-      console.log(`title: ${pin.title}, description: ${pin.description}, imgUrl: ${null}, `)
-    })
-  });
-
-  $('#add-collaborator-btn').on('click', (event) => {
-    event.preventDefault();
-    const collaborator = $('#collaborators-input').val();
-    let exit = false;
-    let windowPush = true;
-    window.collaborators.forEach((collaboratorArr,i) => {
-      if(collaboratorArr[0] === collaborator){
-        if(collaboratorArr[1] === true){
-          exit = true;
-        } else {
-          window.collaborators[i][1] = true;
-          windowPush = false;
-        }
-      }
-    });
-    if(exit) return;
-    //function expects objects in an array
-    addCollaborators([{email:collaborator}]);
-    // $('#collaborators-list').append($('<input class="list-group-item" disabled></input>').val(collaborator));
-    if(windowPush) window.collaborators.push([collaborator, true]);
-  });
+  $('#add-collaborator-btn').on('click', addCollaboratorHandler);
 
   $('#new-map-form').on('submit', function(event){
     event.preventDefault();
+
+    //data includes mapinfo, pinInfo, and collaborator info
     let data = $(this).serialize();
-    data += getMapCenter();
+    data += getMapCenterEncoded();
     for (pin of window.pins){
-      //encodeURIComponent sanitizes data, the pins will come through
-      //3 arrays, pinTitle, pinDescription, imageUrl in order
       data += `&pinActive=${encodeURIComponent(pin.active)}&pinTitle=${encodeURIComponent(pin.title)}&pinDescription=${encodeURIComponent(pin.description)}&imageUrl=${encodeURIComponent(pin.imageUrl)}&lat=${encodeURIComponent(pin.getPosition().lat())}&lng=${encodeURIComponent(pin.getPosition().lng())}`
     }
     for (collaborator of window.collaborators){
@@ -49,107 +25,15 @@ $(document).ready(() => {
   });
 });
 
-const getMapCenter = function(){
-  if($('#maps-center-option').prop('checked') === true){
-    const pos = window.map.getCenter();
-    console.log(pos)
-    return `&mapLat=${encodeURIComponent(pos.lat())}&mapLng=${encodeURIComponent(pos.lng())}`
-  } else {
-    return `&mapLat=&mapLng=`
-  }
-}
-
-const addCollaboratorsSlider = () => {
-  $('#collaborative-check').on('click', function(){
-    $('#collaborators-form').slideToggle();
-    if($(this).prop('checked') === false){
-      $('#collaborators-list').empty();
-      window.collaborators = window.collaborators.map(collaborator => [collaborator[0], false]);
-    }
-  });
-}
-
-const addCollaborators = (collaboratorData) => {
-  collaboratorData.forEach(emailObj => {
-    $('#collaborators-list')
-      .append($('<div class=collaborator-list-item-container>')
-        .append(
-          $('<input class="list-group-item" disabled></input>')
-            .val(emailObj.email)
-        )
-        .append($('<button>')
-          .addClass('btn btn-danger')
-          .on('click', function(){
-            const deletedEmail = $(this).siblings('input').val();
-            window.collaborators = window.collaborators.map(collaborator => {
-              if(collaborator[0] === deletedEmail){
-                return [collaborator[0], false];
-              }
-              return collaborator;
-            });
-            // window.collaborators = window.collaborators.filter(email => email != deletedEmail);
-            $(this).siblings('input').remove();
-            $(this).remove();
-          })
-          .text('delete')
-      )
-    )
-  });
-}
-
-const pinFormHTML =
-` <form id='infowindow-form'>
-    <div class="form-group">
-      <label for="infowindow-title">Title</label>
-      <input type="text" class="form-control" id="infowindow-title" name='title' placeholder="Title">
-    </div>
-    <div class="form-group">
-      <label for="infowindow-description">Description</label>
-      <textarea type="text" class="form-control" id="infowindow-description" name='description'></textarea>
-    </div>
-    <div class="form-group">
-      <label for="infowindow-imageUrl">Image URL</label>
-      <input type="text" class="form-control" id="infowindow-imageUrl" name='imageUrl' placeholder="https://www">
-    </div>
-    <button id='delete-pin' class='btn btn-danger'>Delete</button>
-  </form>
-`;
-
 function initMap(){
-  //currently putting class on window. Not sure if bad practice or not
-  //but needs to be accessible to pinmap click listener
+
   window.Pin = makePin();
   const PinMap = makePinMap();
-
-  //For logging out info during developement, put pins on window
   window.pins = [];
-  const map = new PinMap(document.getElementById('map'), {
-    //Defaults to victoria if navigator not allowed
-    center: {lat: 28.4261,  lng: - 123.3642},
-    zoom: 8
-  }, pinFormHTML);
 
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(position) {
-      var pos = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      };
-      map.setCenter(pos);
-    }, function() {
-      handleLocationError(true, map.getCenter());
-    });
-  } else {
-    // Browser doesn't support Geolocation
-    handleLocationError(false, map.getCenter());
-  }
+  addMap(PinMap, {lat: 48.4261,  lng: - 123.3642}, pinFormHTML(), false);
 
   window.map = map;
-
-  function handleLocationError(browserHasGeolocation, pos) {
-    console.log('not fond');
-  }
-
   map.addListener('click', map.handleMapClick);
 }
 

@@ -85,7 +85,6 @@ module.exports = db => {
         db.query(`SELECT * FROM pins WHERE map_id = $1`, [map_id])]).then(values => {
             const pin_data = values[1].rows;
             const collaborator_data = values[0].rows;
-            console.log(collaborator_data);
             const dataJSON = JSON.stringify({ map_data, pin_data, collaborator_data });
             res.render('edit_map', {
               dbResults: dataJSON,
@@ -110,20 +109,14 @@ module.exports = db => {
     if (!userId) {
       return;
     }
+    const lat = req.body.mapLat ? req.body.mapLat : null;
+    const lng = req.body.mapLng ? req.body.mapLng : null;
     //Add the map first (pins refers to map), then add all pins
-    updateMap(db, [req.body.title, req.body.description, req.body.collaborative, req.body.public])
+    updateMap(db, [req.body.title, req.body.description, req.body.collaborative, req.body.public, lat, lng, mapId])
       .catch(err => {
         console.log(err);
         res.status(500).json({ error: err.message });
       });
-      console.log(req.body.pinTitle,
-        req.body.lat,
-        req.body.lng,
-        req.body.pinId,
-        req.body.pinDescription,
-        req.body.imageUrl,
-        req.body.pinActive
-            )
     updatePins(db, {pinTitle: req.body.pinTitle,
                     mapId,
                     owner_id: userId,
@@ -155,6 +148,7 @@ module.exports = db => {
                 favourite = info.rows[0].active;
               }
               const dataJSON = JSON.stringify({ map_data, pin_data });
+              console.log(map_data)
               res.render('map_id', {
                 dbResults: dataJSON,
                 mapTitle: map_data.title,
@@ -181,7 +175,7 @@ module.exports = db => {
     const lng = req.body.mapLng ? req.body.mapLng : null;
     insertMap(db, [userId, req.body.title, req.body.description, lat, lng, req.body.collaborative, req.body.public])
       .then((data) => {
-        console.log(req.body);
+        console.log('FOUNDI T');
         const mapId = data.rows[0].id;
         insertPins(db, {userId, mapId, imageUrl: req.body.imageUrl, pinTitle: req.body.pinTitle, pinDescription: req.body.pinDescription, lat:req.body.lat, lng: req.body.lng, active:req.body.pinActive});
         insertCollaborators(db, mapId, req.body.collaborator);

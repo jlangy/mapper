@@ -20,7 +20,7 @@ const insertPins = (db, params) => {
     //If A single pin insert, else map has no pins and skip
     if(params.pinTitle){
       db.query(pinsQuery + '($1, $2, $3, $4, $5, $6, $7, NOW(), NOW(), $8)',
-      [params.userId, params.mapId, params.pinTitle, params.pinDescription, params.lat, params.lng, params.imageUr, params.active]);
+      [params.userId, params.mapId, params.pinTitle, params.pinDescription, params.lat, params.lng, params.imageUrl, params.active]);
     }
   } else{
     //Multiple pins. Loop through arrays, building query values and parameters
@@ -28,10 +28,11 @@ const insertPins = (db, params) => {
     const pinParams = [];
     params.pinTitle.forEach((pin, i) => {
       pinQueries.push(pinsQuery + '($1, $2, $3, $4, $5, $6, $7, NOW(), NOW(), $8);');
-      pinParams.push([params.userId, params.mapId, params.pinTitle[i], params.pinDescription[i], params.lat[i], params.lng[i], params.active]);
+      pinParams.push([params.userId, params.mapId, params.pinTitle[i], params.pinDescription[i], params.lat[i], params.lng[i], params.imageUrl[i], params.active[i]]);
     });
     //run all queries, no need to do it sequentially
     pinQueries.forEach((pinQuery,i) => {
+      console.log(pinParams[i]);
       db.query(pinQuery, pinParams[i]);
     });
   }

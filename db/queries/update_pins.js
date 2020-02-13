@@ -17,7 +17,8 @@ const updatePins = (db, params) => {
     //If A single pin insert, else map has no pins and skip
     if(params.pinTitle){
       db.query(pinsQuery,
-      [params.owner_id, params.mapId, params.pinTitle, params.pinDescription, params.lat, params.long, params.imageUrl, params.active]);
+      [params.owner_id, params.mapId, params.pinTitle, params.pinDescription, params.lat, params.long, params.imageUrl, params.active])
+        .catch(err => console.error(err))
     }
   } else{
     //Multiple pins. Loop through arrays, building query values and parameters
@@ -27,7 +28,8 @@ const updatePins = (db, params) => {
     });
     //run all queries, no need to do it sequentially
     pinParams.forEach((pinQuery,i) => {
-      db.query(pinsQuery, pinParams[i]);
+      db.query(pinsQuery, pinParams[i])
+        .catch(err => console.error(err))
     });
   }
 }
