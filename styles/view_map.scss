@@ -1,3 +1,6 @@
+#map {
+  border: medium solid #4d4f50;
+}
 
 
 .map-display {
@@ -6,23 +9,37 @@
 }
 
 .map-title {
-  font-size: 30px;
+  font-size: 26px;
 }
 
-#map {
-  border: medium solid #4d4f50;
-}
 
-.map-info {
+.map-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: 20px;
+  margin-bottom: 20px;
+  padding-left: 0.5em;
+}
+
+.map-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  padding-bottom: 1em;
 }
 
 .map-description {
  font-size: 20px;
- padding-left: 1em;
+}
+
+.pins {
+  position: relative;
+  padding-top: 10px;
 }
 
 .pins-display {
@@ -38,6 +55,7 @@
 .pin-image {
   height: 150px;
   width: 150px;
+  margin-left: 10px;
 }
 
 img {
@@ -53,8 +71,7 @@ img {
 
 .favourite {
   font-size: 35px;
-  padding-right: 1em;
-  padding-left: 1em;
+  padding-right: 0.5em;
   color: rgb(48, 48, 48)
 }
 
@@ -65,5 +82,24 @@ img {
 .right-align-center {
   display: flex;
   flex-direction: row;
+}
+
+#infowindow-imageUrl {
+  display: relative;
+  top: 0;
+  left:0;
+  width: 100%;
+  height: auto;
+}
+
+#infowindow-title {
+  padding: 10px;
+}
+
+#infowindow-description {
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  word-wrap: break-word;
 }
 

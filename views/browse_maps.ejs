@@ -1,33 +1,33 @@
 <%- include partials/_head.ejs%>
 
-    <main>
-      <br>
-
+  <main>
+    <div class='browse-header'>
       <% if (mapType === 'myMaps') { %>
-        <h2>Your Maps:</h2>
+        <span>Your Maps</span>
       <% } else if (mapType === 'favourites') { %>
-        <h2>Your Favourite Maps:</h2>
+        <span>Favourite Maps</span>
       <% } else { %>
-        <h2>Public Maps:</h2>
+        <span>Public Maps</h2>
       <% } %>
-
-      <div class="browse-maps">
-        <% for (const map of JSON.parse(dbData)) {%>
-          <div class="map-article">
-            <div>
+    </div>
+    <div class="browse-maps">
+      <% for (const map of JSON.parse(dbData)) {%>
+      <div class="map-article">
+        <div>
           <h3><%= map.title %></h3>
           <p><%= map.description %></p>
         </div>
-          <div class='map-buttons'>
-            <a class="view btn btn-outline-dark my-2 my-sm-0" type="submit" href="/maps/<%=map.id%>"><button>View</button></a>
-            <% if (mapType === 'myMaps') { %>
-              <a class="view btn btn-outline-dark my-2 my-sm-0" type="submit" href="/maps/<%=map.id%>/edit"><button>Edit</button></a></div>
-            <% } %>
-          </div>
+        <div class='map-buttons'>
+          <a class="view btn btn-outline-dark my-2 my-sm-0" type="submit" href="/maps/<%=map.id%>"><button>View</button></a>
+          <% if (mapType === 'myMaps') { %>
+          <a class="view btn btn-outline-dark my-2 my-sm-0" type="submit" href="/maps/<%=map.id%>/edit"><button>Edit</button></a>
         </div>
-        <% }%>
-
+          <% } %>
       </div>
+    </div>
+      <% }%>
+    </div>
     </main>
+  <%- include partials/_foot.ejs %>
   </body>
 </html>
