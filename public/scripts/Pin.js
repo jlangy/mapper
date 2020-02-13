@@ -15,7 +15,6 @@ const makePin = () => {
       this.setInfowindowFieldsBound = this.setInfowindowFields.bind(this);
       this.pinOpenInfoWindowBound = this.pinOpenInfoWindow.bind(this);
       this.deletePinBound = this.deletePin.bind(this);
-
     }
 
     //Opens the infowindow on click and makes the form
