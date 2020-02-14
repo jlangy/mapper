@@ -1,6 +1,26 @@
 $nav-height: 10vh;
 $buttons-height: 10vh;
 @media only screen and (min-width: 1000px){
+
+  header {
+    position: fixed;
+    top:0;
+  }
+
+  body {
+    position: relative;
+    padding-bottom: 85px;
+  }
+
+  .browse-header {
+    margin-top: 100px;
+  }
+
+  // .browse-maps {
+  //   position: relative;
+  //   top: 100px;
+  // }
+
   .map-display{
     top:100px;
     position: fixed;
@@ -43,16 +63,18 @@ $buttons-height: 10vh;
     width: 100vw !important;
     z-index: 1;
     margin: 0;
-    position: fixed !important;
+
+    // position: fixed !important;
   }
+
   #map{
     width: 100%;
     height: 100%;
   }
   .map-container{
     height: 85vh;
-    top: 15vh;
-    width: 42vw;
+    top: 97px;
+    width: 50vw;
     position:fixed;
     right:0;
   }
@@ -68,15 +90,18 @@ $buttons-height: 10vh;
     min-height: 70vh;
   }
   #new-map-form{
-    width: 50vw;
+    width: 45vw;
     display: flex;
+    position: relative;
     flex-direction: column;
-    margin-top: 150px;
+    top: 120px;
     justify-content: space-around;
   }
   .page-footer{
+    position: absolute;
     width: 100vw;
-    z-index: 1;
+    bottom: 0;
+
   }
   .map-footer{
     margin: 0;

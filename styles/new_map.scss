@@ -1,12 +1,6 @@
 /* Always set the map height explicitly to define the size of the div
   * element that contains the map. */
-#map {
-  display: inline-block;
-  height: 100vw;
-  width: 95vw;
-  text-align: center;
-  margin: auto;
-}
+
 /* Optional: Makes the sample page fill the window. */
 html, body {
   height: 100%;
@@ -18,4 +12,8 @@ main{
   flex-direction: column;
   align-content: center;
   margin: auto;
+}
+
+#new-map-form {
+  margin: 3vw;
 }
