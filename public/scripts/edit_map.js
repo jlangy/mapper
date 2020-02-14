@@ -27,6 +27,7 @@ $(document).ready(() => {
     $('#collaborators-form').hide();
   } else {
     $('#collaborative-check').prop('checked', true);
+    $('.pins').css('margin-top', `600px`);
   }
   addCollaboratorsSlider();
   addCollaborators(collaboratorData);

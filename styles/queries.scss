@@ -30,18 +30,19 @@ $buttons-height: 10vh;
     background-color: white;
   }
 
-  #new-map-form{
-    height: 300px;
-    width: 50vw;
-    background-color: white;
-    padding: 1em;
-    margin-top: 11em;
-    display: flex;
-    flex-direction: column;
-    top: 180px;
-    justify-content: space-around;
-    z-index: 2;
-  }
+  //COMMENTED OUT FOR EDIT FORM. CAN PUT BACK INTO NEW FORM SHEET IF NEEDED
+  // #new-map-form{
+  //   height: 300px;
+  //   width: 50vw;
+  //   background-color: white;
+  //   padding: 1em;
+  //   margin-top: 11em;
+  //   display: flex;
+  //   flex-direction: column;
+  //   top: 180px;
+  //   justify-content: space-around;
+  //   z-index: 2;
+  // }
 
   #edit-form {
     background-color: white;
@@ -94,15 +95,15 @@ $buttons-height: 10vh;
     grid-row: 2;
     grid-column: 1;
   }
-  .pins {
-    width: 50vw;
-    display: flex;
-    flex-direction: column;
-    margin-top: 17vh;
-    margin-bottom: 10vh;
-    min-height: 70vh;
+  // .pins {
+  //   width: 50vw;
+  //   display: flex;
+  //   flex-direction: column;
+  //   margin-top: 17vh;
+  //   margin-bottom: 10vh;
+  //   min-height: 70vh;
 
-  }
+  // }
   .page-footer{
     position: fixed;
     width: 100vw;
