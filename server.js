@@ -2,7 +2,8 @@
 require("dotenv").config();
 
 // Web server config
-const PORT = process.env.PORT || 8080;
+// const PORT = process.env.DB_PORT || 3000;
+const PORT = 3000;
 const ENV = process.env.ENV || "development";
 const express = require("express");
 const bodyParser = require("body-parser");

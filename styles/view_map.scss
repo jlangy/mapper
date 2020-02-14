@@ -97,16 +97,25 @@ img {
 
 @media only screen and (min-width: 1000px){
 
+
+  .pins {
+    width: 47vw;
+    margin: .75em;
+    margin-top: 12em
+  }
   .view.btn {
     position: relative;
     right: 51vw;
     top: 16px;
   }
-
   .favourite {
     position: relative;
     right: 56vw;
 
+  }
+  .page-footer {
+    position: absolute;
+    bottom:0;
   }
 
 }

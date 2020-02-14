@@ -17,3 +17,23 @@ main{
 #new-map-form {
   margin: 3vw;
 }
+
+@media only screen and (min-width: 1000px){
+  .page-footer {
+    position: absolute;
+    bottom:0;
+  }
+
+  #new-map-form{
+    height: 300px;
+    width: 45vw;
+    background-color: white;
+    margin: 1em;
+    margin-top: 4em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    z-index: 2;
+  }
+
+}

@@ -2,46 +2,44 @@ $nav-height: 10vh;
 $buttons-height: 10vh;
 @media only screen and (min-width: 1000px){
 
-  header {
-    position: fixed;
-    top:0;
-    z-index: 1;
-  }
-
-  body {
-    position: relative;
-    padding-bottom: 85px;
-  }
-
-  .browse-header {
-    margin-top: 100px;
-  }
-
-  // .browse-maps {
-  //   position: relative;
-  //   top: 100px;
+  // header {
+  //   position: fixed;
+  //   top:0;
+  //   z-index: 1;
   // }
+
+  // html {
+  //   height: 100%;
+  // }
+
+  // body {
+  //   height: 100%;
+  //   position: relative;
+  //   overflow: auto
+  // }
+
+
 
   .map-display{
     top:100px;
-    position: fixed;
+    position: absolute;
     z-index: 1;
     width: 50vw;
     background-color: white;
   }
 
-  #new-map-form{
-    height: 300px;
-    width: 50vw;
-    background-color: white;
-    padding: 1em;
-    margin-top: 11em;
-    display: flex;
-    flex-direction: column;
-    top: 180px;
-    justify-content: space-around;
-    z-index: 2;
-  }
+  // #new-map-form{
+  //   height: 300px;
+  //   width: 50vw;
+  //   background-color: white;
+  //   padding: 1em;
+  //   margin-top: 11em;
+  //   display: flex;
+  //   flex-direction: column;
+  //   top: 180px;
+  //   justify-content: space-around;
+  //   z-index: 2;
+  // }
 
   #edit-form {
     background-color: white;
@@ -94,24 +92,24 @@ $buttons-height: 10vh;
     grid-row: 2;
     grid-column: 1;
   }
-  .pins {
-    width: 50vw;
-    display: flex;
-    flex-direction: column;
-    margin-top: 17vh;
-    margin-bottom: 10vh;
-    min-height: 70vh;
+  // .pins {
+  //   width: 50vw;
+  //   display: flex;
+  //   flex-direction: column;
+  //   margin-top: 17vh;
+  //   margin-bottom: 10vh;
+  //   min-height: 70vh;
 
-  }
-  .page-footer{
-    position: fixed;
-    width: 100vw;
-    bottom: 0;
+  // }
+  // .page-footer{
+  //   position: absolute;
+  //   width: 100vw;
+  //   bottom: 0;
 
-  }
-  .map-footer{
-    margin: 0;
-  }
+  // }
+  // .map-footer{
+  //   margin: 0;
+  // }
 }
 
 // layout for mobile
