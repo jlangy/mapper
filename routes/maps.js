@@ -94,7 +94,7 @@ module.exports = db => {
               mapTitle: map_data.title,
               mapPublic: map_data.public,
               mapDescription: map_data.description,
-              user: req.session.user,
+              user: req.session.userId,
               api_key: api
             });
           }
