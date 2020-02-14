@@ -5,6 +5,7 @@ $buttons-height: 10vh;
   header {
     position: fixed;
     top:0;
+    z-index: 1;
   }
 
   body {
@@ -30,11 +31,21 @@ $buttons-height: 10vh;
   }
 
   #new-map-form{
-    top:100px;
-    position: fixed;
     height: 300px;
     width: 50vw;
     background-color: white;
+    padding: 1em;
+    margin-top: 11em;
+    display: flex;
+    flex-direction: column;
+    top: 180px;
+    justify-content: space-around;
+    z-index: 2;
+  }
+
+  #edit-form {
+    background-color: white;
+    z-index: 1;
   }
 
   .map-header{
@@ -58,13 +69,11 @@ $buttons-height: 10vh;
     right: 0;
     top: 100px;
   }
-  nav{
+  nav {
     height: 100px !important;
     width: 100vw !important;
     z-index: 1;
     margin: 0;
-
-    // position: fixed !important;
   }
 
   #map{
@@ -72,8 +81,8 @@ $buttons-height: 10vh;
     height: 100%;
   }
   .map-container{
-    height: 85vh;
-    top: 97px;
+    height: 100vh;
+    top: 99px;
     width: 50vw;
     position:fixed;
     right:0;
@@ -86,19 +95,13 @@ $buttons-height: 10vh;
     width: 50vw;
     display: flex;
     flex-direction: column;
-    margin-top: 40vh;
+    margin-top: 17vh;
+    margin-bottom: 10vh;
     min-height: 70vh;
-  }
-  #new-map-form{
-    width: 45vw;
-    display: flex;
-    position: relative;
-    flex-direction: column;
-    top: 120px;
-    justify-content: space-around;
+
   }
   .page-footer{
-    position: absolute;
+    position: fixed;
     width: 100vw;
     bottom: 0;
 
