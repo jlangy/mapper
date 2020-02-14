@@ -8,15 +8,6 @@ $buttons-height: 10vh;
     width: 50vw;
     background-color: white;
   }
-
-  #new-map-form{
-    top:100px;
-    position: fixed;
-    height: 300px;
-    width: 50vw;
-    background-color: white;
-  }
-
   .map-header{
     width: 100vw;
     height: 30px;
@@ -44,6 +35,7 @@ $buttons-height: 10vh;
     z-index: 1;
     margin: 0;
     position: fixed !important;
+    top: 0;
   }
   #map{
     width: 100%;
@@ -65,14 +57,17 @@ $buttons-height: 10vh;
     display: flex;
     flex-direction: column;
     margin-top: 40vh;
-    min-height: 70vh;
+    min-height: 90vh;
   }
   #new-map-form{
     width: 50vw;
     display: flex;
     flex-direction: column;
-    margin-top: 150px;
+    top: 110px;
     justify-content: space-around;
+    position: fixed;
+    background-color: white;
+    z-index: 1;
   }
   .page-footer{
     width: 100vw;

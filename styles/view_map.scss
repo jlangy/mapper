@@ -98,3 +98,8 @@ img {
   word-wrap: break-word;
 }
 
+@media only screen and (min-width: 1000px){
+  .pins{
+    margin-top: 40vh;
+  }
+}
