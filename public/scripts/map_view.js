@@ -40,8 +40,29 @@ $(document).ready(() => {
       url: '/maps/favourites',
       type: 'POST',
       data: {mapId, fav}
-    })
+    });
   });
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var pos = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+      for(const pin of pins){
+        $(`.pins-display[data-pin-id=${pin.id}]`).append($('<div>')
+          .text(latLongDistance(pos.lat, pin.location.lat, pos.lng, pin.location.lng))
+        );
+      }
+
+    }, function() {
+      handleLocationError(true, map.getCenter());
+    });
+  }
+
+  function handleLocationError(browserHasGeolocation, pos) {
+    console.log('not fond');
+  }
 
   $('.pins-display').mouseenter(function(event){
     event.preventDefault();

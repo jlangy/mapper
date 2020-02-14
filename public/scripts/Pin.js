@@ -15,6 +15,7 @@ const makePin = () => {
       this.setInfowindowFieldsBound = this.setInfowindowFields.bind(this);
       this.pinOpenInfoWindowBound = this.pinOpenInfoWindow.bind(this);
       this.deletePinBound = this.deletePin.bind(this);
+      this.savePinBound = this.savePin.bind(this);
     }
 
     //Opens the infowindow on click and makes the form
@@ -53,6 +54,13 @@ const makePin = () => {
       $('#infowindow-form').on('keyup', this.savePinInfoBound);
       $('#delete-pin').off();
       $('#delete-pin').on('click', this.deletePinBound);
+      $('#save-pin').off();
+      $('#save-pin').on('click', this.savePinBound);
+    }
+
+    savePin(event){
+      event.preventDefault();
+      this.map.infowindow.close();
     }
 
     deletePin(event){

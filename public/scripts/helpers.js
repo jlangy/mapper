@@ -32,7 +32,9 @@ const addCollaboratorHandler = (event) => {
 }
 
 const deleteCollaboratorHandler = function(){
-  const deletedEmail = $(this).parent().siblings('input').val();
+  const emailElement = $(this).parent().siblings('input');
+  const deletedEmail = emailElement.val();
+  emailElement.val('');
   window.collaborators = window.collaborators.map(collaborator => {
     if(collaborator[0] === deletedEmail){
       return [collaborator[0], false];
@@ -40,8 +42,8 @@ const deleteCollaboratorHandler = function(){
     return collaborator;
   });
   // window.collaborators = window.collaborators.filter(email => email != deletedEmail);
-  $(this).parent().siblings('input').remove();
-  $(this).remove();
+  $(this).parent().parent().remove();
+  // $(this).remove();
 }
 
 const addMap = (PinMap, map_location, infoWindowHTML, positionGiven) => {
@@ -68,6 +70,25 @@ const addMap = (PinMap, map_location, infoWindowHTML, positionGiven) => {
   }
   return map;
 }
+
+const latLongDistance = (lat1, lat2, lon1, lon2) => {
+  const R = 6371e3; // metres
+  const φ1 = toRadians(lat1);
+  const φ2 = toRadians(lat2);
+  const Δφ = toRadians(lat2-lat1);
+  const Δλ = toRadians(lon2-lon1);
+
+  const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+          Math.cos(φ1) * Math.cos(φ2) *
+          Math.sin(Δλ/2) * Math.sin(Δλ/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+  const d = R * c;
+  return Math.round(d);
+}
+
+const toRadians = deg => deg * Math.PI / 180;
+
 
 const addCollaboratorsSlider = () => {
   $('#collaborative-check').on('click', function(){
@@ -103,6 +124,7 @@ const pinFormHTML = () => {
         <label for="infowindow-imageUrl">Image URL</label>
         <input type="text" class="form-control" id="infowindow-imageUrl" style='height: unset; width: 100%' name='imageUrl' placeholder="https://www">
       </div>
+      <button id='save-pin' class='btn btn-primary'>Save</button>
       <button id='delete-pin' class='btn btn-danger'>Delete</button>
     </form>
   `
