@@ -43,8 +43,10 @@
 
 @media only screen and (min-width: 1000px){
   .pins{
+    margin: 0;
     margin-top: 70vh;
     min-height: 35vh;
+    margin-top: 500px;
   }
   body{
     height: 100vh;
@@ -53,8 +55,11 @@
     margin-left: 10px;
   }
   .pins-display{
-    border: 1px solid black;
     margin-bottom: 5px;
+    width: 45vw;
+    padding: 5px;
+    border: thin solid black;
+  border-radius: 7px;
   }
   .page-footer{
     position: fixed;
@@ -62,13 +67,15 @@
     // height: 50px;
   }
   #new-map-form{
-    width: 50vw;
+    width: 49vw;
     display: flex;
     flex-direction: column;
     top: 100px;
+    margin: 0;
     justify-content: space-around;
     position: fixed;
     background-color: white;
     z-index: 1;
+    padding-top: 10px;
   }
 }

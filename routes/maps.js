@@ -71,7 +71,7 @@ module.exports = db => {
   });
 
   router.get("/new", (req, res) => {
-    res.render("new_map", {user: req.session.userId});
+    res.render("new_map", {user: req.session.userId, api_key: api});
   });
 
   router.get("/:id/edit", (req, res) => {
@@ -94,7 +94,8 @@ module.exports = db => {
               mapTitle: map_data.title,
               mapPublic: map_data.public,
               mapDescription: map_data.description,
-              user: req.session.user
+              user: req.session.user,
+              api_key: api
             });
           }
         )     .catch(err => {

@@ -94,8 +94,11 @@ const addCollaboratorsSlider = () => {
   $('#collaborative-check').on('click', function(){
     $('#collaborators-form').slideToggle();
     if($(this).prop('checked') === false){
+      $('.pins').css('margin-top', '500px');
       $('#collaborators-list').empty();
       window.collaborators = window.collaborators.map(collaborator => [collaborator[0], false]);
+    } else {
+      $('.pins').css('margin-top', '610px');
     }
   });
 }

@@ -1,7 +1,7 @@
 <%- include partials/_head.ejs%>
 
 <link rel="stylesheet" href="/styles/edit_map.css" type="text/css">
-<link rel="stylesheet" href="/styles/view_map.css" type="text/css">
+<!-- <link rel="stylesheet" href="/styles/view_map.css" type="text/css"> -->
 <link rel="stylesheet" href="/styles/queries.css" type="text/css">
 
 
@@ -22,7 +22,7 @@
       </div>
       <div class="form-group">
         <label for="exampleFormControlTextarea1">Description</label>
-        <textarea class="form-control" id="map-form-description" rows="3" name='description'></textarea>
+        <textarea class="form-control" id="map-form-description" rows="2" name='description'></textarea>
       </div>
 
       <div class="form-group" id='map-center-select'>
@@ -74,10 +74,10 @@
         <% if (pin.active) { %>
           <div class='pins-display' data-pin-id='<%= pin.id %>'>
             <div>
-              <h3><%= pin.title %></h3>
+              <h5><%= pin.title %></h5>
               <p><%= pin.description%></p>
             </div>
-            <div class='pin-image'><img class='pin-image' src="<%=pin.image_url%>"></div>
+            <!-- <div class='pin-image'><img class='pin-image' src="<%=pin.image_url%>"></div> -->
           </div>
         <% } %>
       <% } %>
@@ -96,7 +96,7 @@
   <script src="/scripts/network.js"></script>
   <script src="/scripts/PinMap.js"></script>
   <script src="/scripts/Pin.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap"
+  <script src="https://maps.googleapis.com/maps/api/js?key=<%= api_key %>&callback=initMap"
   async defer></script>
 </body>
 </html>
