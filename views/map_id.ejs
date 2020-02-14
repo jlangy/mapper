@@ -24,7 +24,7 @@
       <div class='map-description'><%-mapDescription%></div>
       <div class='right-align-center'>
         <% if (user == mapOwner) { %>
-          <a class="view btn btn-outline-dark my-2 my-sm-0" type="submit" href="/maps/<%=mapId%>/edit"><button>Edit</button></a>
+          <a class="view btn btn-outline-dark my-2 my-sm-0" type="submit" href="/maps/<%=mapId%>/edit">Edit</a>
         <% } %>
       </div>
     </div>
@@ -40,10 +40,9 @@
             <h3><%= pin.title %></h3>
             <p><%= pin.description%></p>
           </div>
-        <div class='pin-image'><img class='pin-image' src="<%=pin.image_url%>"></div>
-
+          <div class='pin-image'><img class='pin-image' src="<%=pin.image_url%>"></div>
         </div>
-      <% } %>
+        <% } %>
       <% } %>
     </div>
   </main>

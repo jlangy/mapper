@@ -12,9 +12,16 @@ body {
   margin: auto;
   border: medium solid #4d4f50;
 }
+
+.map-container{
+  width: 95vw;
+  margin: auto;
+}
 /* Optional: Makes the sample page fill the window. */
 html,
 body {
   margin: 0;
   padding: 0;
+  height: 100%;
+  width: 100%
 }

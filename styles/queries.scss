@@ -5,6 +5,7 @@ $buttons-height: 10vh;
   header {
     position: fixed;
     top:0;
+    z-index: 1;
   }
 
   body {
@@ -28,6 +29,25 @@ $buttons-height: 10vh;
     width: 50vw;
     background-color: white;
   }
+
+  #new-map-form{
+    height: 300px;
+    width: 50vw;
+    background-color: white;
+    padding: 1em;
+    margin-top: 11em;
+    display: flex;
+    flex-direction: column;
+    top: 180px;
+    justify-content: space-around;
+    z-index: 2;
+  }
+
+  #edit-form {
+    background-color: white;
+    z-index: 1;
+  }
+
   .map-header{
     width: 100vw;
     height: 30px;
@@ -52,7 +72,7 @@ $buttons-height: 10vh;
   #delete-pin{
     float:right;
   }
-  nav{
+  nav {
     height: 100px !important;
     width: 100vw !important;
     z-index: 1;
@@ -64,8 +84,8 @@ $buttons-height: 10vh;
     height: 100%;
   }
   .map-container{
-    height: 85vh;
-    top: 97px;
+    height: 100vh;
+    top: 99px;
     width: 50vw;
     position:fixed;
     right:0;
@@ -78,22 +98,13 @@ $buttons-height: 10vh;
     width: 50vw;
     display: flex;
     flex-direction: column;
-    margin-top: 40vh;
-    min-height: 90vh;
-  }
-  #new-map-form{
-    width: 45vw;
-    display: flex;
-    position: relative;
-    flex-direction: column;
-    top: 120px;
-    justify-content: space-around;
-    position: fixed;
-    background-color: white;
-    z-index: 1;
+    margin-top: 17vh;
+    margin-bottom: 10vh;
+    min-height: 70vh;
+
   }
   .page-footer{
-    position: absolute;
+    position: fixed;
     width: 100vw;
     bottom: 0;
 

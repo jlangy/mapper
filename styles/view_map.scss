@@ -7,14 +7,13 @@
   font-size: 26px;
 }
 
-
 .map-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: 20px;
   margin-bottom: 20px;
-  padding-left: 0.5em;
+  padding-left: 01em;
 }
 
 .map-footer {
@@ -23,9 +22,7 @@
   align-items: center;
   margin-top: 20px;
   margin-bottom: 20px;
-  padding-left: 0.75em;
-  padding-right: 0.75em;
-  padding-bottom: 1em;
+  padding: 3vw;
 }
 
 .map-description {
@@ -99,7 +96,23 @@ img {
 }
 
 @media only screen and (min-width: 1000px){
+<<<<<<< HEAD
+
+  .view.btn {
+    position: relative;
+    right: 51vw;
+    top: 16px;
+  }
+
+  .favourite {
+    position: relative;
+    right: 56vw;
+
+  }
+
+=======
   .pins{
     margin-top: 40vh;
   }
+>>>>>>> origin/master
 }
