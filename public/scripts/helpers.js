@@ -32,7 +32,7 @@ const addCollaboratorHandler = (event) => {
 }
 
 const deleteCollaboratorHandler = function(){
-  const deletedEmail = $(this).siblings('input').val();
+  const deletedEmail = $(this).parent().siblings('input').val();
   window.collaborators = window.collaborators.map(collaborator => {
     if(collaborator[0] === deletedEmail){
       return [collaborator[0], false];
@@ -40,7 +40,7 @@ const deleteCollaboratorHandler = function(){
     return collaborator;
   });
   // window.collaborators = window.collaborators.filter(email => email != deletedEmail);
-  $(this).siblings('input').remove();
+  $(this).parent().siblings('input').remove();
   $(this).remove();
 }
 

@@ -180,6 +180,7 @@ module.exports = db => {
     insertMap(db, [userId, req.body.title, req.body.description, lat, lng, req.body.collaborative, req.body.public])
       .then((data) => {
         const mapId = data.rows[0].id;
+        console.log(req.body.pinTitle)
         insertPins(db, {userId, mapId, imageUrl: req.body.imageUrl, pinTitle: req.body.pinTitle, pinDescription: req.body.pinDescription, lat:req.body.lat, lng: req.body.lng, active:req.body.pinActive});
         insertCollaborators(db, mapId, req.body.collaborator);
         res.send(String(mapId));

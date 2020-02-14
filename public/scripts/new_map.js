@@ -14,7 +14,7 @@ $(document).ready(() => {
     let data = $(this).serialize();
     data += getMapCenterEncoded();
     for (pin of window.pins){
-      data += `&pinActive=${encodeURIComponent(pin.active)}&pinTitle=${encodeURIComponent(pin.title)}&pinDescription=${encodeURIComponent(pin.description)}&imageUrl=${encodeURIComponent(pin.imageUrl)}&lat=${encodeURIComponent(pin.getPosition().lat())}&lng=${encodeURIComponent(pin.getPosition().lng())}`
+      data += `&pinActive=${encodeURIComponent(pin.active)}&pinTitle=${encodeURIComponent(pin.title !== undefined ? pin.title : '')}&pinDescription=${encodeURIComponent(pin.description)}&imageUrl=${encodeURIComponent(pin.imageUrl)}&lat=${encodeURIComponent(pin.getPosition().lat())}&lng=${encodeURIComponent(pin.getPosition().lng())}`
     }
     for (collaborator of window.collaborators){
       if(collaborator[1]){

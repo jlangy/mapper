@@ -40,3 +40,35 @@
   flex-grow: 1;
   padding: 0 10px;
 }
+
+@media only screen and (min-width: 1000px){
+  .pins{
+    margin-top: 70vh;
+    min-height: 35vh;
+  }
+  body{
+    height: 100vh;
+  }
+  main{
+    margin-left: 10px;
+  }
+  .pins-display{
+    border: 1px solid black;
+    margin-bottom: 5px;
+  }
+  .page-footer{
+    position: fixed;
+    bottom: 0;
+    // height: 50px;
+  }
+  #new-map-form{
+    width: 50vw;
+    display: flex;
+    flex-direction: column;
+    top: 100px;
+    justify-content: space-around;
+    position: fixed;
+    background-color: white;
+    z-index: 1;
+  }
+}

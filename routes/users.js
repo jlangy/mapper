@@ -10,9 +10,26 @@ const router  = express.Router();
 
 //Don't need user routes form MVP, but will go here
 module.exports = (db) => {
-  router.get('/login/:id', (req,res) => {
-    req.session.userId = req.params.id;
-    res.send(req.params.id);
+  // router.get('/login/:id', (req,res) => {
+  //   req.session.userId = req.params.id;
+  //   res.send(req.params.id);
+  // });
+
+  router.get('/login', (req,res) => {
+    res.render('login', {user:null});
+  });
+
+  router.post('/login', (req,res) => {
+    const id = db.query('select id from users where email = $1', [req.body.email])
+      .then(data => {
+        if(data.rows[0]){
+          const userId = data.rows[0].id;
+          req.session.userId = userId;
+          res.redirect(`${userId}/profile`);
+        } else {
+          res.redirect('login');
+        }
+        });
   });
 
   //profile page that shows my maps and favourite maps
