@@ -113,28 +113,39 @@ module.exports = db => {
     if (!userId) {
       return;
     }
-    const lat = req.body.mapLat ? req.body.mapLat : null;
-    const lng = req.body.mapLng ? req.body.mapLng : null;
-    //Add the map first (pins refers to map), then add all pins
-    updateMap(db, [req.body.title, req.body.description, req.body.collaborative, req.body.public, lat, lng, mapId])
-      .catch(err => {
-        console.log(err);
-        res.status(500).json({ error: err.message });
-      });
-    updatePins(db, {pinTitle: req.body.pinTitle ? req.body.pinTitle : '',
-                    mapId,
-                    owner_id: userId,
-                    lat: req.body.lat,
-                    long: req.body.lng,
-                    pinDescription: req.body.pinDescription ? req.body.pinDescription : '',
-                    imageUrl: req.body.imageUrl ? req.body.imageUrl : '',
-                    active:req.body.pinActive})
-    updateCollaborators(db, mapId, req.body.email, req.body.active)
-    res.send(String(mapId));
-      // .catch(err => {
-      //   console.log(err);
-      //   res.status(500).json({ error: err.message });
-      // });
+    db.query('SELECT user_id from collaborators where map_id = $1', [mapId])
+    .then(data => {
+      db.query(`SELECT owner_id from maps where id = $1`, [mapId])
+      .then(owner => {
+        const ownerId = owner.rows[0].owner_id;
+        if (data.rows.some(userObject => {
+           return userObject.user_id == userId;
+           }) || ownerId == userId) {
+             const lat = req.body.mapLat ? req.body.mapLat : null;
+             const lng = req.body.mapLng ? req.body.mapLng : null;
+             //Add the map first (pins refers to map), then add all pins
+             updateMap(db, [req.body.title, req.body.description, req.body.collaborative, req.body.public, lat, lng, mapId])
+             .catch(err => {
+               console.log(err);
+               res.status(500).json({ error: err.message });
+              });
+              updatePins(db, {pinTitle: req.body.pinTitle ? req.body.pinTitle : '',
+              mapId,
+              owner_id: userId,
+              lat: req.body.lat,
+              long: req.body.lng,
+              pinDescription: req.body.pinDescription ? req.body.pinDescription : '',
+              imageUrl: req.body.imageUrl ? req.body.imageUrl : '',
+              active:req.body.pinActive})
+              updateCollaborators(db, mapId, req.body.email, req.body.active)
+              res.send(String(mapId));
+              // .catch(err => {
+                //   console.log(err);
+                //   res.status(500).json({ error: err.message });
+                // });
+              }
+      })
+    })
   });
 
   router.get("/:id", (req, res) => {

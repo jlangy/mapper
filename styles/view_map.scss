@@ -97,11 +97,33 @@ img {
 
 @media only screen and (min-width: 1000px){
 
+  .navbar {
+    position: fixed;
+    top:0;
+    z-index: 2;
+  }
+  .map-header {
+     width: 50vw;
+  }
 
+  .map-display {
+    position: fixed;
+    height: 190px;
+  }
+  .map-container {
+    height: 80vh;
+  }
+  .map-footer {
+    margin-top: 50px;
+    padding: 10px;
+    overflow-y: scroll;
+    height: 150px;
+  }
   .pins {
     width: 47vw;
     margin: .75em;
-    margin-top: 12em
+    margin-top: 17em;
+    margin-bottom: 6em;
   }
   .view.btn {
     position: relative;
@@ -110,11 +132,11 @@ img {
   }
   .favourite {
     position: relative;
-    right: 56vw;
+    right: 6vw;
 
   }
   .page-footer {
-    position: absolute;
+    position: fixed;
     bottom:0;
   }
 
