@@ -52,11 +52,7 @@ $(document).ready(() => {
       for(const pin of pins){
         const distance = latLongDistance(pos.lat, pin.location.lat, pos.lng, pin.location.lng);
         if (distance > 1000){
-<<<<<<< HEAD
           distStr = Math.round(distance / 1000, 1) + 'km'
-=======
-          distStr = Math.round(distance / 1000, 1) + 'KM'
->>>>>>> c2f5816c7772dd688b1f408ae5530671dfd07173
         } else {
           distStr = Math.round(distance, 0) + 'm';
         }
