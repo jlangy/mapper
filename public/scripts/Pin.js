@@ -11,7 +11,6 @@ const makePin = () => {
       this.active = true;
       //These functions used in callbacks, need a this binding
       this.savePinInfoBound = this.savePinInfo.bind(this);
-      this.makeFormBound = this.makeForm.bind(this);
       this.setInfowindowFieldsBound = this.setInfowindowFields.bind(this);
       this.pinOpenInfoWindowBound = this.pinOpenInfoWindow.bind(this);
       this.deletePinBound = this.deletePin.bind(this);
@@ -24,7 +23,7 @@ const makePin = () => {
       infowindow.open(this.map, this);
       //remove old domready listener if present
       if(this.map.infoWindowReady) this.map.infoWindowReady.remove();
-      this.map.infoWindowReady = infowindow.addListener('domready', this.makeFormBound);
+      this.map.infoWindowReady = infowindow.addListener('domready', this.setInfowindowFieldsBound);
     }
 
     //same as open form, but setting the fields instead of building a form
@@ -53,17 +52,6 @@ const makePin = () => {
       $('#save-pin').on('click', this.savePinBound);
     }
 
-    //Fills in pins form data if present and resets form listener
-    makeForm(){
-      this.setInfowindowFields();
-      // $('#infowindow-form').off();
-      // $('#infowindow-form').on('keyup', this.savePinInfoBound);
-      // $('#delete-pin').off();
-      // $('#delete-pin').on('click', this.deletePinBound);
-      // $('#save-pin').off();
-      // $('#save-pin').on('click', this.savePinBound);
-    }
-
     savePin(event){
       this.updated = true;
       event.preventDefault();
@@ -82,9 +70,9 @@ const makePin = () => {
 
     savePinInfo(event){
       const field = $(event.target).attr('name');
-      console.log(field);
       this[field] = $(event.target).val();
     }
+
     pinOpenInfoWindow(){
       let pin=this;
       const infowindow = this.map.infowindow;

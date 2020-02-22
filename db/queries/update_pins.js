@@ -16,15 +16,21 @@ const updatePins = (db, params) => {
   if(!Array.isArray(params.pinTitle)){
     //If A single pin insert, else map has no pins and skip
     if(params.pinTitle){
+      const pinTitle = params.pinTitle === 'undefined' ? '' : params.pinTitle;
+      const pinDescription = params.pinDescription === 'undefined' ? '' : params.pinDescription;
+      const imageUrl = params.imageUrl === 'undefined' ? '' : params.imageUrl;
       db.query(pinsQuery,
-      [params.owner_id, params.mapId, params.pinTitle, params.pinDescription, params.lat, params.long, params.imageUrl, params.active])
+      [params.owner_id, params.mapId, pinTitle, pinDescription, params.lat, params.long, imageUrl, params.active])
         .catch(err => console.error(err))
     }
   } else{
     //Multiple pins. Loop through arrays, building query values and parameters
     const pinParams = [];
     params.pinTitle.forEach((pin, i) => {
-      pinParams.push([params.owner_id, params.mapId, params.pinTitle[i], params.pinDescription[i], params.lat[i], params.long[i], params.imageUrl[i], params.active[i]]);
+      const pinTitle = params.pinTitle[i] === 'undefined' ? '' : params.pinTitle[i];
+      const pinDescription = params.pinDescription[i] === 'undefined' ? '' : params.pinDescription[i];
+      const imageUrl = params.imageUrl[i] === 'undefined' ? '' : params.imageUrl[i];
+      pinParams.push([params.owner_id, params.mapId, pinTitle, pinDescription, params.lat[i], params.long[i], imageUrl, params.active[i]]);
     });
     //run all queries, no need to do it sequentially
     pinParams.forEach((pinQuery,i) => {

@@ -84,7 +84,7 @@ module.exports = db => {
         // Promise.all([db.query('SELECT * from collaborators WHERE map_id = $1 AND NOT user_id = $2', [map_id, req.session.userId]),
         Promise.all([db.query('SELECT email FROM users WHERE id IN (select user_id from collaborators WHERE map_id = $1 and active=true AND NOT user_id = $2)', [map_id, req.session.userId]),
         db.query(`SELECT * FROM pins WHERE map_id = $1`, [map_id])]).then(values => {
-            const pin_data = values[1].rows;
+            const pin_data = values[1].rows.filter(pin => pin.active);
             const collaborator_data = values[0].rows;
             const dataJSON = JSON.stringify({ map_data, pin_data, collaborator_data });
             console.log(map_data);

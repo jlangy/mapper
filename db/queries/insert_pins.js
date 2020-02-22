@@ -19,7 +19,6 @@ const insertPins = (db, params) => {
   if(!Array.isArray(params.pinTitle)){
     //If A single pin insert, else map has no pins and skip
     if(params.lat){
-      console.log('hit this route')
       const pinTitle = params.pinTitle === 'undefined' ? '' : params.pinTitle;
       const pinDescription = params.pinDescription === 'undefined' ? '' : params.pinDescription;
       const imageUrl = params.imageUrl === 'undefined' ? '' : params.imageUrl;
