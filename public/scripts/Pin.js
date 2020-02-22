@@ -45,11 +45,6 @@ const makePin = () => {
       $('#infowindow-description').val(this.description);
       $('#infowindow-imageUrl').val(this.imageUrl);
       $('#infowindow-imageUrl').attr('src', this.imageUrl);
-    }
-
-    //Fills in pins form data if present and resets form listener
-    makeForm(){
-      this.setInfowindowFields();
       $('#infowindow-form').off();
       $('#infowindow-form').on('keyup', this.savePinInfoBound);
       $('#delete-pin').off();
@@ -58,13 +53,29 @@ const makePin = () => {
       $('#save-pin').on('click', this.savePinBound);
     }
 
+    //Fills in pins form data if present and resets form listener
+    makeForm(){
+      this.setInfowindowFields();
+      // $('#infowindow-form').off();
+      // $('#infowindow-form').on('keyup', this.savePinInfoBound);
+      // $('#delete-pin').off();
+      // $('#delete-pin').on('click', this.deletePinBound);
+      // $('#save-pin').off();
+      // $('#save-pin').on('click', this.savePinBound);
+    }
+
     savePin(event){
+      this.updated = true;
       event.preventDefault();
       this.map.infowindow.close();
+      updatePinsDisplays(this);
     }
 
     deletePin(event){
       event.preventDefault();
+      this.updated = true;
+      const id = this.id || this.tempId;
+      $(`.pins-display[data-pin-id="${String(id)}"]`).remove();
       this.active=false;
       this.setMap(null);
     }

@@ -94,13 +94,20 @@ const addCollaboratorsSlider = () => {
   $('#collaborative-check').on('click', function(){
     $('#collaborators-form').slideToggle();
     if($(this).prop('checked') === false){
-      $('.pins').css('margin-top', '500px');
       $('#collaborators-list').empty();
       window.collaborators = window.collaborators.map(collaborator => [collaborator[0], false]);
-    } else {
-      $('.pins').css('margin-top', '610px');
     }
   });
+}
+
+const addPinsHover = () => {
+  $('.pins-display').mouseenter(function(event){
+    event.preventDefault();
+    const pinId = $(event.target).attr('data-pin-id');
+    //pin.id undefined for newly created pins
+    const hoverPin = window.pinObjs.filter(pin => (pin.id || pin.tempId) == pinId)[0];
+    hoverPin.displayInfo();
+  }, );
 }
 
 const getMapCenterEncoded = function(){
@@ -112,6 +119,43 @@ const getMapCenterEncoded = function(){
     return `&mapLat=&mapLng=`
   }
 }
+
+const updatePinsDisplays = pin => {
+  //Imported pins have an in. New pins have tempId will have id
+  console.log(pin.displayed)
+  if(pin.displayed){
+    updatePinDisplay({id: pin.id || pin.tempId, description:pin.description, title:pin.title, imageUrl: pin.imageUrl});
+  } else {
+    makePinDisplay({id: pin.id || pin.tempId, description:pin.description, title:pin.title, imageUrl: pin.imageUrl})
+    pin.displayed = true;
+  }
+}
+
+const updatePinDisplay = pin => {
+  pinDisplay = $(`.pins-display[data-pin-id="${String(pin.id)}"]`)
+  pinDisplay.find('h5').text(pin.title);
+  pinDisplay.find('p').text(pin.description);
+  pinDisplay.find('.pin-image').attr('src', pin.imageUrl);
+}
+
+const makePinDisplay = pin => {
+  console.log('ran')
+  $('.pins').append(
+    $('<div>').addClass("pins-display")
+      .attr("data-pin-id", pin.id)
+      .append(
+        $("<div>").append($("<h5>").text(pin.title))
+          .append($('<p>').text(pin.description))
+      ).append(
+        $('<div>')
+          .append(
+            $('<image>').addClass('pin-image')
+              .attr('src', pin.imageUrl)
+          )
+      )
+  )
+}
+
 
 const pinFormHTML = () => {
   return ` <form id='infowindow-form'>
@@ -127,8 +171,8 @@ const pinFormHTML = () => {
         <label for="infowindow-imageUrl">Image URL</label>
         <input type="text" class="form-control" id="infowindow-imageUrl" style='height: unset; width: 100%' name='imageUrl' placeholder="https://www">
       </div>
-      <button id='save-pin' class='btn btn-primary'>Save</button>
-      <button id='delete-pin' class='btn btn-danger'>Delete</button>
+      <div id='save-pin' class='btn btn-primary'>Save</div>
+      <div id='delete-pin' class='btn btn-danger'>Delete</div>
     </form>
   `
 }

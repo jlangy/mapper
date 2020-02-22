@@ -1,6 +1,3 @@
-// need to make a get request to maps_json where we query the db to get maps/pins data to pass
-// into initMap function to render any map with the saved pins
-
 var map;
 var marker;
 var infowindow;
@@ -25,9 +22,9 @@ $(document).ready(() => {
   //setup collaborator form slider
   if(collaboratorData.length === 0){
     $('#collaborators-form').hide();
+    $('#collaborative-check').prop('checked', false);
   } else {
     $('#collaborative-check').prop('checked', true);
-    $('.pins').css('margin-top', `600px`);
   }
   addCollaboratorsSlider();
   addCollaborators(collaboratorData);
@@ -42,16 +39,21 @@ $(document).ready(() => {
     event.preventDefault();
     let data = $(this).serialize();
     data += getMapCenterEncoded();
-    for (pin of window.pins){
-      //encodeURIComponent sanitizes data, the pins will come through
-      //3 arrays, pinTitle, pinDescription, imageUrl in order
-      data += `&pinActive=${encodeURIComponent(pin.active)}&pinId=${encodeURIComponent(pin.id)}&pinTitle=${encodeURIComponent(pin.title)}&pinDescription=${encodeURIComponent(pin.description)}&imageUrl=${encodeURIComponent(pin.imageUrl)}&lat=${encodeURIComponent(pin.getPosition().lat())}&lng=${encodeURIComponent(pin.getPosition().lng())}`
+    for (pin of window.pinObjs){
+      //saved and active may be redundant. Almost definitely come to think of it
+      if(pin.updated){
+        //encodeURIComponent sanitizes data, the pins will come through
+        //3 arrays, pinTitle, pinDescription, imageUrl in order
+        data += `&pinActive=${encodeURIComponent(pin.active)}&pinId=${encodeURIComponent(pin.id)}&pinTitle=${encodeURIComponent(pin.title)}&pinDescription=${encodeURIComponent(pin.description)}&imageUrl=${encodeURIComponent(pin.imageUrl)}&lat=${encodeURIComponent(pin.getPosition().lat())}&lng=${encodeURIComponent(pin.getPosition().lng())}`
+      }
     }
     for (collaborator of window.collaborators){
       data += `&email=${encodeURIComponent(collaborator[0])}&active=${collaborator[1]}`
     }
     updateMap(mapId, data);
   });
+
+  addPinsHover();
 });
 
 function initMap() {
@@ -65,13 +67,15 @@ function initMap() {
   window.map = addMap(PinMap, position, pinFormHTML(), mapData.default_lat);
 
   // The pins
-  window.pins = [];
+  window.pinObjs = [];
   for (const pin of pins) {
     marker = new Pin({ position: pin.location, map: map}, pin.title, pin.description, pin.imageUrl, pin.id);
     marker.addListener('click', marker.openForm);
+    //tracks display pin being open
+    marker.displayed = true;
     marker.title = pin.title;
     marker.description = pin.description;
-    window.pins.push(marker);
+    window.pinObjs.push(marker);
   }
   map.addListener('click', map.handleMapClick)
 }

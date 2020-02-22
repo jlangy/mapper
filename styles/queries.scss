@@ -1,25 +1,6 @@
 $nav-height: 10vh;
 $buttons-height: 10vh;
 @media only screen and (min-width: 1000px){
-
-  // header {
-  //   position: fixed;
-  //   top:0;
-  //   z-index: 1;
-  // }
-
-  // html {
-  //   height: 100%;
-  // }
-
-  // body {
-  //   height: 100%;
-  //   position: relative;
-  //   overflow: auto
-  // }
-
-
-
   .map-display{
     top:100px;
     position: absolute;
@@ -28,26 +9,13 @@ $buttons-height: 10vh;
     background-color: white;
   }
 
-<<<<<<< HEAD
-  //COMMENTED OUT FOR EDIT FORM. CAN PUT BACK INTO NEW FORM SHEET IF NEEDED
-=======
->>>>>>> 06b12796bb2efc3828816bf5a4feda8defb767fb
-  // #new-map-form{
-  //   height: 300px;
-  //   width: 50vw;
-  //   background-color: white;
-  //   padding: 1em;
-  //   margin-top: 11em;
-  //   display: flex;
-  //   flex-direction: column;
-  //   top: 180px;
-  //   justify-content: space-around;
-  //   z-index: 2;
-  // }
-
   #edit-form {
     background-color: white;
     z-index: 1;
+  }
+
+  .page-footer{
+    height: 10vh;
   }
 
   .map-header{
@@ -56,27 +24,33 @@ $buttons-height: 10vh;
     margin-bottom: 20px;
     margin-top: 10px;
   }
+
   .map-title, .favourite{
     display: inline-block;
   }
+
   .map-description{
     padding: 0;
   }
+
   .favourite{
     right: 50px;
     position: fixed;
   }
+
   .right-align-center{
     position: fixed;
     right: 0;
     top: 100px;
   }
+
   #delete-pin{
     float:right;
   }
+
   nav {
-    height: 100px !important;
-    width: 100vw !important;
+    height: 10vh;
+    width: 100vw;
     z-index: 1;
     margin: 0;
   }
@@ -86,7 +60,6 @@ $buttons-height: 10vh;
     height: 100%;
   }
   .map-container{
-    height: 100vh;
     top: 99px;
     width: 50vw;
     position:fixed;
@@ -96,24 +69,6 @@ $buttons-height: 10vh;
     grid-row: 2;
     grid-column: 1;
   }
-  // .pins {
-  //   width: 50vw;
-  //   display: flex;
-  //   flex-direction: column;
-  //   margin-top: 17vh;
-  //   margin-bottom: 10vh;
-  //   min-height: 70vh;
-
-  // }
-  // .page-footer{
-  //   position: absolute;
-  //   width: 100vw;
-  //   bottom: 0;
-
-  // }
-  // .map-footer{
-  //   margin: 0;
-  // }
 }
 
 // layout for mobile

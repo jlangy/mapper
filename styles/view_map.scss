@@ -16,6 +16,12 @@
   padding-left: 01em;
 }
 
+//Overwriting oogle maps infowindow styling
+.gm-style-iw{
+  padding: 0 !important;
+}
+
+
 .map-footer {
   display: flex;
   justify-content: space-between;
@@ -58,7 +64,6 @@ img {
 #infowindow-imageUrl {
  width: 150px;
  height: 150px;
-
 }
 
 .favourite {
@@ -76,16 +81,9 @@ img {
   flex-direction: row;
 }
 
-#infowindow-imageUrl {
-  display: relative;
-  top: 0;
-  left:0;
-  width: 100%;
-  height: auto;
-}
-
 #infowindow-title {
   padding: 10px;
+  max-width: 150px;
 }
 
 #infowindow-description {
@@ -93,6 +91,7 @@ img {
   padding-right: 10px;
   padding-bottom: 10px;
   word-wrap: break-word;
+  max-width: 150px;
 }
 
 @media only screen and (min-width: 1000px){

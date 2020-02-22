@@ -49,14 +49,11 @@ $(document).ready(() => {
         lat: position.coords.latitude,
         lng: position.coords.longitude
       };
+
       for(const pin of pins){
         const distance = latLongDistance(pos.lat, pin.location.lat, pos.lng, pin.location.lng);
         if (distance > 1000){
-<<<<<<< HEAD
-          distStr = Math.round(distance / 1000, 1) + 'KM'
-=======
           distStr = Math.round(distance / 1000, 1) + 'km'
->>>>>>> 06b12796bb2efc3828816bf5a4feda8defb767fb
         } else {
           distStr = Math.round(distance, 0) + 'm';
         }
@@ -74,10 +71,5 @@ $(document).ready(() => {
     console.log('not fond');
   }
 
-  $('.pins-display').mouseenter(function(event){
-    event.preventDefault();
-    const pinId = $(event.target).attr('data-pin-id');
-    const hoverPin = window.pinObjs.filter(pin => pin.id == pinId)[0];
-    hoverPin.displayInfo();
-  }, );
+  addPinsHover();
 })

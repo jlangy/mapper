@@ -20,8 +20,21 @@ main{
 
 @media only screen and (min-width: 1000px){
   .page-footer {
-    position: absolute;
-    bottom:0;
+    position: unset;
+  }
+
+  main{
+    flex-direction: row-reverse;
+    min-height: 80vh;
+  }
+
+  nav{
+    height: 10vh;
+  }
+
+  .map-container{
+    position: unset;
+    height: 80vh;
   }
 
   .collaborator-list-item-container{

@@ -8,12 +8,12 @@ const insertCollaborators = (db, mapId, params) => {
       )
     VALUES `;
 
-  if(!Array.isArray(params)){
-    if(params){
+  if (!Array.isArray(params)) {
+    if (params) {
       db.query(collaboratorQuery + '($1, (SELECT id from users where email=$2), true)',
-      [mapId, params]);
+        [mapId, params]);
     }
-  } else{
+  } else {
     //Multiple pins. Loop through arrays, building query values and parameters
     const collaboratorQueries = [];
     const collaboratorParams = [];
@@ -22,10 +22,10 @@ const insertCollaborators = (db, mapId, params) => {
       collaboratorParams.push([mapId, email]);
     });
     //run all queries, no need to do it sequentially
-    collaboratorQueries.forEach((collaboratorQuery,i) => {
+    collaboratorQueries.forEach((collaboratorQuery, i) => {
       console.log("important info", collaboratorQuery, collaboratorParams[i]);
       db.query(collaboratorQuery, collaboratorParams[i])
-      .catch(err => console.error(err));
+        .catch(err => console.error(err));
     });
   }
 }

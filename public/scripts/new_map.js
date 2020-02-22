@@ -13,7 +13,7 @@ $(document).ready(() => {
     //data includes mapinfo, pinInfo, and collaborator info
     let data = $(this).serialize();
     data += getMapCenterEncoded();
-    for (pin of window.pins){
+    for (pin of window.pinObjs){
       data += `&pinActive=${encodeURIComponent(pin.active)}&pinTitle=${encodeURIComponent(pin.title !== undefined ? pin.title : '')}&pinDescription=${encodeURIComponent(pin.description)}&imageUrl=${encodeURIComponent(pin.imageUrl)}&lat=${encodeURIComponent(pin.getPosition().lat())}&lng=${encodeURIComponent(pin.getPosition().lng())}`
     }
     for (collaborator of window.collaborators){
@@ -29,7 +29,7 @@ function initMap(){
 
   window.Pin = makePin();
   const PinMap = makePinMap();
-  window.pins = [];
+  window.pinObjs = [];
 
   addMap(PinMap, {lat: 48.4261,  lng: - 123.3642}, pinFormHTML(), false);
 

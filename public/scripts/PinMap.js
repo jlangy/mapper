@@ -18,8 +18,12 @@ const makePinMap = () => {
         position: clickCoords,
         map: this
       });
+      pin.displayed = false;
+      pin.saved = false;
+      pin.pinOpenInfoWindow();
+      pin.tempId = window.pinObjs.length;
       //Temporarily store pins on window for logging/debugging purposes
-      window.pins.push(pin);
+      window.pinObjs.push(pin);
       pin.addListener('click', pin.openForm);
     }
   }
