@@ -16,7 +16,7 @@
   padding-left: 01em;
 }
 
-//Overwriting oogle maps infowindow styling
+//Overwriting google maps infowindow styling
 .gm-style-iw{
   padding: 0 !important;
 }
@@ -49,18 +49,20 @@
   border-radius: 7px;
   padding:20px;
   margin: 10px;
+  div{
+    max-width: 50%;
+    p{
+      overflow-wrap: break-word;
+    }
+  }
 }
 
 .pin-image {
-  height: 150px;
-  width: 150px;
+  height: 120px;
+  width: 120px;
   margin-left: 10px;
 }
 
-img {
-  width: 100%;
-  height: auto;
-}
 #infowindow-imageUrl {
  width: 150px;
  height: 150px;
@@ -96,6 +98,15 @@ img {
 
 @media only screen and (min-width: 1000px){
 
+  .pins-display{
+    div{
+      max-width: 60%;
+      p{
+        overflow-wrap: break-word;
+      }
+    }
+  }
+
   .navbar {
     position: fixed;
     top:0;
@@ -106,11 +117,13 @@ img {
   }
 
   .map-display {
-    position: fixed;
-    height: 190px;
+    height: 20vh;
+    position:relative;
+    top: 10vh;
   }
   .map-container {
     height: 80vh;
+    top: 10vh;
   }
   .map-footer {
     margin-top: 50px;
@@ -120,9 +133,11 @@ img {
   }
   .pins {
     width: 47vw;
-    margin: .75em;
-    margin-top: 17em;
-    margin-bottom: 6em;
+    margin: 0 .75em;
+    position: relative;
+    top: 10vh;
+    height: 60vh;
+    overflow-y: scroll;
   }
   .view.btn {
     position: relative;
@@ -137,6 +152,9 @@ img {
   .page-footer {
     position: fixed;
     bottom:0;
+  }
+  .map-title{
+    width: 70%;
   }
 
 }
