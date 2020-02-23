@@ -92,4 +92,12 @@
     grid-column: 2;
     margin-bottom: 20px;
   }
+  .pins-display{
+    div{
+      max-width: 60%;
+      p{
+        overflow-wrap: break-word;
+      }
+    }
+  }
 }

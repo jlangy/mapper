@@ -1,10 +1,3 @@
-/*
- * All routes for Widgets are defined here
- * Since this file is loaded in server.js into api/widgets,
- *   these routes are mounted onto /widgets
- * See: https://expressjs.com/en/guide/using-middleware.html#middleware.router
- */
-
 const express = require('express');
 const router  = express.Router();
 const insertMap = require('../db/queries/insert_map');
@@ -80,26 +73,19 @@ module.exports = db => {
     db.query(`SELECT * FROM maps WHERE id = $1`, [map_id])
       .then(data => {
         const map_data = data.rows[0];
-        //Dont want to display current visitor in collaborators list
-        // Promise.all([db.query('SELECT * from collaborators WHERE map_id = $1 AND NOT user_id = $2', [map_id, req.session.userId]),
-        Promise.all([db.query('SELECT email FROM users WHERE id IN (select user_id from collaborators WHERE map_id = $1 and active=true AND NOT user_id = $2)', [map_id, req.session.userId]),
-        db.query(`SELECT * FROM pins WHERE map_id = $1`, [map_id])]).then(values => {
-            const pin_data = values[1].rows.filter(pin => pin.active);
-            const collaborator_data = values[0].rows;
-            const dataJSON = JSON.stringify({ map_data, pin_data, collaborator_data });
-            console.log(map_data);
-            res.render('edit_map', {
-              dbResults: dataJSON,
-              mapId: map_data.id,
-              mapTitle: map_data.title,
-              mapPublic: map_data.public,
-              mapDescription: map_data.description,
-              user: req.session.userId,
-              api_key: api
-            });
-          }
-        )     .catch(err => {
-          res.status(500).json({ error: err.message });
+        return Promise.all([
+          db.query('SELECT email FROM users WHERE id IN (select user_id from collaborators WHERE map_id = $1 and active=true AND NOT user_id = $2)', [map_id, req.session.userId]),
+          db.query(`SELECT * FROM pins WHERE map_id = $1 and active=true`, [map_id])])})
+      .then(([pinData, collaboratorData]) => {
+        const dataJSON = JSON.stringify({ map_data, pinData, collaboratorData });
+        res.render('edit_map', {
+          dbResults: dataJSON,
+          mapId: map_data.id,
+          mapTitle: map_data.title,
+          mapPublic: map_data.public,
+          mapDescription: map_data.description,
+          user: req.session.userId,
+          api_key: api
         });
       })
       .catch(err => {
