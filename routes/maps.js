@@ -68,22 +68,22 @@ module.exports = db => {
   });
 
   router.get("/:id/edit", (req, res) => {
-    //edit map similar to new
-    const map_id = req.params.id;
-    db.query(`SELECT * FROM maps WHERE id = $1`, [map_id])
-      .then(data => {
-        const map_data = data.rows[0];
+    const mapId = req.params.id;
+    let mapData;
+    db.query(`SELECT * FROM maps WHERE id = $1`, [mapId])
+      .then( ({rows: [dbMapData]}) => {
+        mapData = dbMapData;
         return Promise.all([
-          db.query('SELECT email FROM users WHERE id IN (select user_id from collaborators WHERE map_id = $1 and active=true AND NOT user_id = $2)', [map_id, req.session.userId]),
-          db.query(`SELECT * FROM pins WHERE map_id = $1 and active=true`, [map_id])])})
-      .then(([pinData, collaboratorData]) => {
-        const dataJSON = JSON.stringify({ map_data, pinData, collaboratorData });
+          db.query('SELECT email FROM users WHERE id IN (select user_id from collaborators WHERE map_id = $1 and active=true AND NOT user_id = $2)', [mapId, req.session.userId]),
+          db.query(`SELECT * FROM pins WHERE map_id = $1 and active=true`, [mapId])])})
+      .then(([{rows: collaboratorData}, {rows: pinData}]) => {
+        const dbResults = JSON.stringify({ mapData, pinData, collaboratorData });
         res.render('edit_map', {
-          dbResults: dataJSON,
-          mapId: map_data.id,
-          mapTitle: map_data.title,
-          mapPublic: map_data.public,
-          mapDescription: map_data.description,
+          dbResults,
+          mapId: mapData.id,
+          mapTitle: mapData.title,
+          mapPublic: mapData.public,
+          mapDescription: mapData.description,
           user: req.session.userId,
           api_key: api
         });

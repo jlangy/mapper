@@ -70,7 +70,7 @@
 
     <div class="pins">
 
-      <% for (const pin of JSON.parse(dbResults)['pin_data']) { %>
+      <% for (const pin of JSON.parse(dbResults)['pinData']) { %>
         <% if (pin.active) { %>
           <div class='pins-display' data-pin-id='<%= pin.id %>'>
             <div>

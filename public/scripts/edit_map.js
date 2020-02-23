@@ -1,7 +1,7 @@
 //dbData coming from ejs
-const mapData = dbData['map_data'];
-const pinData = dbData['pin_data'];
-const collaboratorData = dbData['collaborator_data'];
+const mapData = dbData['mapData'];
+const pinData = dbData['pinData'];
+const collaboratorData = dbData['collaboratorData'];
 
 const fillMapForm= () => {
   $('#map-form-title').val(mapData.title);
