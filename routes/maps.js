@@ -75,7 +75,9 @@ module.exports = db => {
         mapData = dbMapData;
         return Promise.all([
           db.query('SELECT email FROM users WHERE id IN (select user_id from collaborators WHERE map_id = $1 and active=true AND NOT user_id = $2)', [mapId, req.session.userId]),
-          db.query(`SELECT * FROM pins WHERE map_id = $1 and active=true`, [mapId])])})
+          db.query(`SELECT * FROM pins WHERE map_id = $1 and active=true`, [mapId])
+        ]);
+      })
       .then(([{rows: collaboratorData}, {rows: pinData}]) => {
         const dbResults = JSON.stringify({ mapData, pinData, collaboratorData });
         res.render('edit_map', {
@@ -96,70 +98,82 @@ module.exports = db => {
   router.post("/:id", (req,res) => {
     const userId = req.session.userId;
     const mapId = req.params.id;
-    if (!userId) {
-      return;
-    }
-    db.query('SELECT user_id from collaborators where map_id = $1', [mapId])
-    .then(data => {
+    let {lat,
+         lng,
+         pinDescription,
+         imageUrl,
+         pinActive,
+         pinTitle,
+         title,
+         description,
+         collaborative,
+         public,
+         mapLat,
+         mapLng,
+         email,
+         active} = req.body;
+
+    //Authenticate user
+    Promise.all([
+      db.query('SELECT user_id from collaborators where map_id = $1', [mapId]),
       db.query(`SELECT owner_id from maps where id = $1`, [mapId])
-      .then(owner => {
-        const ownerId = owner.rows[0].owner_id;
-        if (data.rows.some(userObject => {
-           return userObject.user_id == userId;
-           }) || ownerId == userId) {
-             const lat = req.body.mapLat ? req.body.mapLat : null;
-             const lng = req.body.mapLng ? req.body.mapLng : null;
-             //Add the map first (pins refers to map), then add all pins
-             updateMap(db, [req.body.title, req.body.description, req.body.collaborative, req.body.public, lat, lng, mapId])
-             .catch(err => {
-               console.log(err);
-               res.status(500).json({ error: err.message });
-              });
-              updatePins(db, {pinTitle: req.body.pinTitle ? req.body.pinTitle : '',
-              mapId,
-              owner_id: userId,
-              lat: req.body.lat,
-              long: req.body.lng,
-              pinDescription: req.body.pinDescription ? req.body.pinDescription : '',
-              imageUrl: req.body.imageUrl ? req.body.imageUrl : '',
-              active:req.body.pinActive})
-              updateCollaborators(db, mapId, req.body.email, req.body.active)
-              res.send(String(mapId));
-              // .catch(err => {
-                //   console.log(err);
-                //   res.status(500).json({ error: err.message });
-                // });
-              }
+    ])
+      .then(([{rows: collaborators},{rows: [owner]}]) => {
+        const ownerId = owner.owner_id;
+
+        //Check user is either collaborator of map or owner
+        const isCollaborator = collaborators.some(collaborator => collaborator.user_id == userId)
+        if (isCollaborator || ownerId === userId) {
+          mapLat = mapLat ? mapLat : null;
+          mapLng = mapLng ? mapLng : null;
+
+          return [
+            updateMap(db, [title, description, collaborative, public, mapLat, mapLng, mapId]),
+            updatePins(db,
+              { pinTitle,
+                mapId,
+                owner_id: userId,
+                lat,
+                long: lng,
+                pinDescription,
+                imageUrl,
+                active:pinActive}),
+            updateCollaborators(db, mapId, email, active)]
+
+        } else throw new Error("Permission denied")
       })
+      .then(promises => Promise.all(promises))
+      .then(() => res.send(String(mapId)))
+      .catch(err => {
+        res.status(500).json({ error: err.message });
+      });
     })
-  });
 
   router.get("/:id", (req, res) => {
     const map_id = req.params.id;
     const user_id = req.session.userId;
+    let map_data, pin_data;
     db.query(`SELECT * FROM maps WHERE id = $1`, [map_id])
       .then(data => {
-        const map_data = data.rows[0];
-        db.query(`SELECT * FROM pins WHERE map_id = $1`, [map_id])
-        .then(pins => {
-          const pin_data = pins.rows;
-            db.query(`SELECT active FROM favourites WHERE map_id = $1 AND user_id = $2`, [map_id, user_id])
-            .then(info => {
-              let favourite = false;
-              if (info.rows[0]) {
-                favourite = info.rows[0].active;
-              }
-              const dataJSON = JSON.stringify({ map_data, pin_data });
-              res.render('map_id', {
-                dbResults: dataJSON,
-                mapTitle: map_data.title,
-                mapDescription: map_data.description,
-                mapId: map_data.id, user: user_id,
-                mapOwner: map_data.owner_id,
-                favourite,
-                api_key: api
-              });
-            });
+        map_data = data.rows[0];
+        return db.query(`SELECT * FROM pins WHERE map_id = $1`, [map_id])})
+      .then(pins => {
+        pin_data = pins.rows;
+        return db.query(`SELECT active FROM favourites WHERE map_id = $1 AND user_id = $2`, [map_id, user_id])})
+      .then(info => {
+        let favourite = false;
+        if (info.rows[0]) {
+          favourite = info.rows[0].active;
+        }
+        const dataJSON = JSON.stringify({ map_data, pin_data });
+        res.render('map_id', {
+          dbResults: dataJSON,
+          mapTitle: map_data.title,
+          mapDescription: map_data.description,
+          mapId: map_data.id, user: user_id,
+          mapOwner: map_data.owner_id,
+          favourite,
+          api_key: api
         });
       })
       .catch(err => {

@@ -57,6 +57,7 @@
 }
 @media only screen and (min-width: 1000px){
   .pins{
+    overflow-x: hidden;
     grid-column: 1;
     grid-row: 1/3;
     max-height: 80vh;
@@ -74,30 +75,29 @@
   }
   .pins-display{
     margin-bottom: 5px;
-    width: 45vw;
     padding: 5px;
     border: thin solid black;
     border-radius: 7px;
-  }
-  .pins::-webkit-scrollbar {
-    display: none;
-  }
-  .map-container{
-    grid-column: 2;
-    position: unset !important;
-    margin: 0;
-    height: 70vh;
-  }
-  #edit-form{
-    grid-column: 2;
-    margin-bottom: 20px;
-  }
-  .pins-display{
     div{
       max-width: 60%;
       p{
         overflow-wrap: break-word;
       }
     }
+  }
+  .map-container{
+    grid-column: 2;
+    position: unset !important;
+    margin: 0;
+    height: 70vh;
+    width: 49vw !important;
+  }
+  #edit-form{
+    grid-column: 2;
+    margin-bottom: 20px;
+    width: 49vw;
+  }
+  nav, footer {
+    width: 99vw !important;
   }
 }
