@@ -112,7 +112,7 @@ module.exports = db => {
          mapLng,
          email,
          active} = req.body;
-
+      console.log("active is ", req.body);
     //Authenticate user
     Promise.all([
       db.query('SELECT user_id from collaborators where map_id = $1', [mapId]),
@@ -129,7 +129,7 @@ module.exports = db => {
 
           return [
             updateMap(db, [title, description, collaborative, public, mapLat, mapLng, mapId]),
-            updatePins(db,
+            ...updatePins(db,
               { pinTitle,
                 mapId,
                 owner_id: userId,
@@ -138,11 +138,12 @@ module.exports = db => {
                 pinDescription,
                 imageUrl,
                 active:pinActive}),
-            updateCollaborators(db, mapId, email, active)]
+            ...updateCollaborators(db, mapId, email, active)]
 
-        } else throw new Error("Permission denied")
+        } else
+          {throw new Error("Permission denied")}
       })
-      .then(promises => Promise.all(promises))
+      .then(promises => {console.log(promises); return Promise.all(promises)})
       .then(() => res.send(String(mapId)))
       .catch(err => {
         res.status(500).json({ error: err.message });
@@ -156,7 +157,7 @@ module.exports = db => {
     db.query(`SELECT * FROM maps WHERE id = $1`, [map_id])
       .then(data => {
         map_data = data.rows[0];
-        return db.query(`SELECT * FROM pins WHERE map_id = $1`, [map_id])})
+        return db.query(`SELECT * FROM pins WHERE map_id = $1 and active=true`, [map_id])})
       .then(pins => {
         pin_data = pins.rows;
         return db.query(`SELECT active FROM favourites WHERE map_id = $1 AND user_id = $2`, [map_id, user_id])})

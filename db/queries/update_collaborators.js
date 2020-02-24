@@ -1,5 +1,5 @@
 const insertCollaborators = (db, mapId, email, active) => {
-  //Insert is not alreadt there, update otherwise
+  const queries = [];
   let collaboratorQuery =`
   INSERT into collaborators (map_id, user_id, active) VALUES(
     $1,
@@ -12,8 +12,8 @@ const insertCollaborators = (db, mapId, email, active) => {
   //single entry logic. Paramaters won't be an array
   if(!Array.isArray(email)){
     if(email){
-      db.query(collaboratorQuery,
-      [mapId, email, active]);
+      queries.push(db.query(collaboratorQuery,
+      [mapId, email, active]));
     }
   } else{
     //Multiple pins. Loop through arrays, building query values and parameters
@@ -23,10 +23,10 @@ const insertCollaborators = (db, mapId, email, active) => {
     });
     //run all queries, no need to do it sequentially
     collaboratorParams.forEach((collaboratorParam) => {
-      db.query(collaboratorQuery, collaboratorParam)
-      .catch(err => console.error(err));
+      queries.push(db.query(collaboratorQuery, collaboratorParam));
     });
   }
+  return queries;
 }
 
 module.exports = insertCollaborators;

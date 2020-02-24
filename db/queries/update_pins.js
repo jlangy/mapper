@@ -1,5 +1,6 @@
 const updatePins = (db, params) => {
   //dont worry about deleting, just set active to false
+  const queries = [];
   let pinsQuery = `
     INSERT into pins (owner_id, map_id, title, description, lat, long, image_url, created_at, edited_at, active)
     VALUES ($1, $2, $3, $4, $5, $6, $7, NOW(), NOW(), $8)
@@ -19,9 +20,15 @@ const updatePins = (db, params) => {
       const pinTitle = params.pinTitle === 'undefined' ? '' : params.pinTitle;
       const pinDescription = params.pinDescription === 'undefined' ? '' : params.pinDescription;
       const imageUrl = params.imageUrl === 'undefined' ? '' : params.imageUrl;
-      db.query(pinsQuery,
-      [params.owner_id, params.mapId, pinTitle, pinDescription, params.lat, params.long, imageUrl, params.active])
-        .catch(err => console.error(err))
+      queries.push(db.query(pinsQuery,
+        [params.owner_id,
+         params.mapId,
+         pinTitle,
+         pinDescription,
+         params.lat,
+         params.long,
+         imageUrl,
+         params.active]));
     }
   } else{
     //Multiple pins. Loop through arrays, building query values and parameters
@@ -34,10 +41,10 @@ const updatePins = (db, params) => {
     });
     //run all queries, no need to do it sequentially
     pinParams.forEach((pinQuery,i) => {
-      db.query(pinsQuery, pinParams[i])
-        .catch(err => console.error(err))
+      queries.push(db.query(pinsQuery, pinParams[i]))
     });
   }
+  return queries;
 }
 
 module.exports = updatePins;
