@@ -112,7 +112,6 @@ module.exports = db => {
          mapLng,
          email,
          active} = req.body;
-      console.log("active is ", req.body);
     //Authenticate user
     Promise.all([
       db.query('SELECT user_id from collaborators where map_id = $1', [mapId]),
@@ -143,7 +142,7 @@ module.exports = db => {
         } else
           {throw new Error("Permission denied")}
       })
-      .then(promises => {console.log(promises); return Promise.all(promises)})
+      .then(promises => Promise.all(promises))
       .then(() => res.send(String(mapId)))
       .catch(err => {
         res.status(500).json({ error: err.message });
