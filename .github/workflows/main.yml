@@ -12,6 +12,19 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+    inputs:
+      projectName:
+        description: "Project Name"
+        required: true
+      identityProviders:
+        description: "Identity Providers"
+        required: true
+      validRedirectUrls:
+        description: "Valid Redirect Urls"
+        required: true
+      environments:
+        description: "Environments"
+        required: true
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -25,12 +38,12 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          echo "project name: ${{github.event.inputs.projectName }}",
+          echo "identity providers: ${{github.event.inputs.identityProviders }}",
+          echo "uris: ${{github.event.inputs.validRedirectUris }}",
+          echo "environments: ${{github.event.inputs.environments }}",
+          
+          
