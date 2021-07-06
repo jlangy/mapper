@@ -43,7 +43,7 @@ jobs:
         run: |
           echo "project name: ${{github.event.inputs.projectName }}",
           echo "identity providers: ${{github.event.inputs.identityProviders }}",
-          echo "uris: ${{github.event.inputs.validRedirectUris }}",
+          echo "uris: ${{github.event.inputs.validRedirectUrls }}",
           echo "environments: ${{github.event.inputs.environments }}",
           
           
