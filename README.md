@@ -91,7 +91,7 @@ Lastly, visit [Mapper](http://localhost:3000/maps)!
 
 ## Dependencies
 
-- Node
+- Node 
 - NPM 
 - PG 
 - Body-parser
